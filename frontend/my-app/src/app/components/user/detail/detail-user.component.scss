@@ -1,0 +1,94 @@
+.form-detail-product-vsb {
+  animation: vsb-form-ani 0.4s linear forwards;
+
+  @keyframes vsb-form-ani {
+    0% {
+      opacity: 0;
+      transform: translateY(-50px);
+    }
+    50% {
+      opacity: 0.5;
+      transform: translateY(-25px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+.form-detail-product-hid {
+  animation: hid-form-ani 0.4s linear forwards;
+
+  @keyframes hid-form-ani {
+    0% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    50% {
+      opacity: 0.5;
+      transform: translateY(-25px);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-50px);
+    }
+  }
+}
+
+.disabled {
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  cursor: default;
+}
+
+@mixin iconOptionBox($tagField) {
+  position: relative;
+  display: flex;
+  justify-content: center;
+
+  &::after {
+    content: $tagField;
+    color: #fff;
+    background-color: #333;
+    padding: 4px 10px;
+    padding-top: 6px;
+    font-size: 14px;
+    line-height: 1;
+    position: absolute;
+    top: -35px;
+    width: -moz-fit-content;
+    width: -webkit-fit-content;
+    width: fit-content;
+    white-space: nowrap;
+    border-radius: 4px;
+    opacity: 0;
+  }
+
+  &:hover::after {
+    animation: vsb_after 0.3s linear forwards;
+  }
+
+  @keyframes vsb_after {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+}
+
+.deleteProduct {
+  @include iconOptionBox("Xóa");
+}
+
+.editProduct {
+  @include iconOptionBox("Chỉnh sửa");
+}
+
+.backToDetailView {
+  @include iconOptionBox("Quay lại");
+}

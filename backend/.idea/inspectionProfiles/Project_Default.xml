@@ -1,0 +1,68 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="VulnerableLibrariesLocal" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="isIgnoringEnabled" value="true" />
+      <option name="ignoredModules">
+        <list>
+          <option value="app" />
+          <option value="app" />
+          <option value="app" />
+          <option value="app" />
+          <option value="app" />
+          <option value="app" />
+          <option value="app" />
+          <option value="app" />
+          <option value="app" />
+          <option value="app" />
+          <option value="app" />
+          <option value="app" />
+          <option value="app" />
+          <option value="app" />
+          <option value="app" />
+          <option value="app" />
+        </list>
+      </option>
+      <option name="ignoredPackages">
+        <list>
+          <option value="org.springframework:spring-core:6.0.2" />
+          <option value="org.springframework:spring-expression:6.0.2" />
+          <option value="ch.qos.logback:logback-classic:1.4.5" />
+          <option value="ch.qos.logback:logback-core:1.4.5" />
+          <option value="org.springframework.boot:spring-boot-autoconfigure:3.0.0" />
+          <option value="org.springframework.boot:spring-boot:3.0.0" />
+          <option value="org.yaml:snakeyaml:1.33" />
+          <option value="org.springframework.security:spring-security-config:6.0.0" />
+          <option value="org.springframework.security:spring-security-core:6.0.0" />
+          <option value="org.springframework.security:spring-security-web:6.0.0" />
+          <option value="org.springframework:spring-web:6.0.2" />
+          <option value="org.apache.tomcat.embed:tomcat-embed-core:10.1.1" />
+          <option value="org.apache.tomcat.embed:tomcat-embed-websocket:10.1.1" />
+          <option value="org.springframework:spring-webmvc:6.0.2" />
+          <option value="com.jayway.jsonpath:json-path:2.7.0" />
+          <option value="net.minidev:json-smart:2.4.8" />
+        </list>
+      </option>
+      <option name="ignoredReasons">
+        <list>
+          <option value="Not exploitable" />
+          <option value="In progress" />
+          <option value="Not exploitable" />
+          <option value="In progress" />
+          <option value="Fixed in branch" />
+          <option value="Other" />
+          <option value="Not exploitable" />
+          <option value="Not exploitable" />
+          <option value="Not exploitable" />
+          <option value="In progress" />
+          <option value="Fixed in branch" />
+          <option value="Not exploitable" />
+          <option value="In progress" />
+          <option value="Fixed in branch" />
+          <option value="Not exploitable" />
+          <option value="In progress" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>

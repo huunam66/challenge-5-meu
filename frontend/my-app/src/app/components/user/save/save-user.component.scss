@@ -1,0 +1,85 @@
+.form-create-product-vsb {
+  animation: vsb-form-ani 0.4s linear forwards;
+
+  @keyframes vsb-form-ani {
+    0% {
+      opacity: 0;
+      transform: translateY(-50px);
+    }
+    50% {
+      opacity: 0.5;
+      transform: translateY(-25px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+.form-create-product-hid {
+  animation: hid-form-ani 0.4s linear forwards;
+
+  @keyframes hid-form-ani {
+    0% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    50% {
+      opacity: 0.5;
+      transform: translateY(-25px);
+    }
+    100% {
+      opacity: 0;
+      transform: translateY(-50px);
+    }
+  }
+}
+
+@mixin label($tagField, $isRequired) {
+  position: relative;
+
+  &::after {
+    @if ($isRequired) {
+      content: "*";
+    } @else {
+      content: "";
+    }
+    font-size: 16px;
+    color: red;
+    position: absolute;
+    top: 0;
+    right: -8px;
+  }
+
+  &::before {
+    content: $tagField;
+    color: #fff;
+    background-color: #333;
+    padding: 4px 10px;
+    padding-top: 6px;
+    font-size: 12px;
+    line-height: 1;
+    position: absolute;
+    top: -28px;
+    left: calc(100% + 6px);
+    display: none;
+    width: -moz-fit-content;
+    width: -webkit-fit-content;
+    width: fit-content;
+    white-space: nowrap;
+    border-radius: 4px;
+  }
+
+  &:hover::before {
+    display: block;
+  }
+}
+
+.required {
+  @include label("Bắt buộc!", true);
+}
+
+.option {
+  @include label("Tùy chọn!", false);
+}

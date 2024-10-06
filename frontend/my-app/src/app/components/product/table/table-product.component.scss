@@ -1,0 +1,108 @@
+.mov-text-search {
+  display: block;
+  font-size: 12px;
+  animation: movtop 0.4s forwards;
+
+  @keyframes movtop {
+    from {
+      color: transparent;
+      transform: translate(6px, 24px);
+    }
+    to {
+      color: #6881ff;
+      transform: translate(0, 0);
+    }
+  }
+}
+
+#table-product {
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+    visibility: hidden;
+    z-index: -1;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(209, 213, 219, 0);
+    border-radius: 50px;
+    transition: opacity 1.2s ease-in-out;
+  }
+
+  &:hover::-webkit-scrollbar-thumb {
+    background-color: rgba(209, 213, 219, 1);
+  }
+}
+
+@mixin pagingOptions($tagField) {
+  position: relative;
+  display: flex;
+  justify-content: center;
+
+  &::after {
+    content: $tagField;
+    color: #fff;
+    background-color: #333;
+    padding: 4px 10px;
+    padding-top: 6px;
+    font-size: 14px !important;
+    line-height: 1;
+    position: absolute;
+    top: -32px;
+    width: -moz-fit-content;
+    width: -webkit-fit-content;
+    width: fit-content;
+    white-space: nowrap;
+    border-radius: 4px;
+    opacity: 0;
+  }
+
+  &:hover::after {
+    animation: vsb_after 0.3s linear forwards;
+  }
+
+  @keyframes vsb_after {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+}
+
+.headPage {
+  @include pagingOptions("Trang đầu");
+}
+
+.prevPage {
+  @include pagingOptions("Trước");
+}
+
+.nextPage {
+  @include pagingOptions("Sau");
+}
+
+.tailPage {
+  @include pagingOptions("Trang cuối");
+}
+
+#tableProduct {
+  animation: vsb_table 0.4s linear forwards;
+
+  @keyframes vsb_table {
+    0% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 0.5;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+}

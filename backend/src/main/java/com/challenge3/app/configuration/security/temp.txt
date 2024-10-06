@@ -1,0 +1,43 @@
+.exceptionHandling(exception ->
+    exception
+            .accessDeniedHandler((request, response, accessDeniedException) ->{
+                response.setStatus(HttpStatus.FORBIDDEN.value());
+                response.setHeader("Content-Type", "application/json");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write(
+                        Json.pretty(
+                                new ResponseAPI(HttpStatus.FORBIDDEN.value(), accessDeniedException.getMessage())
+                        ));
+            })
+            .authenticationEntryPoint((request, response, authException) ->{
+                response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write(
+                        Json.pretty(
+                                new ResponseAPI(HttpStatus.UNAUTHORIZED.value(), authException.getMessage())
+                        ));
+            })
+)
+
+.authorizeHttpRequests(authorize ->
+    authorize
+            .requestMatchers(URL_PERMIT_ALL).permitAll()
+
+            .requestMatchers(new RequestMatcher[]{
+                    new AntPathRequestMatcher("/api/products", HttpMethod.POST.name()),
+                    new AntPathRequestMatcher("/api/products/**", HttpMethod.PUT.name()),
+                    new AntPathRequestMatcher("/api/products/**", HttpMethod.DELETE.name())
+            })
+            .hasRole(ROLE.ADMIN.name())
+
+
+            .requestMatchers(new RequestMatcher[]{
+                    new AntPathRequestMatcher("/api/products/**", HttpMethod.GET.name()),
+                    new AntPathRequestMatcher("/api/products/search", HttpMethod.GET.name()),
+                    new AntPathRequestMatcher("/api/products/filter", HttpMethod.GET.name())
+            })
+            .hasRole(ROLE.USER.name())
+
+            .anyRequest().authenticated()
+)
