@@ -9,6 +9,7 @@ import com.challenge3.app.domain.product.response.ProductFilters;
 import com.challenge3.app.domain.product.request.ProductRequest;
 import com.challenge3.app.utils.Helper;
 import jakarta.transaction.Transactional;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,8 +22,11 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
 
-    public ProductServiceImpl(ProductRepository productRepository) {
+    private final ModelMapper modelMapper;
+
+    public ProductServiceImpl(ProductRepository productRepository, ModelMapper modelMapper) {
         this.productRepository = productRepository;
+        this.modelMapper = modelMapper;
     }
 
     @Override
@@ -88,19 +92,19 @@ public class ProductServiceImpl implements ProductService {
         return productList;
     }
 
-    private ProductEntity injectProduct(ProductRequest productDTO) {
-
-        return ProductEntity
-                .builder()
-                    .id(productDTO.getId())
-                    .code(productDTO.getCode())
-                    .name(productDTO.getName())
-                    .brand(productDTO.getBrand())
-                    .category(productDTO.getCategory())
-                    .type(productDTO.getType())
-                    .description(productDTO.getDescription())
-                .build();
-    }
+//    private ProductEntity injectProduct(ProductRequest productDTO) {
+//
+//        return ProductEntity
+//                .builder()
+//                    .id(productDTO.getId())
+//                    .code(productDTO.getCode())
+//                    .name(productDTO.getName())
+//                    .brand(productDTO.getBrand())
+//                    .category(productDTO.getCategory())
+//                    .type(productDTO.getType())
+//                    .description(productDTO.getDescription())
+//                .build();
+//    }
 
     @Transactional
     @Override
@@ -122,7 +126,7 @@ public class ProductServiceImpl implements ProductService {
         productDTO.setCode(code);
 
         return productRepository.save(
-                injectProduct(productDTO)
+                this.modelMapper.map(productDTO, ProductEntity.class)
         );
     }
 
@@ -136,11 +140,13 @@ public class ProductServiceImpl implements ProductService {
         if (productDTO.getId() != findByCode.getId()) productDTO.setId(findByCode.getId());
 
         productDTO.setCode(code);
-        ProductEntity product = injectProduct(productDTO);
+//        ProductEntity product = injectProduct(productDTO);
+//
+//        System.out.println("product: " + product);
 
-        System.out.println("product: " + product);
-
-        return productRepository.save(product);
+        return productRepository.save(
+                this.modelMapper.map(productDTO, ProductEntity.class)
+        );
     }
 
     @Transactional

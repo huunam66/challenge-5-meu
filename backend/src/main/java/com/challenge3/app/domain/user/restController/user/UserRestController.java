@@ -1,4 +1,4 @@
-package com.challenge3.app.domain.user.restController;
+package com.challenge3.app.domain.user.restController.user;
 
 import com.challenge3.app.common.response.DeletedSuccessfully;
 import com.challenge3.app.common.response.IsFound;

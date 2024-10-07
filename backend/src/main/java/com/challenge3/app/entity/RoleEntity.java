@@ -4,6 +4,7 @@ import com.challenge3.app.configuration.auth.role.ROLE;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
 
 
 @NoArgsConstructor
@@ -14,14 +15,10 @@ import lombok.*;
 @Table(name = "role", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"email", "role"})
 })
-public class RoleEntity {
+public class RoleEntity implements GrantedAuthority {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false, unique = true, updatable = false)
-    private long id;
-
-    @ManyToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "email")
     private UserEntity userEntity;
 
@@ -29,4 +26,10 @@ public class RoleEntity {
     @Column(name = "role")
     @Enumerated(EnumType.STRING)
     private ROLE role;
+
+
+    @Override
+    public String getAuthority() {
+        return "ROLE_" + this.role.name();
+    }
 }

@@ -2,6 +2,9 @@ package com.challenge3.app.entity;
 
 import java.time.ZonedDateTime;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.ZonedDateTimeSerializer;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -54,9 +57,11 @@ public class ProductEntity {
     @Column(name = "description")
     private String description;
 
+
     @CreationTimestamp
     @Column(name = "created_at", nullable = false)
     private ZonedDateTime created_at;
+
 
     @UpdateTimestamp
     @Column(name = "updated_at", nullable = false)

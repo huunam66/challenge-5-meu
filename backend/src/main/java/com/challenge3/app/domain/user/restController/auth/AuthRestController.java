@@ -1,4 +1,4 @@
-package com.challenge3.app.domain.user.restController;
+package com.challenge3.app.domain.user.restController.auth;
 
 import com.challenge3.app.common.response.ResponseAPI;
 import com.challenge3.app.domain.user.request.GrantRequest;

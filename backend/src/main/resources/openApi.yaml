@@ -1,0 +1,13 @@
+open:
+  api:
+    title: "API Challenge-5-meu documentation"
+    version: "v2.6.0"
+    description: "API Challenge-5-meu"
+    license:
+      name: "Api license"
+      url: "https://github.com/challenge3/challenge-5-meu"
+
+  server:
+    localhost:
+      url: "http://localhost:8080"
+      description: "server test"

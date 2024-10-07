@@ -1,14 +1,21 @@
+
 spring:
+  config:
+    import: classpath:openApi.yaml
+
   application:
     name: app
+
   datasource:
     url: jdbc:mysql://localhost:3306/challenge3meu
     username: challenge3meu
     password: 123123
+
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
+
   security:
     jwt:
       secret-key: MIGfMA0GCSqGSIb3DQEBAQUAA4GNA(NguyenHuuNam6602)DCBiQKBgQCmcVQKOmrcYhONb2G1xNztMn2T
@@ -16,4 +23,6 @@ spring:
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
+
+
 

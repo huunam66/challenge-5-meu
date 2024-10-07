@@ -103,7 +103,7 @@ public class WebSecurityConfig implements WebMvcConfigurer  {
                         new AntPathRequestMatcher("/api/users", HttpMethod.POST.name()),
                         new AntPathRequestMatcher("/api/products", HttpMethod.POST.name()),
                         new AntPathRequestMatcher("/api/products/**", HttpMethod.PUT.name())
-                ).hasRole(ROLE.ADMIN.name())
+                ).hasAnyRole(ROLE.ADMIN.name(), ROLE.SUPER_ADMIN.name())
 
 //                ------------------------------------------------------------------
 
@@ -112,7 +112,7 @@ public class WebSecurityConfig implements WebMvcConfigurer  {
                 .requestMatchers(
                                 "/api/users",
                                 "/api/users/**"
-                ).hasRole(ROLE.ADMIN.name())
+                ).hasAnyRole(ROLE.ADMIN.name(), ROLE.SUPER_ADMIN.name())
 
 //                ------------------------------------------------------------------
 
@@ -122,7 +122,7 @@ public class WebSecurityConfig implements WebMvcConfigurer  {
                                 "/api/products/**",
                                 "/api/products/search/**",
                                 "/api/products/filter"
-                ).hasAnyRole(ROLE.USER.name(), ROLE.ADMIN.name())
+                ).hasAnyRole(ROLE.USER.name(), ROLE.ADMIN.name(), ROLE.SUPER_ADMIN.name())
 
 //                ------------------------------------------------------------------
 

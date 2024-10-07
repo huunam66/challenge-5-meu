@@ -2,7 +2,6 @@ package com.challenge3.app.domain.user.service.impl;
 
 import com.challenge3.app.configuration.auth.jwt.JwtService;
 import com.challenge3.app.configuration.auth.role.ROLE;
-import com.challenge3.app.configuration.auth.role.ROLE_STORE;
 import com.challenge3.app.domain.user.request.GrantRequest;
 import com.challenge3.app.domain.user.service.AuthService;
 import com.challenge3.app.entity.RoleEntity;
@@ -70,32 +69,11 @@ public class AuthServiceImpl implements AuthService {
                 () -> new NotFoundException("Email không tồn tại!")
         );
 
-        boolean isSuperAdmin = userEntity.getRoleEntities().stream().map(RoleEntity::getRole).toList().contains(ROLE.SUPER_ADMIN);
+        boolean isSuperAdmin = userEntity.getRoleEntities().getRole().equals(ROLE.SUPER_ADMIN);
 
         if(isSuperAdmin) throw new RuntimeException("Không thể phân quyền cho nhân viên cao nhất!");
 
-        ROLE[] roles = ROLE_STORE.USER;
-        if(grantRequest.getRole().equals(ROLE.ADMIN))
-            roles = ROLE_STORE.ADMIN;
-
-        userEntity.getRoleEntities().clear();
-
-        System.out.println(userEntity);
-
-        this.userRepository.saveAndFlush(userEntity);
-
-        grant(userEntity, roles);
-    }
-
-    private void grant(UserEntity userEntity, ROLE[] roles){
-        userEntity.getRoleEntities().addAll(
-                Arrays.stream(roles).map(role ->
-                        RoleEntity.builder()
-                                .userEntity(userEntity)
-                                .role(role)
-                                .build()
-                        ).toList()
-        );
+        userEntity.getRoleEntities().setRole(grantRequest.getRole());
 
         this.userRepository.save(userEntity);
     }

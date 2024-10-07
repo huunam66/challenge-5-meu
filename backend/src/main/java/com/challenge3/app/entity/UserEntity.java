@@ -40,16 +40,18 @@ public class UserEntity implements UserDetails {
 
 
     @JsonIgnore
-    @OneToMany(mappedBy = "userEntity", fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "userEntity", fetch = FetchType.EAGER)
     @Cascade({CascadeType.ALL, CascadeType.DELETE_ORPHAN})
-    private List<RoleEntity> roleEntities;
+    private RoleEntity roleEntities;
 
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.roleEntities.stream().map(roleEntity ->
-                new SimpleGrantedAuthority("ROLE_"+roleEntity.getRole())
-        ).toList();
+//        return this.roleEntities.stream().map(roleEntity ->
+//                new SimpleGrantedAuthority("ROLE_"+roleEntity.getRole())
+//        ).toList();
+
+        return List.of(this.roleEntities);
     }
 
     @Override

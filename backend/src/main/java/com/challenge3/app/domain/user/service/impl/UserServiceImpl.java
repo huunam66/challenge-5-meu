@@ -1,7 +1,6 @@
 package com.challenge3.app.domain.user.service.impl;
 
 import com.challenge3.app.configuration.auth.role.ROLE;
-import com.challenge3.app.configuration.auth.role.ROLE_STORE;
 import com.challenge3.app.domain.user.repository.UserRepository;
 import com.challenge3.app.domain.user.request.UserRequest;
 import com.challenge3.app.domain.user.service.UserService;
@@ -50,7 +49,7 @@ public class UserServiceImpl implements UserService {
 
         UserEntity userEntity = this.findByEmail(email);
 
-        boolean isSuperAdmin = userEntity.getRoleEntities().stream().map(RoleEntity::getRole).toList().contains(ROLE.SUPER_ADMIN);
+        boolean isSuperAdmin = userEntity.getRoleEntities().getRole().equals(ROLE.SUPER_ADMIN);
 
         if(isSuperAdmin) throw new RuntimeException("Không thể xóa nhân viên cao nhất!");
 
@@ -84,14 +83,10 @@ public class UserServiceImpl implements UserService {
                                         .build();
 
         userEntity.setRoleEntities(
-                Arrays.stream(ROLE_STORE.USER)
-                        .map(
-                                role -> RoleEntity
-                                        .builder()
-                                            .role(role)
-                                            .userEntity(userEntity)
-                                        .build())
-                        .toList()
+              RoleEntity.builder()
+                      .userEntity(userEntity)
+                      .role(ROLE.USER)
+                      .build()
         );
 
         return userEntity;
