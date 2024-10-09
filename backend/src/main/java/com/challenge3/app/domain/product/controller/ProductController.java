@@ -1,4 +1,4 @@
-package com.challenge3.app.domain.product.restController;
+package com.challenge3.app.domain.product.controller;
 
 import com.challenge3.app.common.response.*;
 import com.challenge3.app.domain.product.response.ProductFilters;
@@ -20,12 +20,12 @@ import java.util.Map;
 @ResponseBody
 @RequestMapping(path = "/api/products")
 @Tag(name = "Products")
-public class ProductRestController {
+public class ProductController {
 
     private final ProductService productService;
 
 
-    public ProductRestController(ProductService productService) {
+    public ProductController(ProductService productService) {
         this.productService = productService;
     }
 

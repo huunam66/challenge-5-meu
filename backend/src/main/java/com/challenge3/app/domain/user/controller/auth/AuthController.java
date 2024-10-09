@@ -1,4 +1,4 @@
-package com.challenge3.app.domain.user.restController.auth;
+package com.challenge3.app.domain.user.controller.auth;
 
 import com.challenge3.app.common.response.ResponseAPI;
 import com.challenge3.app.domain.user.request.GrantRequest;
@@ -20,11 +20,11 @@ import java.util.Map;
 @ResponseBody
 @Tag(name = "Authentication")
 @RequestMapping("/api/auth")
-public class AuthRestController {
+public class AuthController {
 
     private final AuthService authService;
 
-    public AuthRestController(AuthService authService) {
+    public AuthController(AuthService authService) {
         this.authService = authService;
     }
 

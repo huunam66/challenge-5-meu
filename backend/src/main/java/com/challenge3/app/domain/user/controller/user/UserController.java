@@ -1,4 +1,4 @@
-package com.challenge3.app.domain.user.restController.user;
+package com.challenge3.app.domain.user.controller.user;
 
 import com.challenge3.app.common.response.DeletedSuccessfully;
 import com.challenge3.app.common.response.IsFound;
@@ -20,11 +20,11 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/users")
 @Tag(name = "Users")
-public class UserRestController {
+public class UserController {
 
     private final UserService userService;
 
-    public UserRestController(UserService userService) {
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
