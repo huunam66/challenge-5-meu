@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@CrossOrigin
+@CrossOrigin({"http://localhost:8080", "http://localhost:4200"})
 @ResponseBody
 @RestController
 @RequestMapping("/api/users")

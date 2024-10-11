@@ -15,7 +15,7 @@ import java.util.Map;
 
 
 
-@CrossOrigin
+@CrossOrigin({"http://localhost:8080", "http://localhost:4200"})
 @RestController
 @ResponseBody
 @RequestMapping(path = "/api/products")

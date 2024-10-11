@@ -1,6 +1,7 @@
 package com.challenge3.app.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.CascadeType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -32,14 +33,14 @@ public class UserEntity implements UserDetails {
     private String email;
 
 
+    @JsonIgnore
     @NotBlank(message = "Mật khẩu là bắt buộc!")
     @NotNull(message = "Mật khẩu là bắt buộc!")
     @Column(name = "password", nullable = false, updatable = false)
-    @JsonIgnore
     private String password;
 
 
-    @JsonIgnore
+    @JsonManagedReference
     @OneToOne(mappedBy = "userEntity", fetch = FetchType.EAGER)
     @Cascade({CascadeType.ALL, CascadeType.DELETE_ORPHAN})
     private RoleEntity roleEntities;

@@ -31,7 +31,7 @@
             }
           </div>
         </div>
-        @if(this?.payloadToken?.scp?.includes("ROLE_ADMIN")){
+        @if(this?.payloadToken?.scp?.includes("ROLE_ADMIN") || this?.payloadToken?.scp?.includes("ROLE_SUPER_ADMIN")){
         <button (click)="isOpenSaveForm = true"
           class="absolute right-0 hover:shadow-lg hover:scale-110 flex items-center h-fit py-2 px-10 rounded-full text-sm text-white font-medium bg-green-500 hover:bg-green-600 duration-300">
           <mat-icon class="mr-2"> add_card </mat-icon>

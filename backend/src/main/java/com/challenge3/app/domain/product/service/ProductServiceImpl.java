@@ -125,8 +125,13 @@ public class ProductServiceImpl implements ProductService {
         productDTO.setId((long)0);
         productDTO.setCode(code);
 
+
+        ProductEntity productEntity = this.modelMapper.map(productDTO, ProductEntity.class);
+
+        System.out.println(productEntity);
+
         return productRepository.save(
-                this.modelMapper.map(productDTO, ProductEntity.class)
+                productEntity
         );
     }
 

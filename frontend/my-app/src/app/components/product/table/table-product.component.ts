@@ -27,30 +27,30 @@ import { SaveProductComponent } from '../save/save-product.component';
 })
 export class TableProductComponent implements OnInit {
   // State component
-  public focus_Search: boolean = false;
-  public isLoading: boolean = false;
+  focus_Search: boolean = false;
+  isLoading: boolean = false;
 
-  public isOpenSaveForm: boolean = false;
-  public isOpenDetailForm: boolean = false;
+  isOpenSaveForm: boolean = false;
+  isOpenDetailForm: boolean = false;
 
-  public showDetailCode: string = '';
+  showDetailCode: string = '';
 
   // Binding component
-  public searchValue: string = '';
-  public ListProductModel: ProductModel[] = [];
+  searchValue: string = '';
+  ListProductModel: ProductModel[] = [];
 
   @ViewChild('searchInpEl')
-  public search_inpEl!: ElementRef<HTMLInputElement>;
+  search_inpEl!: ElementRef<HTMLInputElement>;
 
-  public pages: number = 0;
+  pages: number = 0;
 
-  public currentPage: number = 0;
+  currentPage: number = 0;
 
-  public limitProductInPage: number = 5;
+  limitProductInPage: number = 5;
 
-  public sizeProducts: number = 0;
+  sizeProducts: number = 0;
 
-  public payloadToken!: PayloadTokenModel;
+  payloadToken!: PayloadTokenModel;
 
   constructor(
     private productApiService: ProductApiService,

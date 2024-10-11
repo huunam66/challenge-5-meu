@@ -34,7 +34,7 @@
       </button>
     </div>
     <div class="text-center flex justify-end text-lg mb-8">
-      @if(this?.payloadToken?.scp?.includes("ROLE_ADMIN")){
+      @if(this?.payloadToken?.scp?.includes("ROLE_ADMIN") || this?.payloadToken?.scp?.includes("ROLE_SUPER_ADMIN")){
       <div
         class="p-2 px-6 flex items-center rounded-md bg-slate-700 shadow-md space-x-6 leading-[0] transition-all duration-300">
         @if(!isEditView){

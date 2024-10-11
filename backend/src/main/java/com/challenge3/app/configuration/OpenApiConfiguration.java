@@ -25,7 +25,6 @@ public class OpenApiConfiguration {
             @Value("${open.api.license.name}") String licenseName,
             @Value("${open.api.license.url}") String licenceUrl,
 
-            //dependency list of Server
             @Value("${open.server.localhost.url}") String localhostURL,
             @Value("${open.server.localhost.description}") String localhostDescription
     ){
@@ -47,28 +46,36 @@ public class OpenApiConfiguration {
         ));
     }
 
+//    @Bean
+//    public GroupedOpenApi apiAll() {
+//        return GroupedOpenApi.builder()
+//                .group("api-all")
+//                .packagesToScan("com.challenge3.app.domain")
+//                .build();
+//    }
+
 
     @Bean
     public GroupedOpenApi productApi() {
         return GroupedOpenApi.builder()
-                .group("api-products")  // Group name
-                .packagesToScan("com.challenge3.app.domain.product.restController")  // Package to scan
+                .group("api-products")
+                .packagesToScan("com.challenge3.app.domain.product.controller")
                 .build();
     }
 
     @Bean
     public GroupedOpenApi userApi() {
         return GroupedOpenApi.builder()
-                .group("api-users")  // Group name
-                .packagesToScan("com.challenge3.app.domain.user.restController.user")  // Controller to scan
+                .group("api-users")
+                .packagesToScan("com.challenge3.app.domain.user.controller.user")
                 .build();
     }
 
     @Bean
     public GroupedOpenApi authorizeApi() {
         return GroupedOpenApi.builder()
-                .group("api-authorize")  // Group name
-                .packagesToScan("com.challenge3.app.domain.user.restController.auth")  // Controller to scan
+                .group("api-authorize")
+                .packagesToScan("com.challenge3.app.domain.user.controller.auth")
                 .build();
     }
 

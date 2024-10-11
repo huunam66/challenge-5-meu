@@ -1,4 +1,8 @@
 
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
 open:
   api:
     title: "API Challenge-5-meu documentation"

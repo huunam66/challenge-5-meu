@@ -76,6 +76,8 @@ public class UserServiceImpl implements UserService {
     }
 
     private UserEntity injectUser(UserRequest userRequest) {
+
+        System.out.println(userRequest);
         UserEntity userEntity = UserEntity
                                         .builder()
                                             .email(userRequest.getEmail())
@@ -85,6 +87,7 @@ public class UserServiceImpl implements UserService {
         userEntity.setRoleEntities(
               RoleEntity.builder()
                       .userEntity(userEntity)
+                      .email(userRequest.getEmail())
                       .role(ROLE.USER)
                       .build()
         );

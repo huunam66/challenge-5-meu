@@ -20,9 +20,6 @@ spring:
     jwt:
       secret-key: MIGfMA0GCSqGSIb3DQEBAQUAA4GNA(NguyenHuuNam6602)DCBiQKBgQCmcVQKOmrcYhONb2G1xNztMn2T
 
-springdoc:
-  swagger-ui:
-    path: /swagger-ui.html
 
 
 

@@ -9,7 +9,7 @@
         class=" no-underline p-4 py-2 rounded-md text-base text-white cursor-pointer">Sản phẩm</a>
     </li>
 
-    @if(this?.payloadToken?.scp?.includes("ROLE_ADMIN")){
+    @if(this?.payloadToken?.scp?.includes("ROLE_SUPER_ADMIN") || this?.payloadToken?.scp?.includes("ROLE_ADMIN")){
     <li>
       <a [routerLink]="['/user']" routerLinkActive="active"
         class=" no-underline p-4 py-2 rounded-md text-base text-white cursor-pointer">Nhân sự</a>
