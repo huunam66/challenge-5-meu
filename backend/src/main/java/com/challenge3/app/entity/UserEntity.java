@@ -36,7 +36,7 @@ public class UserEntity implements UserDetails {
     @JsonIgnore
     @NotBlank(message = "Mật khẩu là bắt buộc!")
     @NotNull(message = "Mật khẩu là bắt buộc!")
-    @Column(name = "password", nullable = false, updatable = false)
+    @Column(name = "password", nullable = false)
     private String password;
 
 

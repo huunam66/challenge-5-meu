@@ -3,8 +3,6 @@ package com.challenge3.app.common.response;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
-import java.time.Instant;
-import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 
 @NoArgsConstructor
@@ -16,7 +14,7 @@ public class ResponseAPI {
     private String message;
 
     // OffsetDateTime
-    private final OffsetDateTime timeAt = OffsetDateTime.now();
+    private final ZonedDateTime timeAt = ZonedDateTime.now();
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Object responseEntity = null;

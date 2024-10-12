@@ -12,8 +12,6 @@ spring:
     password: 123123
 
   jpa:
-    hibernate:
-      ddl-auto: update
     show-sql: true
 
   security:
