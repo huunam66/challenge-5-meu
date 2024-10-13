@@ -14,12 +14,16 @@ export class LocalStorageService {
 
   public setData(key: string, value: string) {
 
-    localStorage.setItem(key, this.encrypt(value));
+    if(typeof localStorage == 'undefined') return;
+
+    localStorage?.setItem(key, this.encrypt(value));
   }
 
   public getData(key: string) {
 
-    let data = localStorage.getItem(key)||null;
+    if(typeof localStorage == 'undefined') return null;
+
+    let data = localStorage?.getItem(key)||null;
 
     if(!data) return data;
 
@@ -28,12 +32,16 @@ export class LocalStorageService {
   }
   public removeData(key: string) {
 
-    localStorage.removeItem(key);
+    if(typeof localStorage == 'undefined') return;
+
+    localStorage?.removeItem(key);
   }
 
   public clearData() {
 
-    localStorage.clear();
+    if(typeof localStorage == 'undefined') return;
+
+    localStorage?.clear();
   }
 
   private encrypt(txt: string): string {

@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { ToastrService } from 'ngx-toastr';
+import { finalize, Subscription } from 'rxjs';
 import { GrantModel } from '../../../model/grant.model';
 import { PayloadTokenModel } from '../../../model/payload-token.model';
 import { UserModel } from '../../../model/user.model';
@@ -18,38 +19,38 @@ import { ConfirmBoxComponent } from "../../common/confirm-box/confirm-box.compon
   templateUrl: './detail-user.component.html',
   styleUrl: './detail-user.component.scss'
 })
-export class DetailUserComponent implements OnInit {
-  public userModelDetail: UserModel = new UserModel();
-  public userModelEdit: GrantModel = new GrantModel();
+export class DetailUserComponent implements OnInit, OnDestroy {
+  userModelDetail: UserModel = new UserModel();
+  userModelEdit: GrantModel = new GrantModel();
 
-  public ROLE_STORE: string[] = ["ADMIN", "USER"];
+  ROLE_STORE: string[] = ["ADMIN", "USER"];
 
-  public currentRole!: string;
+  currentRole!: string;
 
-  public isLoading: boolean;
-
-  @Input()
-  public detailCode!: string;
+  isLoading: boolean;
 
   @Input()
-  public isDetailView!: boolean;
+  detailCode!: string;
 
   @Input()
-  public isEditView!: boolean;
+  isDetailView!: boolean;
 
   @Input()
-  public isOpenThis: boolean;
+  isEditView!: boolean;
+
+  @Input()
+  isOpenThis: boolean;
 
   @Output()
-  public onCloseThis = new EventEmitter<any>();
+  onCloseThis = new EventEmitter<any>();
 
-  public isConfirmExit: boolean = false;
+  isConfirmExit: boolean = false;
 
-  public isConfirmSave: boolean = false;
+  isConfirmSave: boolean = false;
 
-  public isConfirmDelete: boolean = false;
+  isConfirmDelete: boolean = false;
 
-  public payloadToken!: PayloadTokenModel;
+  payloadToken!: PayloadTokenModel;
 
   constructor(
     private toastr: ToastrService,
@@ -60,10 +61,21 @@ export class DetailUserComponent implements OnInit {
     this.payloadToken = jwtService.getPayload();
   }
 
+  private subcription: Subscription;
+
   ngOnInit(): void {
-    this.userApiService.get(this.detailCode).subscribe((res: any) => {
-      this.injectUserModel(res);
-    });
+    this.subcription = this.userApiService
+      .get(this.detailCode)
+      .pipe(
+        finalize(() => this.subcription.unsubscribe())
+      )
+      .subscribe((res: any) => {
+        this.injectUserModel(res);
+      })
+  }
+
+  ngOnDestroy(): void {
+      this.subcription?.unsubscribe();
   }
 
   injectUserModel(res: any): void{
@@ -113,16 +125,21 @@ export class DetailUserComponent implements OnInit {
     this.isLoading = true;
 
     setTimeout(() => {
-      this.userApiService
+      this.subcription = this.userApiService
         .delete(this.userModelDetail.email)
-        .subscribe((res: any) => this.onResponsedDeleteProduct(res), (err) => {
-          console.error(err);
-          this.isLoading = false;
-          this.isConfirmDelete = false;
-          this.toastr.error(err.error.message, '', {
-            timeOut: 5000,
-            closeButton: true,
-          });
+        .pipe(
+          finalize(() => this.subcription.unsubscribe())
+        )
+        .subscribe({
+          next: (res: any) => this.onResponsedDeleteProduct(res),
+          error: (err) => {
+            this.isLoading = false;
+            this.isConfirmDelete = false;
+            this.toastr.error(err.error.message, '', {
+              timeOut: 5000,
+              closeButton: true,
+            });
+          }
         });
     }, 2000);
   }
@@ -183,16 +200,22 @@ export class DetailUserComponent implements OnInit {
   onSavingProduct(): void {
     this.isLoading = true;
     setTimeout(() => {
-      this.authApiService
+      this.subcription = this.authApiService
         .grant(this.userModelEdit)
-        .subscribe((res: any) => this.onResponsedSavingProduct(res), (err) => {
-          console.log(err);
-          this.isLoading = false;
-          this.isConfirmSave = false;
-          this.toastr.error(err.error.message, '', {
-            closeButton: true,
-            timeOut: 5000,
-          });
+        .pipe(
+          finalize(() => this.subcription.unsubscribe())
+        )
+        .subscribe({
+          next: (res: any) => this.onResponsedSavingProduct(res),
+          error: (err) => {
+            console.log(err);
+            this.isLoading = false;
+            this.isConfirmSave = false;
+            this.toastr.error(err.error.message, '', {
+              closeButton: true,
+              timeOut: 5000,
+            });
+          }
         });
     }, 2000);
   }

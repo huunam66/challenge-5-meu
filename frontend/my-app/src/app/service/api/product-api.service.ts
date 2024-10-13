@@ -34,36 +34,36 @@ export class ProductApiService {
   public filter(limit: number, page: number): Observable<any> {
     // console.log(`${urlApiGetByPage}?limit=${limit}&page=${page}`);
     return this.httpClient
-      .get<any>(`${URL_REQUEST}/filter?limit=${limit}&page=${page}`, this.httpHeaders()).pipe();
+      .get<any>(`${URL_REQUEST}/filter?limit=${limit}&page=${page}`, this.httpHeaders());
   }
 
   public get(code: string): Observable<any> {
 
     return this.httpClient
-      .get<any>(`${URL_REQUEST}/${code}`, this.httpHeaders()).pipe();
+      .get<any>(`${URL_REQUEST}/${code}`, this.httpHeaders());
   }
 
   public search(keyword: string): Observable<any> {
 
     return this.httpClient
-      .get<any>(`${URL_REQUEST}/search/${keyword}`, this.httpHeaders()).pipe();
+      .get<any>(`${URL_REQUEST}/search/${keyword}`, this.httpHeaders());
   }
 
   public post(product: ProductModel): Observable<any> {
     // console.log(product)
     return this.httpClient
-      .post<any>(URL_REQUEST, product, this.httpHeaders()).pipe();
+      .post<any>(URL_REQUEST, product, this.httpHeaders());
   }
 
   public put(product: ProductModel, code: string): Observable<any> {
 
     return this.httpClient
-      .put<any>(`${URL_REQUEST}/${code}`, product, this.httpHeaders()).pipe();
+      .put<any>(`${URL_REQUEST}/${code}`, product, this.httpHeaders());
   }
 
   public delete(code: string) {
 
     return this.httpClient
-      .delete<any>(`${URL_REQUEST}/${code}`, this.httpHeaders()).pipe();
+      .delete<any>(`${URL_REQUEST}/${code}`, this.httpHeaders());
   }
 }

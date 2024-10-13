@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { ToastrService } from 'ngx-toastr';
+import { finalize, Subscription } from 'rxjs';
 import { ProductError } from '../../../error/config/ProductError.config';
 import { ProductModel } from '../../../model/product.model';
 import { ProductApiService } from '../../../service/api/product-api.service';
@@ -14,31 +15,34 @@ import { ConfirmBoxComponent } from '../../common/confirm-box/confirm-box.compon
   templateUrl: './save-product.component.html',
   styleUrl: './save-product.component.scss',
 })
-export class SaveProductComponent implements OnInit {
-  public productModel: ProductModel = new ProductModel();
-  public productModelError: ProductError = new ProductError();
+export class SaveProductComponent implements OnInit, OnDestroy {
+  productModel: ProductModel = new ProductModel();
+  productModelError: ProductError = new ProductError();
 
   // data flow component
-  public categories: string[] = [];
-  public brands: string[] = [];
+  categories: string[] = [];
+  brands: string[] = [];
 
-  public isLoading: boolean = false;
-
-  @Input()
-  public forSave!: string;
+  isLoading: boolean = false;
 
   @Input()
-  public isOpenThis: boolean = false;
+  forSave!: string;
+
+  @Input()
+  isOpenThis: boolean = false;
 
   @Output()
-  public onCloseThis = new EventEmitter<boolean>();
+  onCloseThis = new EventEmitter<boolean>();
 
   @Output()
-  public onReloadWhenSaveDone = new EventEmitter();
+  onReloadWhenSaveDone = new EventEmitter();
 
-  public isConfirmExit: boolean = false;
+  isConfirmExit: boolean = false;
 
-  public isConfirmSave: boolean = false;
+  isConfirmSave: boolean = false;
+
+
+  private subcription: Subscription;
 
   constructor(
     private toastr: ToastrService,
@@ -73,6 +77,10 @@ export class SaveProductComponent implements OnInit {
     ];
   }
 
+  ngOnDestroy(): void {
+    this.subcription?.unsubscribe();
+  }
+
   onCancelConfirmSave(): void {
     this.isConfirmSave = false;
   }
@@ -82,10 +90,7 @@ export class SaveProductComponent implements OnInit {
   }
 
   onOkExitFormSave(): void {
-    console.log('saveProduct:');
     this.isOpenThis = !this.isOpenThis;
-
-    console.log(this.onCloseThis);
 
     setTimeout(() => {
       this.onCloseThis.emit(this.isOpenThis);
@@ -234,16 +239,22 @@ export class SaveProductComponent implements OnInit {
   onSavingProduct(): void {
     this.isLoading = true;
     setTimeout(() => {
-      this.productApiService
+      this.subcription = this.productApiService
         .post(this.productModel)
-        .subscribe((res) => this.onResponseSavingProduct(res), (err) => {
-          this.isLoading = false;
-          this.isConfirmSave = false;
-          this.toastr.error(err.error.message, '', {
-            closeButton: true,
-            timeOut: 5000,
-          });
-        });
+        .pipe(
+          finalize(() => this.subcription.unsubscribe())
+        )
+        .subscribe({
+          next: (res) => this.onResponseSavingProduct(res),
+          error: (err) => {
+            this.isLoading = false;
+            this.isConfirmSave = false;
+            this.toastr.error(err.error.message, '', {
+              closeButton: true,
+              timeOut: 5000,
+            });
+          }
+        })
     }, 2000);
   }
 

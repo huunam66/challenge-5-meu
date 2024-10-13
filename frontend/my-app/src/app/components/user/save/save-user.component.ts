@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { ToastrService } from 'ngx-toastr';
+import { finalize, Subscription } from 'rxjs';
 import { UserApiService } from '../../../service/api/user-api.service';
 import { ConfirmBoxComponent } from "../../common/confirm-box/confirm-box.component";
 import { UserModel } from './../../../model/user.model';
@@ -19,26 +20,32 @@ import { UserModel } from './../../../model/user.model';
   templateUrl: './save-user.component.html',
   styleUrl: './save-user.component.scss'
 })
-export class SaveUserComponent {
-  public userModel: UserModel = new UserModel();
+export class SaveUserComponent implements OnDestroy {
+  userModel: UserModel = new UserModel();
 
-  public isLoading: boolean = false;
-
-  @Input()
-  public forSave!: string;
+  isLoading: boolean = false;
 
   @Input()
-  public isOpenThis: boolean = false;
+  forSave!: string;
+
+  @Input()
+  isOpenThis: boolean = false;
 
   @Output()
-  public onCloseThis = new EventEmitter<boolean>();
+  onCloseThis = new EventEmitter<boolean>();
 
   @Output()
-  public onReloadWhenSaveDone = new EventEmitter();
+  onReloadWhenSaveDone = new EventEmitter();
 
-  public isConfirmExit: boolean = false;
+  isConfirmExit: boolean = false;
 
-  public isConfirmSave: boolean = false;
+  isConfirmSave: boolean = false;
+
+  private subcription: Subscription;
+
+  ngOnDestroy(): void {
+      this.subcription?.unsubscribe();
+  }
 
   constructor(
     private toastr: ToastrService,
@@ -80,9 +87,14 @@ export class SaveUserComponent {
   onSavingProduct(): void {
     this.isLoading = true;
     setTimeout(() => {
-      this.userApiService
+      this.subcription = this.userApiService
         .post(this.userModel)
-        .subscribe((res) => this.onResponseSavingProduct(res), (err) => {
+        .pipe(
+          finalize(() => this.subcription.unsubscribe())
+        )
+        .subscribe({
+          next: (res) => this.onResponseSavingProduct(res),
+          error: (err) => {
           this.isLoading = false;
           this.isConfirmSave = false;
           console.log(err);
@@ -105,7 +117,7 @@ export class SaveUserComponent {
             closeButton: true,
             timeOut: 5000,
           });
-        });
+        }})
     }, 2000);
   }
 
@@ -113,7 +125,6 @@ export class SaveUserComponent {
     this.isLoading = false;
     this.isConfirmSave = false;
 
-    console.log(res);
     if (res.code != 201) {
       this.toastr.error(res.message, '', {
         closeButton: true,

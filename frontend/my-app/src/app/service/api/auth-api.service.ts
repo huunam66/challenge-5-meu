@@ -30,7 +30,7 @@ export class AuthApiService{
 
 
   public signin(userModel: UserModel): Observable<any>{
-    return this.httpClient.post(`${URL_REQUEST}/signin`, userModel, this.httpHeaders()).pipe()
+    return this.httpClient.post(`${URL_REQUEST}/signin`, userModel, this.httpHeaders())
   }
 
   public grant(grantModel: GrantModel): Observable<any>{
@@ -40,7 +40,7 @@ export class AuthApiService{
     return this.httpClient.put(`${URL_REQUEST}/grant`, grantModel, {
                                                 ...httpHeaders,
                                                 headers: httpHeaders.headers.append('Authorization', `Bearer ${this.jwtService.getToken()}`)
-                          }).pipe();
+                          });
   }
 
 }

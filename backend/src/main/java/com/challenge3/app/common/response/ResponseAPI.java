@@ -14,7 +14,7 @@ public class ResponseAPI {
     private String message;
 
     // OffsetDateTime
-    private final ZonedDateTime timeAt = ZonedDateTime.now();
+    private final ZonedDateTime timestamp = ZonedDateTime.now();
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Object responseEntity = null;

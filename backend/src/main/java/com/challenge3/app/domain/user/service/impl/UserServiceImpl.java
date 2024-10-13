@@ -11,6 +11,7 @@ import com.challenge3.app.exception.IsNullOrEmptyException;
 import com.challenge3.app.exception.NotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
@@ -22,8 +23,11 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
-    public UserServiceImpl(UserRepository userRepository) {
+    private final PasswordEncoder passwordEncoder;
+
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -71,17 +75,17 @@ public class UserServiceImpl implements UserService {
         if(userEntity != null) throw new IsExistedException("Email " + userRequest.getEmail() + " tồn tại!");
 
         return this.userRepository.save(
-                injectUser(userRequest)
+                injectUserEntity(userRequest)
         );
     }
 
-    private UserEntity injectUser(UserRequest userRequest) {
+    private UserEntity injectUserEntity(UserRequest userRequest) {
 
         System.out.println(userRequest);
         UserEntity userEntity = UserEntity
                                         .builder()
                                             .email(userRequest.getEmail())
-                                            .password(BCrypt.hashpw(userRequest.getPassword(), BCrypt.gensalt()))
+                                            .password(this.passwordEncoder.encode(userRequest.getPassword()))
                                         .build();
 
         userEntity.setRoleEntities(

@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { finalize, Subscription } from 'rxjs';
 import { PayloadTokenModel } from '../../../model/payload-token.model';
 import { UserModel } from '../../../model/user.model';
 import { UserApiService } from '../../../service/api/user-api.service';
@@ -22,29 +23,36 @@ import { SaveUserComponent } from "../save/save-user.component";
   templateUrl: './table-user.component.html',
   styleUrl: './table-user.component.scss'
 })
-export class TableUserComponent {
+export class TableUserComponent implements OnDestroy {
 // State component
-public focus_Search: boolean = false;
-public isLoading: boolean = false;
+focus_Search: boolean = false;
+isLoading: boolean = false;
 
-public isOpenSaveForm: boolean = false;
-public isOpenDetailForm: boolean = false;
+isOpenSaveForm: boolean = false;
+isOpenDetailForm: boolean = false;
 
-public showDetailCode: string = '';
+showDetailCode: string = '';
 
 // Binding component
-public searchValue: string = '';
-public ListUserModel: UserModel[] = new Array();
+searchValue: string = '';
+ListUserModel: UserModel[] = new Array();
 
 @ViewChild('searchInpEl')
-public search_inpEl!: ElementRef<HTMLInputElement>;
+search_inpEl!: ElementRef<HTMLInputElement>;
 
-public payloadToken!: PayloadTokenModel;
+payloadToken!: PayloadTokenModel;
+
+private subcription: Subscription;
+
+ngOnDestroy(): void {
+    this.subcription.unsubscribe();
+}
 
 constructor(
   private userApiService: UserApiService,
   private jwtService: JwtService
 ) {
+  this.jwtService.checkToken()
   this.payloadToken = jwtService.getPayload();
 }
 
@@ -100,8 +108,13 @@ getUsers(): void {
   console.log('hello')
 
   this.isLoading = true;
-  this.userApiService
+  this.subcription = this.userApiService
     .getAll()
+    .pipe(
+      finalize(() => {
+        this.subcription.unsubscribe();
+      })
+    )
     .subscribe((res: any) => this.fillDataByPage(res));
 }
 

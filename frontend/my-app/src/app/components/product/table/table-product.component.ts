@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
+import { finalize, Subscription } from 'rxjs';
 import { PayloadTokenModel } from '../../../model/payload-token.model';
 import { ProductModel } from '../../../model/product.model';
 import { ProductApiService } from '../../../service/api/product-api.service';
@@ -25,7 +26,7 @@ import { SaveProductComponent } from '../save/save-product.component';
   templateUrl: './table-product.component.html',
   styleUrl: './table-product.component.scss',
 })
-export class TableProductComponent implements OnInit {
+export class TableProductComponent implements OnInit, OnDestroy {
   // State component
   focus_Search: boolean = false;
   isLoading: boolean = false;
@@ -57,8 +58,11 @@ export class TableProductComponent implements OnInit {
     private routeService: RouteService,
     private jwtService: JwtService
   ) {
+    this.jwtService.checkToken();
     this.payloadToken = jwtService.getPayload();
   }
+
+  private subcription: Subscription;
 
   ngOnInit(): void {
     this.routeService.query((query: any) => {
@@ -68,6 +72,10 @@ export class TableProductComponent implements OnInit {
         this.searchProduct();
       } else this.getProductOnInitComponent();
     });
+  }
+
+  ngOnDestroy(): void {
+      this.subcription?.unsubscribe();
   }
 
   onCloseSaveForm(event: boolean): void {
@@ -133,12 +141,17 @@ export class TableProductComponent implements OnInit {
   }
 
   getProducts(page: number): void {
-    console.log('hello')
 
     this.isLoading = true;
-    this.productApiService
+    this.subcription = this.productApiService
       .filter(this.limitProductInPage, page)
-      .subscribe((res: any) => this.fillDataByPage(res));
+      .pipe(
+        finalize(() => this.subcription.unsubscribe())
+      )
+      .subscribe({
+        next: (res: any) => this.fillDataByPage(res),
+        error: (err) => console.log(err)
+      })
   }
 
   fillDataBySearch(res: any): void {
@@ -158,9 +171,15 @@ export class TableProductComponent implements OnInit {
       if (query.search) {
         this.searchValue = query.search;
 
-        this.productApiService
+        this.subcription = this.productApiService
           .search(query.search)
-          .subscribe((res: any) => this.fillDataBySearch(res));
+          .pipe(
+            finalize(() => this.subcription.unsubscribe())
+          )
+          .subscribe({
+            next: (res: any) => this.fillDataBySearch(res),
+            error: (err) => console.log(err)
+          })
       }
     });
   }

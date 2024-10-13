@@ -46,6 +46,8 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public String signin(UserRequest userDTO) throws AuthenticationException {
 
+        System.out.println(userDTO);
+
         if(userDTO == null) throw new IsNullOrEmptyException("Đầu vào không hợp lệ!");
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(userDTO.getEmail());

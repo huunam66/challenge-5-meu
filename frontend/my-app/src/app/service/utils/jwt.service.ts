@@ -19,19 +19,17 @@ export class JwtService {
 
 
   public getToken(): any {
-    return this.localStorageService.getData("token");
+    return this.localStorageService?.getData("token");
   }
 
   public checkToken(): void{
     const token: any = this.getToken();
-    if(token == null || token == "" || token == undefined)
+    if(!token)
       this.routeService.navigate('/auth/signin', null)
-
-    console.log(token)
   }
 
   public logOut(): void{
-    this.localStorageService.clearData();
+    this.localStorageService?.clearData();
     this.checkToken();
   }
 
@@ -42,11 +40,13 @@ export class JwtService {
 
     const payload = this.jwtHelperSerive.decodeToken(token);
 
-    console.log("payload.iat: " + payload.iat)
-    console.log("payload.exp: " + payload.exp)
+    const exp = new Date(payload.exp * 1000);
+    const timeNow = new Date();
 
-    console.log("payload.iat: " + new Date(payload.iat))
-    console.log("payload.exp: " + new Date(payload.exp))
+    if(timeNow > exp){
+      this.localStorageService.removeData('token');
+      this.checkToken();
+    }
 
     return payload;
   }
