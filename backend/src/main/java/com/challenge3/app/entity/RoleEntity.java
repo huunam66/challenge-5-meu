@@ -1,14 +1,18 @@
 package com.challenge3.app.entity;
 
 import com.challenge3.app.configuration.auth.role.ROLE;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 
 
+
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -31,7 +35,6 @@ public class RoleEntity implements GrantedAuthority {
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "email")
-    @JsonBackReference
     private UserEntity userEntity;
 
     @NotNull(message = "Tên vai trò là bắt buộc!")

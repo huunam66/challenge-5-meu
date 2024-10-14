@@ -1,7 +1,9 @@
 package com.challenge3.app.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import org.hibernate.annotations.CascadeType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -13,7 +15,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-@ToString
+
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -40,9 +45,12 @@ public class UserEntity implements UserDetails {
     private String password;
 
 
-    @JsonManagedReference
+    @OneToOne(mappedBy = "userEntity", fetch = FetchType.LAZY)
+    @Cascade(CascadeType.ALL)
+    private ProfileEntity profileEntity;
+
     @OneToOne(mappedBy = "userEntity", fetch = FetchType.EAGER)
-    @Cascade({CascadeType.ALL, CascadeType.DELETE_ORPHAN})
+    @Cascade(CascadeType.ALL)
     private RoleEntity roleEntities;
 
 

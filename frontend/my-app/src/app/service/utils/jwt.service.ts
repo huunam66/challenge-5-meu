@@ -22,10 +22,12 @@ export class JwtService {
     return this.localStorageService?.getData("token");
   }
 
-  public checkToken(): void{
+  public checkToken(): boolean{
     const token: any = this.getToken();
     if(!token)
-      this.routeService.navigate('/auth/signin', null)
+      return false;
+
+    return true;
   }
 
   public logOut(): void{

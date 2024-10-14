@@ -1,8 +1,3 @@
-
-springdoc:
-  swagger-ui:
-    path: /swagger-ui.html
-
 open:
   api:
     title: "API Challenge-5-meu documentation"
@@ -12,7 +7,15 @@ open:
       name: "Api license"
       url: "https://github.com/challenge3/challenge-5-meu"
 
-  server:
-    localhost:
-      url: "http://localhost:8080"
-      description: "server test"
+    servers:
+      localhost:
+        url: "http://localhost:8080"
+        description: "server challenge 5 meu"
+
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+

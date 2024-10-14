@@ -1,6 +1,6 @@
 package com.challenge3.app.configuration.security;
 
-import com.challenge3.app.common.response.ResponseAPI;
+import com.challenge3.app.common.response.ApiResponse;
 import io.swagger.v3.core.util.Json;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -26,7 +26,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(
         Json.pretty(
-                new ResponseAPI(HttpStatus.UNAUTHORIZED.value(), authException.getMessage())
+                new ApiResponse<>(HttpStatus.UNAUTHORIZED.value(), authException.getMessage())
         ));
 
     }

@@ -1,6 +1,6 @@
 package com.challenge3.app.configuration.security;
 
-import com.challenge3.app.common.response.ResponseAPI;
+import com.challenge3.app.common.response.ApiResponse;
 import io.swagger.v3.core.util.Json;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -25,7 +25,7 @@ public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(
         Json.pretty(
-                new ResponseAPI(HttpStatus.FORBIDDEN.value(), accessDeniedException.getMessage())
+                new ApiResponse<>(HttpStatus.FORBIDDEN.value(), accessDeniedException.getMessage())
         ));
 
     }

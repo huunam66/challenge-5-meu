@@ -6,11 +6,14 @@ import { MainComponent } from './components/main/main.component';
 import { TableProductComponent } from './components/product/table/table-product.component';
 import { DetailUserComponent } from './components/user/detail/detail-user.component';
 import { TableUserComponent } from './components/user/table/table-user.component';
+import { AuthGuardService } from './service/auth-guard.service';
 
 export const routes: Routes = [
   {
     path: '',
     component: MainComponent,
+    canActivate: [AuthGuardService],
+    canActivateChild: [AuthGuardService],
     children: [
       {
         path: '',

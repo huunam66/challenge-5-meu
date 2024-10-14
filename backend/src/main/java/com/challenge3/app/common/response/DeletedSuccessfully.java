@@ -8,7 +8,7 @@ import org.springframework.http.HttpStatus;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 @Data
-public class DeletedSuccessfully extends ResponseAPI {
+public class DeletedSuccessfully<T> extends ApiResponse<T> {
 
     public DeletedSuccessfully(String message) {
         super(true, HttpStatus.OK.value(), message);

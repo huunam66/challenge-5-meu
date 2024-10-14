@@ -1,6 +1,6 @@
 package com.challenge3.app.domain.user.controller.auth;
 
-import com.challenge3.app.common.response.ResponseAPI;
+import com.challenge3.app.common.response.ApiResponse;
 import com.challenge3.app.domain.user.request.GrantRequest;
 import com.challenge3.app.domain.user.request.UserRequest;
 import com.challenge3.app.domain.user.response.GrantSuccessfully;
@@ -19,7 +19,7 @@ import java.util.Map;
 @RestController
 @ResponseBody
 @Tag(name = "Authentication")
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 public class AuthController {
 
     private final AuthService authService;
@@ -30,7 +30,7 @@ public class AuthController {
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(path = "/signin", method = RequestMethod.POST)
-    public ResponseAPI signin(@Valid @RequestBody UserRequest userDTO){
+    public ApiResponse<Map<String, Object>> signin(@Valid @RequestBody UserRequest userDTO){
 
         String token = this.authService.signin(userDTO);
 
@@ -42,17 +42,17 @@ public class AuthController {
         responseEntity.put("token", token);
         responseEntity.put("authentication", true);
 
-        return new SignInSuccessfully(message, responseEntity);
+        return new SignInSuccessfully<>(message, responseEntity);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(path = "/grant", method = RequestMethod.PUT)
-    public ResponseAPI grant(@Valid @RequestBody GrantRequest grantRequest){
+    public ApiResponse<Object> grant(@Valid @RequestBody GrantRequest grantRequest){
 
         this.authService.grant(grantRequest);
 
         String message = "Phân quyền cho người dùng "+grantRequest.getEmail()+" thành công!";
 
-        return new GrantSuccessfully(message);
+        return new GrantSuccessfully<>(message);
     }
 }

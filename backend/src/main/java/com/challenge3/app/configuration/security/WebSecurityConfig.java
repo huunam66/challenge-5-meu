@@ -29,7 +29,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebSecurityConfig implements WebMvcConfigurer  {
 
     private final String[] URL_PERMIT_ALL = new String[]{
-            "/api/auth/signin",
+            "/auth/signin",
 
             "/v3/api-docs/**",
             "/v3/api-docs.yaml",
@@ -83,16 +83,17 @@ public class WebSecurityConfig implements WebMvcConfigurer  {
 
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers(URL_PERMIT_ALL).permitAll()
+                .requestMatchers(URL_PERMIT_ALL)
+                .permitAll()
 
 //                ------------------------------------------------------------------
 
                 .and()
                 .authorizeHttpRequests()
                 .requestMatchers(
-                        new AntPathRequestMatcher("/api/auth/grant", HttpMethod.PUT.name()),
-                        new AntPathRequestMatcher("/api/users/**", HttpMethod.DELETE.name()),
-                        new AntPathRequestMatcher("/api/products/**", HttpMethod.DELETE.name())
+                        new AntPathRequestMatcher("/auth/grant", HttpMethod.PUT.name()),
+                        new AntPathRequestMatcher("/users/**", HttpMethod.DELETE.name()),
+                        new AntPathRequestMatcher("/products/**", HttpMethod.DELETE.name())
                 ).hasRole(ROLE.SUPER_ADMIN.name())
 
 //                ------------------------------------------------------------------
@@ -100,9 +101,9 @@ public class WebSecurityConfig implements WebMvcConfigurer  {
                 .and()
                 .authorizeHttpRequests()
                 .requestMatchers(
-                        new AntPathRequestMatcher("/api/users", HttpMethod.POST.name()),
-                        new AntPathRequestMatcher("/api/products", HttpMethod.POST.name()),
-                        new AntPathRequestMatcher("/api/products/**", HttpMethod.PUT.name())
+                        new AntPathRequestMatcher("/users", HttpMethod.POST.name()),
+                        new AntPathRequestMatcher("/products", HttpMethod.POST.name()),
+                        new AntPathRequestMatcher("/products/**", HttpMethod.PUT.name())
                 ).hasAnyRole(ROLE.ADMIN.name(), ROLE.SUPER_ADMIN.name())
 
 //                ------------------------------------------------------------------
@@ -110,8 +111,8 @@ public class WebSecurityConfig implements WebMvcConfigurer  {
                 .and()
                 .authorizeHttpRequests()
                 .requestMatchers(
-                                "/api/users",
-                                "/api/users/**"
+                                "/users",
+                                "/users/**"
                 ).hasAnyRole(ROLE.ADMIN.name(), ROLE.SUPER_ADMIN.name())
 
 //                ------------------------------------------------------------------
@@ -119,9 +120,9 @@ public class WebSecurityConfig implements WebMvcConfigurer  {
                 .and()
                 .authorizeHttpRequests()
                 .requestMatchers(
-                                "/api/products/**",
-                                "/api/products/search/**",
-                                "/api/products/filter"
+                                "/products/**",
+                                "/products/search/**",
+                                "/products/filter"
                 ).hasAnyRole(ROLE.USER.name(), ROLE.ADMIN.name(), ROLE.SUPER_ADMIN.name())
 
 //                ------------------------------------------------------------------

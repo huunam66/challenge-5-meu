@@ -1,7 +1,9 @@
 
 spring:
   config:
-    import: classpath:openApi.yaml
+    import:
+      - classpath:openApi.yaml
+      - classpath:security.yaml
 
   application:
     name: app
@@ -14,10 +16,10 @@ spring:
   jpa:
     show-sql: true
 
-  security:
-    jwt:
-      secret-key: MIGfMA0GCSqGSIb3DQEBAQUAA4GNA(NguyenHuuNam6602)DCBiQKBgQCmcVQKOmrcYhONb2G1xNztMn2T
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
-
-
+    servlet:
+      path: /api
 

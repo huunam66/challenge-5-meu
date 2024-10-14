@@ -2,7 +2,7 @@ package com.challenge3.app.domain.user.controller.user;
 
 import com.challenge3.app.common.response.DeletedSuccessfully;
 import com.challenge3.app.common.response.IsFound;
-import com.challenge3.app.common.response.ResponseAPI;
+import com.challenge3.app.common.response.ApiResponse;
 import com.challenge3.app.domain.user.request.UserRequest;
 import com.challenge3.app.domain.user.response.SignUpSuccessfully;
 import com.challenge3.app.domain.user.service.UserService;
@@ -18,7 +18,7 @@ import java.util.Map;
 @CrossOrigin({"http://localhost:8080", "http://localhost:4200"})
 @ResponseBody
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/users")
 @Tag(name = "Users")
 public class UserController {
 
@@ -31,19 +31,19 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseAPI save(@Valid @RequestBody UserRequest userDTO){
+    public ApiResponse<Object> save(@Valid @RequestBody UserRequest userDTO){
 
         this.userService.save(userDTO);
 
         String message = "Tạo mới tài khoản thành công!";
 
-        return new SignUpSuccessfully(message);
+        return new SignUpSuccessfully<>(message);
     }
 
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseAPI findAll(){
+    public ApiResponse<Map<String, Object>> findAll(){
 
         List<UserEntity> userEntities = this.userService.findAll();
 
@@ -52,13 +52,13 @@ public class UserController {
         Map<String, Object> responseEntity = new HashMap<>();
         responseEntity.put("users", userEntities);
 
-        return new IsFound(message, responseEntity);
+        return new IsFound<>(message, responseEntity);
     }
 
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(path = "/{email}", method = RequestMethod.GET)
-    public ResponseAPI findByEmail(@PathVariable(name = "email") String email){
+    public ApiResponse<Map<String, Object>> findByEmail(@PathVariable(name = "email") String email){
 
         UserEntity userEntity = this.userService.findByEmail(email);
 
@@ -67,17 +67,17 @@ public class UserController {
         Map<String, Object> responseEntity = new HashMap<>();
         responseEntity.put("user", userEntity);
 
-        return new IsFound(message, responseEntity);
+        return new IsFound<>(message, responseEntity);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(path = "/{email}", method = RequestMethod.DELETE)
-    public ResponseAPI deleteByEmail(@PathVariable(name = "email") String email){
+    public ApiResponse<Object> deleteByEmail(@PathVariable(name = "email") String email){
 
         String emailOldUser = this.userService.deleteByEmail(email);
 
         String message = "Đã xóa người dùng " + emailOldUser + " thành công!";
 
-        return new DeletedSuccessfully(message);
+        return new DeletedSuccessfully<>(message);
     }
 }

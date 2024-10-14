@@ -7,7 +7,7 @@ import java.time.ZonedDateTime;
 
 @NoArgsConstructor
 @Data
-public class ResponseAPI {
+public class ApiResponse<T> {
 
     private boolean status = false;
     private int code;
@@ -17,9 +17,9 @@ public class ResponseAPI {
     private final ZonedDateTime timestamp = ZonedDateTime.now();
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Object responseEntity = null;
+    private T responseEntity = null;
 
-    public ResponseAPI(boolean status, int code, String message, Object responseEntity) {
+    public ApiResponse(boolean status, int code, String message, T responseEntity) {
         this.status = status;
         this.code = code;
         this.message = message;
@@ -27,26 +27,26 @@ public class ResponseAPI {
         injectResponseEntity(responseEntity);
     }
 
-    public ResponseAPI(int code, String message, Object responseEntity) {
+    public ApiResponse(int code, String message, T responseEntity) {
         this.code = code;
         this.message = message;
 
         injectResponseEntity(responseEntity);
     }
 
-    public ResponseAPI(int code, String message) {
+    public ApiResponse(int code, String message) {
         this.code = code;
         this.message = message;
     }
 
-    public ResponseAPI(boolean status, int code, String message) {
+    public ApiResponse(boolean status, int code, String message) {
         this.status = status;
         this.code = code;
         this.message = message;
     }
 
 
-    private void injectResponseEntity(Object responseEntity) {
+    private void injectResponseEntity(T responseEntity) {
         this.responseEntity = responseEntity;
     }
 }

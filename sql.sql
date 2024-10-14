@@ -22,7 +22,7 @@ create table profile(
     identification_code varchar(12),
     bidthday date,
     gender varchar(4),
-    avatar varchar(500),
+    avatar text,
     email varchar(50) not null,
 	constraint pr_profile primary key(id),
     constraint unique_email unique(email),

@@ -58,7 +58,6 @@ export class TableProductComponent implements OnInit, OnDestroy {
     private routeService: RouteService,
     private jwtService: JwtService
   ) {
-    this.jwtService.checkToken();
     this.payloadToken = jwtService.getPayload();
   }
 

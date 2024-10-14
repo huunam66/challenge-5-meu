@@ -8,9 +8,9 @@ import org.springframework.http.HttpStatus;
 @EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
-public class IsFound extends ResponseAPI {
+public class IsFound<T> extends ApiResponse<T> {
 
-    public IsFound(String message, Object responseEntity) {
+    public IsFound(String message, T responseEntity) {
         super(true, HttpStatus.OK.value(), message, responseEntity);
     }
 }

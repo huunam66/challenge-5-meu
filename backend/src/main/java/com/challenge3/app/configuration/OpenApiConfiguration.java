@@ -1,10 +1,15 @@
 package com.challenge3.app.configuration;
 
+import com.challenge3.app.domain.product.controller.ProductController;
+import com.challenge3.app.domain.user.controller.auth.AuthController;
+import com.challenge3.app.domain.user.controller.user.UserController;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.servers.Server;
+import org.springdoc.core.configuration.SpringDocUIConfiguration;
 import org.springdoc.core.models.GroupedOpenApi;
+import org.springdoc.core.properties.SwaggerUiConfigParameters;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,8 +30,8 @@ public class OpenApiConfiguration {
             @Value("${open.api.license.name}") String licenseName,
             @Value("${open.api.license.url}") String licenceUrl,
 
-            @Value("${open.server.localhost.url}") String localhostURL,
-            @Value("${open.server.localhost.description}") String localhostDescription
+            @Value("${open.api.servers.localhost.url}") String localhostURL,
+            @Value("${open.api.servers.localhost.description}") String localhostDescription
     ){
         return new OpenAPI().info(
             new Info()
@@ -46,20 +51,21 @@ public class OpenApiConfiguration {
         ));
     }
 
-//    @Bean
-//    public GroupedOpenApi apiAll() {
-//        return GroupedOpenApi.builder()
-//                .group("api-all")
-//                .packagesToScan("com.challenge3.app.domain")
-//                .build();
-//    }
 
+    @Bean
+    public GroupedOpenApi allApi(){
+        return GroupedOpenApi.builder()
+                .group("api-all")
+                .pathsToMatch("/**")
+                .build();
+    }
 
     @Bean
     public GroupedOpenApi productApi() {
         return GroupedOpenApi.builder()
                 .group("api-products")
-                .packagesToScan("com.challenge3.app.domain.product.controller")
+                .packagesToScan(ProductController.class.getPackageName())
+//                .pathsToMatch("/products/**")
                 .build();
     }
 
@@ -67,7 +73,8 @@ public class OpenApiConfiguration {
     public GroupedOpenApi userApi() {
         return GroupedOpenApi.builder()
                 .group("api-users")
-                .packagesToScan("com.challenge3.app.domain.user.controller.user")
+                .packagesToScan(UserController.class.getPackageName())
+                .pathsToMatch("/users/**")
                 .build();
     }
 
@@ -75,7 +82,8 @@ public class OpenApiConfiguration {
     public GroupedOpenApi authorizeApi() {
         return GroupedOpenApi.builder()
                 .group("api-authorize")
-                .packagesToScan("com.challenge3.app.domain.user.controller.auth")
+                .packagesToScan(AuthController.class.getPackageName())
+                .pathsToMatch("/auth/**")
                 .build();
     }
 

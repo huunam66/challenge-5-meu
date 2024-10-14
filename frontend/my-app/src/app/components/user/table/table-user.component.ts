@@ -52,7 +52,6 @@ constructor(
   private userApiService: UserApiService,
   private jwtService: JwtService
 ) {
-  this.jwtService.checkToken()
   this.payloadToken = jwtService.getPayload();
 }
 
