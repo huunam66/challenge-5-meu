@@ -51,7 +51,7 @@ public class JwtServiceImpl implements JwtService {
     private String buildScope(Collection<? extends GrantedAuthority> grantedAuthorities){
         return grantedAuthorities
                     .stream()
-                    .map(GrantedAuthority::getAuthority)
+                    .map(authority -> authority.getAuthority().split("ROLE_")[1])
                     .collect(Collectors.joining(" "));
     }
 
@@ -69,12 +69,12 @@ public class JwtServiceImpl implements JwtService {
     @Override
     public String generateToken(UserDetails userDetails) {
 
-//        String jti = UUID.randomUUID().toString();
+        String jti = UUID.randomUUID().toString();
 
 //        System.out.println(jti);
 
         Map<String, Object> claims = new HashMap<>();
-//        claims.put("jti", jti);
+        claims.put("jti", jti);
         claims.put("scp", buildScope(userDetails.getAuthorities()));
         claims.put("sub", userDetails.getUsername());
         claims.put("iat", new Date());
@@ -84,7 +84,7 @@ public class JwtServiceImpl implements JwtService {
 
         return Jwts
                 .builder()
-//                .setId(jti)
+                .setId(jti)
                 .setHeaderParam("typ", "JWT")
                 .setClaims(claims)
                 .signWith(

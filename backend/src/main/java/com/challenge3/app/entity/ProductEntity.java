@@ -1,11 +1,7 @@
 package com.challenge3.app.entity;
-
 import java.time.ZonedDateTime;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.ser.ZonedDateTimeSerializer;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -16,8 +12,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.lang.Nullable;
 
 
-
-@JsonIgnoreProperties({"created_at", "updated_at"})
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder

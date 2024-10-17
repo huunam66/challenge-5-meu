@@ -1,34 +1,24 @@
 package com.challenge3.app.entity;
 
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.UuidGenerator;
+import lombok.*;
 
 import java.util.List;
-import java.util.UUID;
 
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
-@Data
+
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 @Builder
-@Entity
+@Entity(name = "wards")
 @Table(name = "wards")
 public class WardEntity {
 
     @Id
-    @UuidGenerator(style = UuidGenerator.Style.RANDOM)
     @Column(name = "id")
-    private UUID id;
+    private String id;
 
     @Column(name = "name")
     private String name;
@@ -45,11 +35,11 @@ public class WardEntity {
     @Column(name = "code_name")
     private String code_name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "district_id")
-    private DistrictsEntity districtsEntity;
+    private DistrictsEntity district;
 
-    @OneToMany(mappedBy = "wardEntity", fetch = FetchType.LAZY)
-    private List<ProfileLocationEntity> profileLocationEntities;
+    @OneToMany(mappedBy = "ward", fetch = FetchType.LAZY)
+    private List<ProfileLocationEntity> profileLocations;
 
 }

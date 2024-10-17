@@ -3,13 +3,14 @@ package com.challenge3.app.configuration;
 import com.challenge3.app.domain.product.controller.ProductController;
 import com.challenge3.app.domain.user.controller.auth.AuthController;
 import com.challenge3.app.domain.user.controller.user.UserController;
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
-import org.springdoc.core.configuration.SpringDocUIConfiguration;
 import org.springdoc.core.models.GroupedOpenApi;
-import org.springdoc.core.properties.SwaggerUiConfigParameters;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,6 +23,12 @@ public class OpenApiConfiguration {
 
 //    --- Dynamic Config ---
 
+    private SecurityScheme createAPIKeyScheme() {
+        return new SecurityScheme().type(SecurityScheme.Type.HTTP)
+                .bearerFormat("JWT")
+                .scheme("bearer");
+    }
+
     @Bean
     public OpenAPI openAPIConfig(
             @Value("${open.api.title}") String title,
@@ -30,8 +37,8 @@ public class OpenApiConfiguration {
             @Value("${open.api.license.name}") String licenseName,
             @Value("${open.api.license.url}") String licenceUrl,
 
-            @Value("${open.api.servers.localhost.url}") String localhostURL,
-            @Value("${open.api.servers.localhost.description}") String localhostDescription
+            @Value("${open.api.servers.url.api}") String serverUrlApi,
+            @Value("${open.api.servers.description}") String serverDescription
     ){
         return new OpenAPI().info(
             new Info()
@@ -46,34 +53,58 @@ public class OpenApiConfiguration {
         ).servers(
                 List.of(
                         new Server()
-                            .url(localhostURL)
-                            .description(localhostDescription)
-        ));
+                                .url(serverUrlApi)
+                                .description(serverDescription)
+        )).addSecurityItem(
+                new SecurityRequirement()
+                        .addList("Bearer Authentication")
+        ).components(
+                new Components()
+                        .addSecuritySchemes("Bearer Authentication", createAPIKeyScheme())
+        );
     }
 
 
     @Bean
     public GroupedOpenApi allApi(){
         return GroupedOpenApi.builder()
-                .group("api-all")
+                .group("all-api")
                 .pathsToMatch("/**")
                 .build();
     }
 
     @Bean
+    public GroupedOpenApi profileApi() {
+        return GroupedOpenApi.builder()
+                .group("profile-api")
+//                .packagesToScan(ProductController.class.getPackageName())
+                .pathsToMatch("/profile/**")
+                .build();
+    }
+
+
+    @Bean
     public GroupedOpenApi productApi() {
         return GroupedOpenApi.builder()
-                .group("api-products")
-                .packagesToScan(ProductController.class.getPackageName())
-//                .pathsToMatch("/products/**")
+                .group("products-api")
+//                .packagesToScan(ProductController.class.getPackageName())
+                .pathsToMatch("/products/**")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi locationApi() {
+        return GroupedOpenApi.builder()
+                .group("location-api")
+                .pathsToMatch("/location/**")
                 .build();
     }
 
     @Bean
     public GroupedOpenApi userApi() {
         return GroupedOpenApi.builder()
-                .group("api-users")
-                .packagesToScan(UserController.class.getPackageName())
+                .group("users-api")
+//                .packagesToScan(UserController.class.getPackageName())
                 .pathsToMatch("/users/**")
                 .build();
     }
@@ -81,31 +112,10 @@ public class OpenApiConfiguration {
     @Bean
     public GroupedOpenApi authorizeApi() {
         return GroupedOpenApi.builder()
-                .group("api-authorize")
-                .packagesToScan(AuthController.class.getPackageName())
+                .group("authorize-api")
+//                .packagesToScan(AuthController.class.getPackageName())
                 .pathsToMatch("/auth/**")
                 .build();
     }
 
-//    --- Static Config ---
-//    @Bean
-//    public OpenAPI openAPIConfig(){
-//        return new OpenAPI().info(
-//                new Info()
-//                        .title("API Challenge-5-meu documentation")
-//                        .version("v2.6.0")
-//                        .description("API Challenge-5-meu")
-//                        .license(
-//                                new License()
-//                                        .name("Api license")
-//                                        .url("https://github.com/challenge3/challenge-5-meu")
-//                        )
-//        ).servers(
-//                List.of(
-//                        new Server()
-//                                .url("http://localhost:8080")
-//                                .description("server test")
-//                )
-//        );
-//    }
 }

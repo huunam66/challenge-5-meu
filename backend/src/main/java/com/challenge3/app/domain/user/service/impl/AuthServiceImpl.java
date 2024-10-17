@@ -2,9 +2,10 @@ package com.challenge3.app.domain.user.service.impl;
 
 import com.challenge3.app.configuration.auth.jwt.JwtService;
 import com.challenge3.app.configuration.auth.role.ROLE;
+import com.challenge3.app.domain.user.dto.AuthorityDTO;
+import com.challenge3.app.domain.user.dto.UserDTO;
 import com.challenge3.app.domain.user.request.GrantRequest;
 import com.challenge3.app.domain.user.service.AuthService;
-import com.challenge3.app.entity.RoleEntity;
 import com.challenge3.app.entity.UserEntity;
 import com.challenge3.app.domain.user.request.UserRequest;
 import com.challenge3.app.exception.IsNullOrEmptyException;
@@ -13,13 +14,9 @@ import com.challenge3.app.exception.NotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
-
-
-import java.util.Arrays;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -28,37 +25,37 @@ public class AuthServiceImpl implements AuthService {
 
     private final AuthenticationManager authenticationManager;
 
-    private final UserDetailsService userDetailsService;
-
     private final JwtService jwtService;
 
     public AuthServiceImpl(UserRepository userRepository,
                            AuthenticationManager authenticationManager,
-                           UserDetailsService userDetailsService,
                            JwtService jwtService) {
 
         this.userRepository = userRepository;
         this.authenticationManager = authenticationManager;
-        this.userDetailsService = userDetailsService;
         this.jwtService = jwtService;
     }
 
     @Override
-    public String signin(UserRequest userDTO) throws AuthenticationException {
+    public String signin(UserRequest userRequest) throws AuthenticationException {
 
-        System.out.println(userDTO);
+//        System.out.println(userRequest);
 
-        if(userDTO == null) throw new IsNullOrEmptyException("Đầu vào không hợp lệ!");
+        if(userRequest == null) throw new IsNullOrEmptyException("Đầu vào không hợp lệ!");
 
-        UserDetails userDetails = userDetailsService.loadUserByUsername(userDTO.getEmail());
-
-        this.authenticationManager.authenticate(
+        Authentication authentication = this.authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        userDTO.getEmail(), userDTO.getPassword()
+                        userRequest.getEmail(), userRequest.getPassword()
                 )
         );
 
-        return jwtService.generateToken(userDetails);
+        return jwtService.generateToken(
+            UserDTO.builder().email(authentication.getName()).authority(
+                    AuthorityDTO.builder().name(
+                            ROLE.valueOf(authentication.getAuthorities().stream().toList().get(0).getAuthority().split("ROLE_")[1])
+                    ).build()
+            ).build()
+        );
     }
 
     @Transactional
@@ -67,15 +64,15 @@ public class AuthServiceImpl implements AuthService {
 
         if(grantRequest == null) throw new IsNullOrEmptyException("Đầu vào không hợp lệ!");
 
-        UserEntity userEntity = userRepository.findByEmail(grantRequest.getEmail()).orElseThrow(
+        UserEntity userEntity = userRepository.findById(grantRequest.getEmail()).orElseThrow(
                 () -> new NotFoundException("Email không tồn tại!")
         );
 
-        boolean isSuperAdmin = userEntity.getRoleEntities().getRole().equals(ROLE.SUPER_ADMIN);
+        boolean isSuperAdmin = userEntity.getAuthority().getName().equals(ROLE.SUPER_ADMIN);
 
         if(isSuperAdmin) throw new RuntimeException("Không thể phân quyền cho nhân viên cao nhất!");
 
-        userEntity.getRoleEntities().setRole(grantRequest.getRole());
+        userEntity.getAuthority().setName(grantRequest.getRole());
 
         this.userRepository.save(userEntity);
     }

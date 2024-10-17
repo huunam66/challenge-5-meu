@@ -1,33 +1,21 @@
 package com.challenge3.app.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.UuidGenerator;
+import lombok.*;
 
 import java.util.List;
-import java.util.UUID;
 
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 @Builder
-@Entity
+@Entity(name = "provinces")
 @Table(name = "provinces")
 public class ProvinceEntity {
 
-
     @Id
-    @UuidGenerator(style = UuidGenerator.Style.RANDOM)
     @Column(name = "id")
-    private UUID id;
+    private String id;
 
     @Column(name = "name")
     private String name;
@@ -44,10 +32,8 @@ public class ProvinceEntity {
     @Column(name = "code_name")
     private String code_name;
 
-    @OneToMany(mappedBy = "provinceEntity", fetch = FetchType.LAZY)
-    private List<DistrictsEntity> districtsEntities;
+    @OneToMany(mappedBy = "province", fetch = FetchType.LAZY)
+    private List<DistrictsEntity> districts;
 
-    @OneToMany(mappedBy = "provinceEntity", fetch = FetchType.LAZY)
-    private List<ProfileLocationEntity> profileLocationEntities;
 
 }

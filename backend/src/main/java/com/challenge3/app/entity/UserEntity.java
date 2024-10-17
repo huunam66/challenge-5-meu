@@ -1,31 +1,18 @@
 package com.challenge3.app.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import org.hibernate.annotations.CascadeType;
+import jakarta.persistence.Table;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
-import org.hibernate.annotations.Cascade;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-import java.util.Collection;
-import java.util.List;
 
 
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 @Data
-@Entity
-@Table(name = "user")
-public class UserEntity implements UserDetails {
+@Builder
+@Entity(name = "users")
+@Table(name = "users")
+public class UserEntity {
 
     @Id
     @NotBlank(message = "Email là bắt buộc!")
@@ -37,55 +24,20 @@ public class UserEntity implements UserDetails {
     @Column(name = "email", nullable = false, updatable = false, unique = true)
     private String email;
 
-
-    @JsonIgnore
     @NotBlank(message = "Mật khẩu là bắt buộc!")
     @NotNull(message = "Mật khẩu là bắt buộc!")
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Column(name = "enabled", nullable = false)
+    private boolean enabled;
 
-    @OneToOne(mappedBy = "userEntity", fetch = FetchType.LAZY)
-    @Cascade(CascadeType.ALL)
-    private ProfileEntity profileEntity;
+    @ToString.Exclude
+    @OneToOne(mappedBy = "user")
+    private ProfileEntity profile;
 
-    @OneToOne(mappedBy = "userEntity", fetch = FetchType.EAGER)
-    @Cascade(CascadeType.ALL)
-    private RoleEntity roleEntities;
-
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return this.roleEntities.stream().map(roleEntity ->
-//                new SimpleGrantedAuthority("ROLE_"+roleEntity.getRole())
-//        ).toList();
-
-        return List.of(this.roleEntities);
-    }
-
-    @Override
-    public String getUsername() {
-        return this.getEmail();
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
+    @ToString.Exclude
+    @OneToOne(mappedBy = "user")
+    private AuthoritiesEntity authority;
 
 }

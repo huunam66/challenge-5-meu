@@ -24,10 +24,9 @@ import java.util.Map;
 @ControllerAdvice
 public class ExceptionHandlerGlobal {
 
-    // Bắt ngoại lệ khi các fields của một đối tượng không thỏa mãn Validation
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ApiResponse handleInvalidFields(MethodArgumentNotValidException ex) {
+    public ApiResponse<Map<String, Object>> handleInvalidFields(MethodArgumentNotValidException ex) {
 
         BindingResult bindingResult = ex.getBindingResult();
 
@@ -43,58 +42,58 @@ public class ExceptionHandlerGlobal {
         Map<String, Object> responseEntity = new HashMap<>();
         responseEntity.put("invalidFields", errors);
 
-        return new ApiResponse(HttpStatus.BAD_REQUEST.value(), message, responseEntity);
+        return new ApiResponse<>(HttpStatus.BAD_REQUEST.value(), message, responseEntity);
     }
 
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ApiResponse handleRuntimeException(Exception e) {
-        return new ApiResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
+    public ApiResponse<Object> handleRuntimeException(Exception e) {
+        return new ApiResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), e.getMessage());
     }
 
     @ExceptionHandler(HttpClientErrorException.class)
-    public ApiResponse handleHttpClientErrorException(HttpClientErrorException e) {
-        return new ApiResponse(e.getStatusCode().value(), e.getMessage());
+    public ApiResponse<Object> handleHttpClientErrorException(HttpClientErrorException e) {
+        return new ApiResponse<>(e.getStatusCode().value(), e.getMessage());
     }
 
     @ExceptionHandler(HttpServerErrorException.class)
-    public ApiResponse handleHttpServerErrorException(HttpServerErrorException e) {
-        return new ApiResponse(e.getStatusCode().value(), e.getMessage());
+    public ApiResponse<Object> handleHttpServerErrorException(HttpServerErrorException e) {
+        return new ApiResponse<>(e.getStatusCode().value(), e.getMessage());
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler({NotFoundException.class, IsNullOrEmptyException.class})
-    public ApiResponse handleNotFoundIsNullOrEmpty(Exception e) {
-        return new ApiResponse(HttpStatus.NOT_FOUND.value(), e.getMessage());
+    public ApiResponse<Object> handleNotFoundIsNullOrEmpty(Exception e) {
+        return new ApiResponse<>(HttpStatus.NOT_FOUND.value(), e.getMessage());
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(UsernameNotFoundException.class)
-    public ApiResponse handleUsernameNotFoundException(Exception e) {
+    public ApiResponse<Map<String, Object>> handleUsernameNotFoundException(Exception e) {
 
         Map<String, Object> responseEntity = new HashMap<>();
         responseEntity.put("authentication", false);
 
-        return new ApiResponse(HttpStatus.UNAUTHORIZED.value(), e.getMessage(), responseEntity);
+        return new ApiResponse<>(HttpStatus.UNAUTHORIZED.value(), e.getMessage(), responseEntity);
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler({BadCredentialsException.class, AuthenticationException.class})
-    public ApiResponse handleBadCredentialsException(Exception ignored) {
+    public ApiResponse<Map<String, Object>> handleBadCredentialsException(Exception ignored) {
 
         String message = "Sai email hoặc mất khẩu!";
 
         Map<String, Object> responseEntity = new HashMap<>();
         responseEntity.put("authentication", false);
 
-        return new ApiResponse(HttpStatus.UNAUTHORIZED.value(), message, responseEntity);
+        return new ApiResponse<>(HttpStatus.UNAUTHORIZED.value(), message, responseEntity);
     }
 
 
-    @ResponseStatus(HttpStatus.NOT_MODIFIED)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BadRequestException.class)
-    public ApiResponse handleBadSavedException(BadRequestException e) {
-        return new ApiResponse(HttpStatus.NOT_MODIFIED.value(), e.getMessage());
+    public ApiResponse<Object> handleBadSavedException(BadRequestException e) {
+        return new ApiResponse<>(HttpStatus.BAD_REQUEST.value(), e.getMessage());
     }
 
 }

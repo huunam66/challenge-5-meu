@@ -8,14 +8,12 @@ open:
       url: "https://github.com/challenge3/challenge-5-meu"
 
     servers:
-      localhost:
-        url: "http://localhost:8080"
+        url:
+          api: "http://localhost:8080/api"
         description: "server challenge 5 meu"
 
 
 springdoc:
   swagger-ui:
-    path: /swagger-ui.html
     tags-sorter: alpha
     operations-sorter: alpha
-

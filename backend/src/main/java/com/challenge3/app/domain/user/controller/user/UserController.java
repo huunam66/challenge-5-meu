@@ -3,10 +3,10 @@ package com.challenge3.app.domain.user.controller.user;
 import com.challenge3.app.common.response.DeletedSuccessfully;
 import com.challenge3.app.common.response.IsFound;
 import com.challenge3.app.common.response.ApiResponse;
+import com.challenge3.app.domain.user.dto.UserDTO;
 import com.challenge3.app.domain.user.request.UserRequest;
 import com.challenge3.app.domain.user.response.SignUpSuccessfully;
 import com.challenge3.app.domain.user.service.UserService;
-import com.challenge3.app.entity.UserEntity;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -45,12 +45,12 @@ public class UserController {
     @RequestMapping(method = RequestMethod.GET)
     public ApiResponse<Map<String, Object>> findAll(){
 
-        List<UserEntity> userEntities = this.userService.findAll();
+        List<UserDTO> userModels = this.userService.findAll();
 
         String message = "Danh sách người dùng hiện có!";
 
         Map<String, Object> responseEntity = new HashMap<>();
-        responseEntity.put("users", userEntities);
+        responseEntity.put("users", userModels);
 
         return new IsFound<>(message, responseEntity);
     }
@@ -60,12 +60,12 @@ public class UserController {
     @RequestMapping(path = "/{email}", method = RequestMethod.GET)
     public ApiResponse<Map<String, Object>> findByEmail(@PathVariable(name = "email") String email){
 
-        UserEntity userEntity = this.userService.findByEmail(email);
+        UserDTO userModel = this.userService.findByEmail(email);
 
-        String message = "Người dùng " + userEntity.getEmail() + " tồn tại!";
+        String message = "Người dùng " + userModel.getEmail() + " tồn tại!";
 
         Map<String, Object> responseEntity = new HashMap<>();
-        responseEntity.put("user", userEntity);
+        responseEntity.put("user", userModel);
 
         return new IsFound<>(message, responseEntity);
     }
@@ -80,4 +80,7 @@ public class UserController {
 
         return new DeletedSuccessfully<>(message);
     }
+
+
+
 }

@@ -1,0 +1,56 @@
+<div class="flex justify-center p-2 bg-colorHeader">
+  <div class="w-[1280px] m-auto max-w-full p-4 flex">
+    <ul class="flex items-center space-x-8 w-full">
+      <li class="relative flex items-center justify-center w-12">
+        <img class="absolute w-full h-12 rounded-md"
+          src="https://luwrwuelkuqmpelrdzop.supabase.co/storage/v1/object/public/common/logo-meu.jfif" />
+      </li>
+      <li>
+        <a [routerLink]="['/product']" [routerLinkActive]="'active'"
+          class=" no-underline p-4 py-2 rounded-md text-base text-white cursor-pointer">Sản phẩm</a>
+      </li>
+
+      @if(this?.payloadToken?.scp?.includes("ROLE_SUPER_ADMIN") || this?.payloadToken?.scp?.includes("ROLE_ADMIN")){
+      <li>
+        <a [routerLink]="['/user']" routerLinkActive="active"
+          class=" no-underline p-4 py-2 rounded-md text-base text-white cursor-pointer">Nhân sự</a>
+      </li>
+      }
+    </ul>
+    <ul class="relative group flex justify-center menu">
+      <li>
+        <div
+          class="text-lg text-white p-4 py-2 rounded-full hover:shadow-xl cursor-pointer flex items-center justify-center relative">
+          <span class="scale-150 duration-300 flex space-x-4">
+            <mat-icon>
+              account_circle
+            </mat-icon>
+          </span>
+        </div>
+      </li>
+      <li class="absolute top-14 hidden group-hover:block">
+        <ul class="w-52 rounded-md overflow-hidden shadow-2xl">
+          <li class="min-w-full">
+            <div
+              class="w-full max-w-[220px] select-none flex items-center space-x-2 p-4 py-2 text-left bg-slate-950 shadow-xl text-lg text-gray-50 cursor-pointer whitespace-nowrap">
+
+              <span class="text-ellipsis overflow-hidden">{{this.payloadToken.sub}}</span>
+            </div>
+          </li>
+          <li class="min-w-full">
+            <button (click)=" onLogout()"
+              class="w-full flex items-center space-x-2 p-4 py-2 text-left bg-gray-50 shadow-xl hover:bg-gray-200 text-lg text-slate-950 cursor-pointer whitespace-nowrap">
+              <mat-icon>
+                <span class="material-symbols-outlined">
+                  logout
+                </span>
+              </mat-icon>
+
+              <span class="text-ellipsis overflow-hidden">Đăng xuất</span>
+            </button>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>

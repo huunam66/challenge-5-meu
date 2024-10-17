@@ -13,6 +13,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -21,6 +23,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import javax.sql.DataSource;
 
 @Configuration
 @EnableWebMvc
@@ -51,6 +55,7 @@ public class WebSecurityConfig implements WebMvcConfigurer  {
         this.accessDeniedHandler = accessDeniedHandler;
         this.jwtRequestFilter = jwtRequestFilter;
     }
+
 
 
     @Override
@@ -91,6 +96,16 @@ public class WebSecurityConfig implements WebMvcConfigurer  {
                 .and()
                 .authorizeHttpRequests()
                 .requestMatchers(
+                        "/products/**",
+                        "/location/**",
+                        "/profile/**"
+                ).authenticated()
+
+//                ------------------------------------------------------------------
+
+                .and()
+                .authorizeHttpRequests()
+                .requestMatchers(
                         new AntPathRequestMatcher("/auth/grant", HttpMethod.PUT.name()),
                         new AntPathRequestMatcher("/users/**", HttpMethod.DELETE.name()),
                         new AntPathRequestMatcher("/products/**", HttpMethod.DELETE.name())
@@ -114,16 +129,6 @@ public class WebSecurityConfig implements WebMvcConfigurer  {
                                 "/users",
                                 "/users/**"
                 ).hasAnyRole(ROLE.ADMIN.name(), ROLE.SUPER_ADMIN.name())
-
-//                ------------------------------------------------------------------
-
-                .and()
-                .authorizeHttpRequests()
-                .requestMatchers(
-                                "/products/**",
-                                "/products/search/**",
-                                "/products/filter"
-                ).hasAnyRole(ROLE.USER.name(), ROLE.ADMIN.name(), ROLE.SUPER_ADMIN.name())
 
 //                ------------------------------------------------------------------
 

@@ -1,33 +1,28 @@
 package com.challenge3.app.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import org.hibernate.annotations.CascadeType;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import jakarta.persistence.Table;
+import lombok.*;
+import org.hibernate.annotations.*;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.UuidGenerator;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.type.SqlTypes;
 
+import java.sql.SQLType;
 import java.util.Date;
 import java.util.UUID;
 
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 @Builder
-@Entity
+@Entity(name = "profile")
 @Table(name = "profile")
 public class ProfileEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @JdbcTypeCode(SqlTypes.VARCHAR)
     @Column(name = "id")
-    @UuidGenerator(style = UuidGenerator.Style.RANDOM)
     private UUID id;
 
     @Column(name = "first_name")
@@ -48,15 +43,11 @@ public class ProfileEntity {
     @Column(name = "avatar")
     private String avatar;
 
-    @Column(name = "email")
-    private String email;
-
     @JoinColumn(name = "email")
-    @OneToOne(fetch = FetchType.EAGER)
-    private UserEntity userEntity;
+    @OneToOne
+    private UserEntity user;
 
-
-    @OneToOne(mappedBy = "profileEntity", fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "profile")
     @Cascade(CascadeType.ALL)
-    private ProfileLocationEntity profileLocationEntity;
+    private ProfileLocationEntity profileLocation;
 }

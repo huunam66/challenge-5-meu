@@ -2,48 +2,46 @@
 create database if not exists challenge3meu;
 use challenge3meu;
 
-create table user(
+create table users(
 	email varchar(50) primary key not null unique,
-    password varchar(500) not null
+    password varchar(500) not null,
+    enabled boolean default true
 );
 
-create table role(
+create table roles(
 	email varchar(50) not null primary key,
-    role varchar(50) not null,
-    constraint check_roles check (role = 'USER' or role = 'ADMIN' or role = 'SUPER_ADMIN'),
-    constraint fk_email foreign key(email) references user(email) on delete cascade,
-    constraint fk_unique_email_role unique(email, role)
+    name varchar(50) not null,
+    constraint check_name check (name = 'USER' or name = 'ADMIN' or name = 'SUPER_ADMIN'),
+    constraint fk_email foreign key(email) references users(email) on delete cascade,
+    constraint fk_unique_email_role unique(email, name)
 );
 
 create table profile(
-	id varchar(30) not null,
+	id varchar(36) not null,
     first_name varchar(100),
     last_name varchar(100),
     identification_code varchar(12),
-    bidthday date,
+    birthday date,
     gender varchar(4),
     avatar text,
     email varchar(50) not null,
 	constraint pr_profile primary key(id),
     constraint unique_email unique(email),
-    constraint fk_email__profile foreign key(email) references user(email)
+    constraint fk_email__profile foreign key(email) references users(email)
 );
 
 create table profile_location(
-	id varchar(30) not null,
+	id varchar(36) not null,
     home_number varchar(50),
     street varchar(50),
-    profile_id varchar(30) not null,
+    profile_id char(36) not null,
     ward_id varchar(30) not null,
-    district_id varchar(30) not null,
-    province_id varchar(30) not null,
     country varchar(30) default 'Việt Nam',
     constraint pr_profile_location primary key(id),
     constraint fk_profile_id__profile_location foreign key(profile_id) references profile(id),
-    constraint fk_ward_code__profile_location foreign key(ward_id) references wards(id),
-    constraint fk_district_code__profile_address foreign key(district_id) references districts(id),
-    constraint fk_province_code__profile_address foreign key(province_id) references provinces(id)
+    constraint fk_ward_code__profile_location foreign key(ward_id) references wards(id)
 );
+	
 
 CREATE TABLE products (
   id bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT primary key,
@@ -57,8 +55,8 @@ CREATE TABLE products (
   updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
-insert into user(email, password) values('superadmin123123@gmail.com', 'SuperAdmin123123');
-insert into role(email, role) values('superadmin123123@gmail.com', 'SUPER_ADMIN');
+insert into users(email, password) values('superadmin123123@gmail.com', '$2a$12$J2bN8fE4eu/fEGd/ay0adOUBMNB5KPA/qrS9DNZVOzZlK0AI83SFm');
+insert into roles(email, name) values('superadmin123123@gmail.com', 'SUPER_ADMIN');
 
 INSERT INTO `products` (`id`, `code`, `name`, `category`, `brand`, `type`, `description`) VALUES (1, "P001", "MASK ADULT Surgical 3 ply 50'S MEDICOS with box", "Health Accessories", "Medicos", "Hygiene", "Colour: Blue (ear loop outside, ear loop inside- random assigned), Green, Purple, White, Lime Green, Yellow, Pink");
 INSERT INTO `products` (`id`, `code`, `name`, `category`, `brand`, `description`) VALUES (2, "P002", "Party Cosplay Player Unknown Battlegrounds Clothes Hallowmas PUBG", "Men's Clothing", "No Brand", "Suitable for adults and children.");

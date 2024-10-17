@@ -17,21 +17,21 @@ public class ApiResponse<T> {
     private final ZonedDateTime timestamp = ZonedDateTime.now();
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private T responseEntity = null;
+    private T data = null;
 
-    public ApiResponse(boolean status, int code, String message, T responseEntity) {
+    public ApiResponse(boolean status, int code, String message, T data) {
         this.status = status;
         this.code = code;
         this.message = message;
 
-        injectResponseEntity(responseEntity);
+        injectResponseEntity(data);
     }
 
-    public ApiResponse(int code, String message, T responseEntity) {
+    public ApiResponse(int code, String message, T data) {
         this.code = code;
         this.message = message;
 
-        injectResponseEntity(responseEntity);
+        injectResponseEntity(data);
     }
 
     public ApiResponse(int code, String message) {
@@ -46,7 +46,7 @@ public class ApiResponse<T> {
     }
 
 
-    private void injectResponseEntity(T responseEntity) {
-        this.responseEntity = responseEntity;
+    private void injectResponseEntity(T data) {
+        this.data = data;
     }
 }
