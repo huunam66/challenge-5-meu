@@ -11,7 +11,7 @@ import java.util.Optional;
 
 public interface WardRepository extends JpaRepository<WardEntity, String> {
 
-    @Query("SELECT w FROM wards w WHERE w.district.id = :district_id")
+    @Query("SELECT w FROM wards w WHERE w.district.id = :district_id ORDER BY w.full_name")
     List<WardEntity> findALlWardByDistrictId(@Param("district_id") String district_id);
 
     @EntityGraph(attributePaths = {"district"})

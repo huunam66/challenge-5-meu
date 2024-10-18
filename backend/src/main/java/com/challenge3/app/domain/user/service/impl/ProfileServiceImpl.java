@@ -5,6 +5,7 @@ import com.challenge3.app.domain.user.dto.ProfileDTO;
 import com.challenge3.app.domain.user.dto.ProfileLocationDTO;
 import com.challenge3.app.domain.user.repository.ProfileRepository;
 import com.challenge3.app.domain.user.repository.UserRepository;
+import com.challenge3.app.domain.user.request.UploadAvatar;
 import com.challenge3.app.domain.user.service.ProfileService;
 import com.challenge3.app.entity.ProfileEntity;
 import com.challenge3.app.entity.ProfileLocationEntity;
@@ -71,7 +72,7 @@ public class ProfileServiceImpl implements ProfileService {
 
         if(profileEntity == null){
             UserEntity userEntity = this.userRepository.findByEmail(email).orElseThrow(
-                    () -> new NotFoundException("Người dùng không tồn tại!")
+                    () -> new NotFoundException("Người dùng "+email+" không tồn tại!")
             );
 
             profileEntity = ProfileEntity.builder().user(userEntity).profileLocation(
@@ -88,7 +89,7 @@ public class ProfileServiceImpl implements ProfileService {
 
         profileLocationEntity.setHome_number(profileLocationDTO.getHome_number());
         profileLocationEntity.setStreet(profileLocationDTO.getStreet());
-        profileLocationEntity.setCountry(profileLocationDTO.getCountry());
+        profileLocationEntity.setCountry("Việt Nam");
 
         if(profileLocationEntity.getWard() == null || !profileLocationEntity.getWard().getId().equals(profileLocationDTO.getWard().getId())){
             profileLocationEntity.setWard(
@@ -104,7 +105,10 @@ public class ProfileServiceImpl implements ProfileService {
 
 
     @Override
-    public void uploadAvatar(String email, MultipartFile file) throws Exception {
+    public String uploadAvatar(UploadAvatar uploadAvatar) throws Exception {
+
+        String email = uploadAvatar.getEmail();
+        MultipartFile file = uploadAvatar.getFile();
 
         if(file == null || file.isEmpty())
             throw new BadRequestException("File không hợp lệ!");
@@ -123,7 +127,7 @@ public class ProfileServiceImpl implements ProfileService {
 
         if(profileEntity == null){
             UserEntity userEntity = this.userRepository.findByEmail(email).orElseThrow(
-                    () -> new NotFoundException("Người dùng không tồn tại!")
+                    () -> new NotFoundException("Người dùng " +uploadAvatar.getEmail()+" không tồn tại!")
             );
 
             profileEntity = ProfileEntity.builder().user(userEntity).profileLocation(null).build();
@@ -133,6 +137,17 @@ public class ProfileServiceImpl implements ProfileService {
 
         profileEntity.setAvatar(imageBase64);
 
-        this.profileRepository.save(profileEntity);
+        return this.profileRepository.save(profileEntity).getAvatar();
+    }
+
+    @Override
+    public ProfileDTO getProfileAndLocationByUserEmail(String email) {
+
+        System.out.println("HELLOOOOOO");
+        ProfileEntity profileEntity = this.profileRepository.findProfileLocationByUsername(email).orElseThrow(
+                () -> new IsNullOrEmptyException("Thông tin người dùng " + email + " không tồn tại!")
+        );
+
+        return this.modelMapper.map(profileEntity, ProfileDTO.class);
     }
 }

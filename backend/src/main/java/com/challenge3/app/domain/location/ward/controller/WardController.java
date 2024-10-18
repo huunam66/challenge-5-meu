@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -28,6 +29,7 @@ public class WardController {
         this.wardService = wardService;
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @RequestMapping(path = "/wards", method = RequestMethod.GET)
     public ApiResponse<Map<String, Object>> findALlWardByDistrictId(
             @RequestParam(name = "district_id") String district_id,
@@ -55,6 +57,7 @@ public class WardController {
 
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @RequestMapping(path = "/wards/{id}", method = RequestMethod.GET)
     public ApiResponse<Map<String, Object>> findWardDById(
             @PathVariable(name = "id") String id,

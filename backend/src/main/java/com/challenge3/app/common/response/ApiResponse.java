@@ -3,6 +3,7 @@ package com.challenge3.app.common.response;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
+import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
 
 @NoArgsConstructor
@@ -14,7 +15,7 @@ public class ApiResponse<T> {
     private String message;
 
     // OffsetDateTime
-    private final ZonedDateTime timestamp = ZonedDateTime.now();
+    private final long timestamp = ZonedDateTime.now().toEpochSecond();
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private T data = null;

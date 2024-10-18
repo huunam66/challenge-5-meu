@@ -1,0 +1,13 @@
+.input-field{
+
+  animation: border-effect .4s ease-in;
+
+  @keyframes border-effect {
+    0%{
+      @apply border-gray-700
+    }
+    100%{
+      @apply border-gray-300
+    }
+  }
+}

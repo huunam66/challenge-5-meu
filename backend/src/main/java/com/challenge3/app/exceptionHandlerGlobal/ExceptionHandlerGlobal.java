@@ -69,7 +69,7 @@ public class ExceptionHandlerGlobal {
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(UsernameNotFoundException.class)
-    public ApiResponse<Map<String, Object>> handleUsernameNotFoundException(Exception e) {
+    public ApiResponse<Map<String, Object>> handleUsernameNotFoundException(UsernameNotFoundException e) {
 
         Map<String, Object> responseEntity = new HashMap<>();
         responseEntity.put("authentication", false);
@@ -78,8 +78,19 @@ public class ExceptionHandlerGlobal {
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    @ExceptionHandler({BadCredentialsException.class, AuthenticationException.class})
-    public ApiResponse<Map<String, Object>> handleBadCredentialsException(Exception ignored) {
+    @ExceptionHandler(AuthenticationException.class)
+    public ApiResponse<Map<String, Object>> handleBadCredentialsException(AuthenticationException ex) {
+
+        Map<String, Object> responseEntity = new HashMap<>();
+        responseEntity.put("authentication", false);
+
+        return new ApiResponse<>(HttpStatus.UNAUTHORIZED.value(), ex.getMessage(), responseEntity);
+    }
+
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(BadCredentialsException.class)
+    public ApiResponse<Map<String, Object>> handleErrorCredentialsException(BadCredentialsException ignored) {
 
         String message = "Sai email hoặc mất khẩu!";
 

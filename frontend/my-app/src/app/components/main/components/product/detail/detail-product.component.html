@@ -1,0 +1,233 @@
+@if(this.isConfirmExit && this.isEditView){
+<app-confirm-box [isOpenConfirmBox]="this.isConfirmExit" [ok]="'OK'" [cancel]="'Quay lại'" [typeConfirm]="'question'"
+  [messageContent]="'Hủy bỏ chỉnh sửa sản phẩm?'" (cancelClick)="onCancelConfirmExit()"
+  (okClick)="onOkExitFormSave()"></app-confirm-box>
+} @if(this.isConfirmSave && this.isEditView){
+<app-confirm-box [isOpenConfirmBox]="this.isConfirmSave" [ok]="'OK'" [cancel]="'Quay lại'" [typeConfirm]="'question'"
+  [messageContent]="
+    'Đồng ý chỉnh sửa sản phẩm ' + this.productEdit.name + '?'
+  " [isLoading]="this.isLoading" (cancelClick)="onCancelConfirmSave()" (okClick)="onSavingProduct()"></app-confirm-box>
+} @if(this.isConfirmDelete){
+<app-confirm-box [isOpenConfirmBox]="this.isConfirmDelete" [ok]="'OK'" [cancel]="'Quay lại'" [typeConfirm]="'question'"
+  [messageContent]="'Chắc chắn muốn xóa ' + this.productDetail.name + '?'" [isLoading]="this.isLoading"
+  (cancelClick)="onCancelConfirmDelete()" (okClick)="onDeleteProduct()"></app-confirm-box>
+}
+
+<div class="fixed z-[9999] top-0 left-0 right-0 bottom-0 flex justify-center items-center">
+  <div (click)="onClose()" class="absolute top-0 left-0 w-full h-full z-40 backdrop-blur-md bg-white-opa01"></div>
+
+  <div [ngClass]="
+      this.isOpenThis ? 'form-detail-product-vsb' : 'form-detail-product-hid'
+    " class="form-create-product p-10 pt-[72px] bg-white rounded-md overflow-hidden shadow-2xl w-[640px] z-50 mx-2">
+    <div class="absolute top-0 left-0 flex w-full justify-between items-center p-2 px-4 bg-gray-100">
+      <p class="!m-0 flex items-center">
+        @if(this.isDetailView){
+        <mat-icon class="text-gray-500 mr-2"> description </mat-icon>
+        <span class="font-medium text-slate-700">Chi tiết sản phẩm</span>
+        } @if(this.isEditView){
+        <mat-icon class="text-blue-500 mr-2"> edit_square </mat-icon>
+        <span class="font-medium text-slate-700">Chỉnh sửa sản phẩm</span>
+        }
+      </p>
+      <button (click)="onClose()" class="leading-[0] rounded-md bg-red-500 hover:bg-red-600 duration-300">
+        <mat-icon class="w-24 h-24 text-white"> close </mat-icon>
+      </button>
+    </div>
+    <div class="text-center flex justify-end text-lg mb-8">
+      @if(this?.payloadToken?.scp === "ADMIN" || this?.payloadToken?.scp === "SUPER_ADMIN"){
+      <div
+        class="p-2 px-6 flex items-center rounded-md bg-slate-700 shadow-md space-x-6 leading-[0] transition-all duration-300">
+        @if(!isEditView){
+        @if(this?.payloadToken?.scp === "SUPER_ADMIN"){
+        <div class="deleteProduct">
+          <mat-icon (click)="onConfirmDelete()" [ngClass]="{ deleteProduct: true }"
+            class="text-slate-50 hover:text-red-500 duration-300 cursor-pointer">
+            delete
+          </mat-icon>
+        </div>
+        }
+        <div class="editProduct">
+          <mat-icon (click)="onTurnEditView()" [ngClass]="{ editProduct: true }"
+            class="text-slate-50 hover:text-blue-500 duration-300 cursor-pointer">
+            edit_square
+          </mat-icon>
+        </div>
+        }@else {
+        <div class="backToDetailView">
+          <mat-icon (click)="backToDetailView()" [ngClass]="{ editProduct: true }"
+            class="text-slate-50 hover:text-blue-500 duration-300 cursor-pointer">
+            arrow_back
+          </mat-icon>
+        </div>
+        }
+      </div>
+      }
+    </div>
+    <div class="w-full space-y-4">
+      <div
+        class="flex flex-col md:flex-row w-full md:items-center md:space-y-0 space-y-2 border-b border-b-gray-200 pb-4">
+        <label class="text-left text-base text-slate-950 w-[140px]"><span class="option">Mã:</span></label>
+        @if(this.isEditView){
+        <input [value]="this.productEdit.code" placeholder="Nhập..." [ngClass]="{ disabled: this.isEditView }" disabled
+          readonly
+          class="text-base text-slate-950 p-2 rounded-md w-full md:w-0 md:flex-1 outline-none border-gray-400 border focus:ring-1 focus:ring-blue-400 focus:border-blue-400 placeholder:text-gray-500 duration-200" />
+        }@if(this.isDetailView){
+        <p class="text-base text-gray-700 font-medium p-2 rounded-md w-full md:w-0 md:flex-1">
+          @if(this.productDetail){ @if(this.productDetail.code != ''
+          && this.productDetail.code != null){
+          <ng-container>{{ this.productDetail.code }}</ng-container>
+          } @else {
+          <ng-container>{{ "---" }}</ng-container>
+
+          } }
+        </p>
+        }
+      </div>
+      <div
+        class="relative flex flex-col md:flex-row w-full md:items-center md:space-y-0 space-y-2 border-b border-b-gray-200 pb-4">
+        <label class="text-left text-base text-slate-950 w-[140px]"><span class="required">Tên sản phẩm:</span></label>
+        @if(this.isEditView){
+        <input (input)="onTextNameChange($event)" [value]="this.productEdit.name" [ngClass]="{
+            '!border-red-500 !ring-red-500': onErrorTextName()
+          }" placeholder="Nhập..."
+          class="text-base text-slate-950 p-2 rounded-md w-full md:w-0 md:flex-1 outline-none border-gray-400 border focus:ring-1 focus:ring-blue-400 focus:border-blue-400 placeholder:text-gray-500 duration-200" />
+        <mat-icon *ngIf="!this.onErrorTextName() && this.productEdit.name != ''"
+          class="absolute -right-8 text-green-500">
+          <span class="material-symbols-sharp"> check_circle </span>
+        </mat-icon>
+
+        <mat-icon *ngIf="this.onErrorTextName()" class="absolute -right-8 text-red-500">
+          <span class="material-symbols-sharp"> error </span>
+        </mat-icon>
+        } @if(this.isDetailView){
+        <p class="text-base text-gray-700 font-medium p-2 rounded-md w-full md:w-0 md:flex-1">
+          @if(this.productDetail){ @if(this.productDetail.name != ''
+          && this.productDetail.name != null){
+          <ng-container>{{ this.productDetail.name }}</ng-container>
+          } @else {
+          <ng-container>{{ "---" }}</ng-container>
+
+          } }
+        </p>
+        }
+      </div>
+      <div
+        class="relative flex flex-col md:flex-row w-full md:items-center md:space-y-0 space-y-2 border-b border-b-gray-200 pb-4">
+        <label class="text-left text-base text-slate-950 w-[140px]"><span class="required">Thể loại:</span></label>
+        @if(this.isEditView){
+        <select (change)="onOptionCategoryChange($event)" [(ngModel)]="this.productEdit.category" [ngClass]="{
+            '!border-red-500 !ring-red-500': onErrorOptionCategory()
+          }"
+          class="text-base text-slate-950 p-2 rounded-md w-full md:w-0 md:flex-1 outline-none border-gray-400 border focus:ring-1 focus:ring-blue-400 focus:border-blue-400 placeholder:text-gray-500 duration-200">
+          <option value="">Chọn</option>
+          @for(category of this.categories; track $index){
+          <option value="{{ category }}">{{ category }}</option>
+          }
+        </select>
+
+        <mat-icon *ngIf="
+            !this.onErrorOptionCategory() &&
+            this.productEdit.category != ''
+          " class="absolute -right-8 text-green-500">
+          <span class="material-symbols-sharp"> check_circle </span>
+        </mat-icon>
+
+        <mat-icon *ngIf="this.onErrorOptionCategory()" class="absolute -right-8 text-red-500">
+          <span class="material-symbols-sharp"> error </span>
+        </mat-icon>
+        } @if(this.isDetailView){
+        <p class="text-base text-gray-700 font-medium p-2 rounded-md w-full md:w-0 md:flex-1">
+          @if(this.productDetail){ @if(this.productDetail.category !=
+          '' && this.productDetail.category != null){
+          <ng-container>{{ this.productDetail.category }}</ng-container>
+          } @else {
+          <ng-container>{{ "---" }}</ng-container>
+
+          } }
+        </p>
+        }
+      </div>
+      <div
+        class="relative flex flex-col md:flex-row w-full md:items-center md:space-y-0 space-y-2 border-b border-b-gray-200 pb-4">
+        <label class="text-left text-base text-slate-950 w-[140px]"><span class="required">Hãng:</span></label>
+        @if(this.isEditView){
+        <select (change)="onOptionBrandChange($event)" [(ngModel)]="this.productEdit.brand" [ngClass]="{
+            '!border-red-500 !ring-red-500': onErrorOptionBrand()
+          }"
+          class="text-base text-slate-950 p-2 rounded-md w-full md:w-0 md:flex-1 outline-none border-gray-400 border focus:ring-1 focus:ring-blue-400 focus:border-blue-400 placeholder:text-gray-500 duration-200">
+          <option value="">Chọn</option>
+          @for(brand of this.brands; track $index){
+          <option value="{{ brand }}">{{ brand }}</option>
+          }
+        </select>
+
+        <mat-icon *ngIf="
+            !this.onErrorOptionBrand() && this.productEdit.brand != ''
+          " class="absolute -right-8 text-green-500">
+          <span class="material-symbols-sharp"> check_circle </span>
+        </mat-icon>
+
+        <mat-icon *ngIf="this.onErrorOptionBrand()" class="absolute -right-8 text-red-500">
+          <span class="material-symbols-sharp"> error </span>
+        </mat-icon>
+        }@if(this.isDetailView){
+        <p class="text-base text-gray-700 font-medium p-2 rounded-md w-full md:w-0 md:flex-1">
+          @if(this.productDetail){ @if(this.productDetail.brand != ''
+          && this.productDetail.brand != null){
+          <ng-container>{{ this.productDetail.brand }}</ng-container>
+          } @else {
+          <ng-container>{{ "---" }}</ng-container>
+
+          } }
+        </p>
+        }
+      </div>
+      <div
+        class="flex flex-col md:flex-row w-full md:items-center md:space-y-0 space-y-2 border-b border-b-gray-200 pb-4">
+        <label class="text-left text-base text-slate-950 w-[140px]"><span class="option">Kiểu mẫu:</span></label>
+        @if(this.isEditView){
+        <input (input)="onTextTypeChange($event)" [value]="this.productEdit.type" placeholder="Nhập..."
+          class="text-base text-slate-950 p-2 rounded-md w-full md:w-0 md:flex-1 outline-none border-gray-400 border focus:ring-1 focus:ring-blue-400 focus:border-blue-400 placeholder:text-gray-500 duration-200" />
+        }@if(this.isDetailView){
+        <p class="text-base text-gray-700 font-medium p-2 rounded-md w-full md:w-0 md:flex-1">
+          @if(this.productDetail){ @if(this.productDetail.type != ''
+          && this.productDetail.type != null){
+          <ng-container>{{ this.productDetail.type }}</ng-container>
+          } @else {
+          <ng-container>{{ "---" }}</ng-container>
+
+          } }
+        </p>
+        }
+      </div>
+      <div
+        class="flex flex-col md:flex-row w-full md:items-center md:space-y-0 space-y-2 border-b border-b-gray-200 pb-4">
+        <label class="text-left text-base text-slate-950 w-[140px]"><span class="option">Mô tả:</span></label>
+        @if(this.isEditView){
+        <textarea (input)="onTextDescriptionChange($event)" [value]="this.productEdit.description" placeholder="Nhập..."
+          class="min-h-10 max-h-44 text-base text-slate-950 p-2 rounded-md w-full md:w-0 md:flex-1 outline-none border-gray-400 border focus:ring-1 focus:ring-blue-400 focus:border-blue-400 placeholder:text-gray-500"></textarea>
+        }@if(this.isDetailView){
+        <p class="text-base text-gray-700 font-medium p-2 rounded-md w-full md:w-0 md:flex-1">
+          @if(this.productDetail){ @if(this.productDetail.description
+          != '' && this.productDetail.description != null){
+          <ng-container>{{ this.productDetail.description }}</ng-container>
+          } @else {
+          <ng-container>{{ "---" }}</ng-container>
+
+          } }
+        </p>
+        }
+      </div>
+      <div class="w-full !mt-8">
+        @if(this.isEditView){
+        <button (click)="onSubmitAddNew()" class="w-full bg-green-600 overflow-hidden rounded-md group">
+          <div
+            class="p-3 leading-8 rounded-md w-full text-white font-semibold text-base bg-green-500 -translate-y-2 group-hover:translate-y-0 duration-300">
+            Lưu chỉnh sửa
+          </div>
+        </button>
+        }
+      </div>
+    </div>
+  </div>
+</div>

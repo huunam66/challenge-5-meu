@@ -1,0 +1,35 @@
+<!-- <div class="h-full bg-white shadow-md rounded-md text-gray-700 overflow-hidden">
+  <div style="background-image: url(https://www.skybldg.co.jp/lang/asset/img/top/mv_bg10.jpg);"
+    class="h-44 bg-cover bg-no-repeat relative flex items-center justify-center">
+
+    <div class="absolute top-[50%] flex flex-col items-center">
+      <div id="avatar" (click)="avatarClick()"
+        class="bg-slate-200 relative overflow-hidden rounded-full border-4 w-44 h-44 cursor-pointer flex items-center justify-center">
+        <img #avatarImgTag class="w-full h-full select-none" [src]="'data:image;base64,'+this.profile.avatar" />
+
+        <div id="camera" class="h-12 w-full absolute flex bottom-[-30%] items-center justify-center">
+          <div class="opacity-20 bg-gray-200 h-full w-full"></div>
+          <mat-icon class="text-gray-900 absolute">
+            photo_camera
+          </mat-icon>
+        </div>
+        <input #inputTypeFileTag (change)="inputTypeFileOnChange($event)" type="file"
+          class="hidden opacity-0 z-[-1] cursor-none select-none" />
+      </div>
+    </div>
+  </div>
+</div> -->
+
+<div id="avatar" (click)="avatarClick()"
+  class="relative overflow-hidden rounded-full border-4 w-64 h-64 m-auto border-blue-700 cursor-pointer flex items-center justify-center">
+  <img #avatarImgTag class="w-full h-full select-none" [src]="'data:image;base64,'+this.profile.avatar" />
+
+  <div id="camera" class="h-12 w-full absolute flex bottom-[-30%] items-center justify-center">
+    <div class="opacity-20 bg-gray-200 h-full w-full"></div>
+    <mat-icon class="text-gray-900 absolute">
+      photo_camera
+    </mat-icon>
+  </div>
+  <input #inputTypeFileTag (change)="inputTypeFileOnChange($event)" type="file"
+    class="hidden opacity-0 z-[-1] cursor-none select-none" />
+</div>

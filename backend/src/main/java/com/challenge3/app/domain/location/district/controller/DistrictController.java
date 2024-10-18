@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +29,7 @@ public class DistrictController {
         this.districtService = districtService;
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @RequestMapping(path = "/districts", method = RequestMethod.GET)
     public ApiResponse<Map<String, Object>> findAllDistrictsByProvinceId(
             @RequestParam(name = "province_id") String province_id,
@@ -54,6 +56,7 @@ public class DistrictController {
     }
 
 
+    @ResponseStatus(HttpStatus.OK)
     @RequestMapping(path = "/districts/{id}", method = RequestMethod.GET)
     public ApiResponse<Map<String, Object>> findDistrictById(
             @PathVariable(name = "id") String id
@@ -70,11 +73,15 @@ public class DistrictController {
     }
 
 
+    @ResponseStatus(HttpStatus.OK)
     @RequestMapping(path = "districts/{id}/wards", method = RequestMethod.GET)
-    public ApiResponse<Map<String, Object>> findWardsByDistrictId(@PathVariable(name = "id") String id) {
+    public ApiResponse<Map<String, Object>> findWardsByDistrictId(
+            @PathVariable(name = "id") String id,
+            @RequestParam(value = "province_include", defaultValue = "false") boolean province_include
+    ) {
 
 //        System.out.println(code_name);
-        DistrictDTO districtWardsDTO = this.districtService.findWardsByDistrictId(id);
+        DistrictDTO districtWardsDTO = this.districtService.findWardsByDistrictId(id, province_include);
 
         String message = "Danh sách phường xã hiện có!";
 

@@ -4,6 +4,8 @@ import jakarta.persistence.Table;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 
 @NoArgsConstructor
@@ -34,10 +36,12 @@ public class UserEntity {
 
     @ToString.Exclude
     @OneToOne(mappedBy = "user")
+    @Cascade({CascadeType.ALL, CascadeType.DELETE_ORPHAN})
     private ProfileEntity profile;
 
     @ToString.Exclude
     @OneToOne(mappedBy = "user")
+    @Cascade({CascadeType.ALL, CascadeType.DELETE_ORPHAN})
     private AuthoritiesEntity authority;
 
 }

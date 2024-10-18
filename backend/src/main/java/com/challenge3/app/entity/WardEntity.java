@@ -36,7 +36,7 @@ public class WardEntity {
     private String code_name;
 
     @ManyToOne
-    @JoinColumn(name = "district_id")
+    @JoinColumn(name = "district_id", referencedColumnName = "id")
     private DistrictsEntity district;
 
     @OneToMany(mappedBy = "ward", fetch = FetchType.LAZY)

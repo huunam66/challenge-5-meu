@@ -12,5 +12,5 @@ public interface DistrictService {
 
     DistrictDTO findDistrictById(String code_name);
 
-    DistrictDTO findWardsByDistrictId(String code_name);
+    DistrictDTO findWardsByDistrictId(String code_name, boolean province_include);
 }

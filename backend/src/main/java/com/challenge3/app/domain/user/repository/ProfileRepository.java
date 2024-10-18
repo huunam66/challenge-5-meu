@@ -1,7 +1,6 @@
 package com.challenge3.app.domain.user.repository;
 
 import com.challenge3.app.entity.ProfileEntity;
-import com.challenge3.app.entity.UserEntity;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,7 +14,13 @@ public interface ProfileRepository extends JpaRepository<ProfileEntity, UUID> {
     @Query("SELECT p FROM profile p WHERE p.user.email = :username")
     Optional<ProfileEntity> findProfileByUsername(@Param("username") String username);
 
-    @EntityGraph(attributePaths = {"profileLocation"})
+    @EntityGraph(
+            attributePaths = {
+                    "profileLocation",
+                    "profileLocation.ward",
+                    "profileLocation.ward.district",
+                    "profileLocation.ward.district.province"
+            })
     @Query("SELECT p FROM profile p WHERE p.user.email = :username")
     Optional<ProfileEntity> findProfileLocationByUsername(@Param("username") String username);
 }

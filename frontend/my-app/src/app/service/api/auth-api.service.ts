@@ -1,9 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { UserModel } from '../../model/user.model';
+import { Grant } from '../../model/user/grant.model';
+import { User } from '../../model/user/user.model';
 import { JwtService } from '../utils/jwt.service';
-import { GrantModel } from './../../model/grant.model';
 
 const URL_REQUEST = 'http://localhost:8080/api/auth';
 
@@ -24,22 +24,22 @@ export class AuthApiService{
     return {
       headers: new HttpHeaders()
                   .append('Content-Type', 'application/json'),
-      withCredentials: true
     }
   }
 
 
-  public signin(userModel: UserModel): Observable<any>{
-    return this.httpClient.post(`${URL_REQUEST}/signin`, userModel, this.httpHeaders())
+  public signin(user: User): Observable<any>{
+    return this.httpClient.post(`${URL_REQUEST}/signin`, user, this.httpHeaders())
   }
 
-  public grant(grantModel: GrantModel): Observable<any>{
-    console.log(grantModel);
+  public grant(grant: Grant): Observable<any>{
+    console.log(grant);
     const httpHeaders = this.httpHeaders();
 
-    return this.httpClient.put(`${URL_REQUEST}/grant`, grantModel, {
+    return this.httpClient.put(`${URL_REQUEST}/grant`, grant, {
                                                 ...httpHeaders,
-                                                headers: httpHeaders.headers.append('Authorization', `Bearer ${this.jwtService.getToken()}`)
+                                                headers: httpHeaders.headers.append('Authorization', `Bearer ${this.jwtService.getToken()}`),
+                                                withCredentials: true
                           });
   }
 

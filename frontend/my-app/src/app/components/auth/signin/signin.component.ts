@@ -44,32 +44,27 @@ export class SigninComponent implements OnDestroy{
     .subscribe({
       next: (res) => {
         if(res != null && res.status && res.code == 200){
-          const token: string = res.responseEntity.token;
+          console.log(res)
+          const token: string = res.data.token;
           this.localStorageService.setData("token", token);
           this.routeService.navigate('', null);
         }
       },
       error: (err) => {
         console.error(err.error);
-        const invalidFields: any = err?.error?.responseEntity?.invalidFields;
+        const invalidFields: any = err?.error?.data?.invalidFields;
 
         if(invalidFields != undefined && invalidFields != null){
           Object.keys(invalidFields).forEach((key, index) => {
             setTimeout(() => {
-              this.toastr.error(invalidFields[key], key, {
-                closeButton: true,
-                timeOut: 5000,
-              });
+              this.toastr.error(invalidFields[key], key);
             }, 400 * index);
           })
 
           return;
         }
 
-        this.toastr.error(err.error.message, '', {
-          closeButton: true,
-          timeOut: 5000,
-        });
+        this.toastr.error(err.error.message, '');
       }
     })
   }

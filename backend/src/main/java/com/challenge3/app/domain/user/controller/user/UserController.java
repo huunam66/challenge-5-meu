@@ -4,6 +4,7 @@ import com.challenge3.app.common.response.DeletedSuccessfully;
 import com.challenge3.app.common.response.IsFound;
 import com.challenge3.app.common.response.ApiResponse;
 import com.challenge3.app.domain.user.dto.UserDTO;
+import com.challenge3.app.domain.user.request.UserAuthorityRequest;
 import com.challenge3.app.domain.user.request.UserRequest;
 import com.challenge3.app.domain.user.response.SignUpSuccessfully;
 import com.challenge3.app.domain.user.service.UserService;
@@ -31,9 +32,9 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(method = RequestMethod.POST)
-    public ApiResponse<Object> save(@Valid @RequestBody UserRequest userDTO){
+    public ApiResponse<Object> save(@Valid @RequestBody UserAuthorityRequest userAuthorityRequest){
 
-        this.userService.save(userDTO);
+        this.userService.save(userAuthorityRequest);
 
         String message = "Tạo mới tài khoản thành công!";
 

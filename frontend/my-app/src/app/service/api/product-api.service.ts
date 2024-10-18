@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ProductModel } from '../../model/product.model';
+import { Product } from '../../model/product/product.model';
 import { LocalStorageService } from '../utils/local-storage.service';
 
 const URL_REQUEST = 'http://localhost:8080/api/products';
@@ -38,7 +38,6 @@ export class ProductApiService {
   }
 
   public get(code: string): Observable<any> {
-
     return this.httpClient
       .get<any>(`${URL_REQUEST}/${code}`, this.httpHeaders());
   }
@@ -49,13 +48,13 @@ export class ProductApiService {
       .get<any>(`${URL_REQUEST}/search/${keyword}`, this.httpHeaders());
   }
 
-  public post(product: ProductModel): Observable<any> {
+  public post(product: Product): Observable<any> {
     // console.log(product)
     return this.httpClient
       .post<any>(URL_REQUEST, product, this.httpHeaders());
   }
 
-  public put(product: ProductModel, code: string): Observable<any> {
+  public put(product: Product, code: string): Observable<any> {
 
     return this.httpClient
       .put<any>(`${URL_REQUEST}/${code}`, product, this.httpHeaders());

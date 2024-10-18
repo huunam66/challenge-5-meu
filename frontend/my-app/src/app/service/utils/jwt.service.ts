@@ -18,21 +18,18 @@ export class JwtService {
   ) { }
 
 
-  public getToken(): any {
+  public getToken() {
     return this.localStorageService?.getData("token");
   }
 
   public checkToken(): boolean{
-    const token: any = this.getToken();
-    if(!token)
-      return false;
+    const payload: any = this.getPayload();
 
-    return true;
+    return payload != null;
   }
 
   public logOut(): void{
     this.localStorageService?.clearData();
-    this.checkToken();
   }
 
   public getPayload(): any{
@@ -47,7 +44,7 @@ export class JwtService {
 
     if(timeNow > exp){
       this.localStorageService.removeData('token');
-      this.checkToken();
+      return null;
     }
 
     return payload;

@@ -1,0 +1,16 @@
+#avatar{
+  &:hover #camera{
+    animation: show-camera ease-in-out .3s forwards;
+  }
+
+  @keyframes show-camera {
+    0%{
+      display: none;
+      bottom: -30%;
+    }
+    100%{
+      display: flex !important;
+      bottom: 0;
+    }
+  }
+}

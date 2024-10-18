@@ -8,3 +8,6 @@
 *:not(mat-icon):not(mat-icon *) {
   @apply font-fira-sans;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

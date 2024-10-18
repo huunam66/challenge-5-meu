@@ -7,7 +7,6 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.type.SqlTypes;
 
-import java.sql.SQLType;
 import java.util.Date;
 import java.util.UUID;
 
@@ -43,11 +42,15 @@ public class ProfileEntity {
     @Column(name = "avatar")
     private String avatar;
 
-    @JoinColumn(name = "email")
+    @Setter(AccessLevel.NONE)
+    @Column(name = "email", insertable=false, updatable=false)
+    private String email;
+
+    @JoinColumn(name = "email", referencedColumnName = "email")
     @OneToOne
     private UserEntity user;
 
     @OneToOne(mappedBy = "profile")
-    @Cascade(CascadeType.ALL)
+    @Cascade({CascadeType.ALL, CascadeType.DELETE_ORPHAN})
     private ProfileLocationEntity profileLocation;
 }

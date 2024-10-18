@@ -33,11 +33,11 @@ public class ProfileLocationEntity {
     @Column(name = "country")
     private String country;
 
-    @JoinColumn(name = "ward_id")
+    @JoinColumn(name = "ward_id", referencedColumnName = "id")
     @ManyToOne
     private WardEntity ward;
 
-    @JoinColumn(name = "profile_id")
+    @JoinColumn(name = "profile_id", referencedColumnName = "id")
     @OneToOne
     private ProfileEntity profile;
 

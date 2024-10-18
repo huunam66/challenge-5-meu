@@ -1,10 +1,9 @@
 package com.challenge3.app.domain.user.dto;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.Date;
 import java.util.UUID;
@@ -13,6 +12,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@SuperBuilder
 public class ProfileDTO {
 
     private UUID id;
@@ -28,4 +28,9 @@ public class ProfileDTO {
     private String gender;
 
     private String avatar;
+
+    private String email;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private ProfileLocationDTO profileLocation;
 }

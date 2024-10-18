@@ -32,8 +32,6 @@ public class WardServiceImpl implements WardService{
 
         List<WardEntity> wardEntities = this.wardRepository.findALlWardByDistrictId(district_id);
 
-        if(wardEntities.isEmpty()) throw new IsNullOrEmptyException("Danh sách phường xã hiện trống!");
-
         return this.modelMapper.map(wardEntities,
                 !district_include
                         ?

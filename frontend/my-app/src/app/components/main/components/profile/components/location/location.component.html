@@ -1,0 +1,153 @@
+<div class="bg-white shadow-md rounded-md text-gray-700 pb-16">
+  <div class="p-2 px-4 text-left border-b border-b-gray-200 flex items-center justify-between">
+    <label>Địa chỉ liên lạc</label>
+    @if(!isEditProfileLocation){
+    <button type="button" (click)="onIconEditProfileLocationClick()">
+      <mat-icon class="text-base">
+        tune
+      </mat-icon>
+    </button>
+    }@else {
+    <div class="flex gap-4">
+      <button type="button">
+        <mat-icon class="text-lg" (click)="onSaveProfileLocationClick()"> save</mat-icon>
+      </button>
+      <button type="button">
+        <mat-icon class="text-lg" (click)="onIconCloseEditProfileLocationClick()"> disabled_by_default</mat-icon>
+      </button>
+    </div>
+    }
+  </div>
+  <div class="p-2 px-4">
+    <div class="grid grid-cols-[1fr_1fr_1fr] gap-6">
+      <div class="flex items-start space-x-1">
+        <div>
+          <mat-icon class="text-gray-400 text-base">
+            home
+          </mat-icon>
+        </div>
+        <div class="flex flex-col flex-1 gap-2">
+          <label class="text-gray-500 text-xs">Số nhà</label>
+          @if(isEditProfileLocation){
+          <input [(ngModel)]="this.profile.profileLocation.home_number" placeholder="Nhập..."
+            class="input-field px-4 py-3 bg-transparent rounded-md outline-none border border-gray-300 text-xs text-gray-950 w-full duration-200 focus:ring-1 focus:border-transparent focus:ring-blue-500" />
+          }@else {
+          <p class="py-3 bg-transparent outline-none border-none text-xs text-gray-950 w-full !m-0 font-medium">
+            {{this?.profile?.profileLocation?.home_number || '---'}}
+          </p>
+          }
+
+        </div>
+      </div>
+      <div class="flex items-start space-x-1">
+        <div>
+          <mat-icon class="text-gray-400 text-base">
+            add_road
+          </mat-icon>
+        </div>
+        <div class="flex flex-col flex-1 gap-2">
+          <label class="text-gray-500 text-xs">Tên đường</label>
+          @if(isEditProfileLocation){
+          <input [(ngModel)]="this.profile.profileLocation.street" placeholder="Nhập..."
+            class="input-field px-4 py-3 bg-transparent rounded-md outline-none border border-gray-300 text-xs text-gray-950 w-full duration-200 focus:ring-1 focus:border-transparent focus:ring-blue-500" />
+          }@else {
+          <p class="py-3 bg-transparent outline-none border-none text-xs text-gray-950 w-full !m-0 font-medium">
+            {{this?.profile?.profileLocation?.street || '---'}}
+          </p>
+          }
+        </div>
+      </div>
+      <div class="flex items-start space-x-1">
+        <div>
+          <mat-icon class="text-gray-400 text-base">
+            flag
+          </mat-icon>
+        </div>
+        <div class="flex flex-col flex-1 gap-2">
+          <label class="text-gray-500 text-xs">Nước</label>
+          <p class="py-3 bg-transparent outline-none border-none text-xs text-gray-950 w-full !m-0 font-medium">{{'Việt
+            Nam'}}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="border-b border-b-gray-200 my-4"></div>
+
+    <div class="grid grid-cols-[1fr_1fr_1fr] gap-5">
+      <div class="flex items-start space-x-1">
+        <div>
+          <mat-icon class="text-gray-400 text-base">
+            location_on
+          </mat-icon>
+        </div>
+        <div class="flex flex-col flex-1 gap-2">
+          <label class="text-gray-500 text-xs">Tỉnh/thành</label>
+          @if(this.isEditProfileLocation){
+          <select (change)="onChangeProvinceCombobox($event)"
+            class="input-field px-4 py-3 bg-transparent rounded-md outline-none border border-gray-300 text-xs text-gray-950 w-full duration-200 focus:ring-1 focus:border-transparent focus:ring-blue-500">
+            <option [value]="''">Chọn</option>
+            @for(p of provinces; track p.id; let index = $index){
+            <option [selected]="this?.profile?.profileLocation?.ward?.district?.province?.id === p.id" [value]="p.id">
+              {{p.full_name}}</option>
+            }
+          </select>
+          }@else {
+          <p class="py-3 bg-transparent outline-none border-none text-xs text-gray-950 w-full !m-0 font-medium">
+            {{this?.profile?.profileLocation?.ward?.district?.province?.name || '---'}}
+          </p>
+          }
+        </div>
+      </div>
+      <div class="flex items-start space-x-1">
+        <div>
+          <mat-icon class="text-gray-400 text-base">
+            location_on
+          </mat-icon>
+        </div>
+        <div class="flex flex-col flex-1 gap-2">
+          <label class="text-gray-500 text-xs">Quận/huyện</label>
+          @if(this.isEditProfileLocation){
+          <select (change)="onChangeDistrictCombobox($event)"
+            class="input-field px-4 py-3 bg-transparent rounded-md outline-none border border-gray-300 text-xs text-gray-950 w-full duration-200 focus:ring-1 focus:border-transparent focus:ring-blue-500">
+            <option [value]="''">Chọn</option>
+            @for(d of districts; track d.id; let index = $index){
+            <option [selected]="this?.profile?.profileLocation?.ward?.district?.id === d.id" [value]="d.id">
+              {{d.full_name}}
+            </option>
+            }
+          </select>
+          }@else {
+          <p class="py-3 bg-transparent outline-none border-none text-xs text-gray-950 w-full !m-0 font-medium">
+            {{this?.profile?.profileLocation?.ward?.district?.name || '---'}}
+          </p>
+          }
+        </div>
+      </div>
+      <div class="flex items-start space-x-1">
+        <div>
+          <mat-icon class="text-gray-400 text-base">
+            location_on
+          </mat-icon>
+        </div>
+        <div class="flex flex-col flex-1 gap-2">
+          <label class="text-gray-500 text-xs">Phường/xã</label>
+          @if(this.isEditProfileLocation){
+          <select [(ngModel)]="this.profile.profileLocation.ward.id"
+            class="input-field px-4 py-3 bg-transparent rounded-md outline-none border border-gray-300 text-xs text-gray-950 w-full duration-200 focus:ring-1 focus:border-transparent focus:ring-blue-500">
+            <option [value]="''">Chọn</option>
+            @for(w of wards; track w.id; let index = $index){
+            <option [selected]="this?.profile?.profileLocation?.ward?.id === w.id" [value]="w.id">{{w.full_name}}
+            </option>
+            }
+          </select>
+          }@else {
+          <p class="py-3 bg-transparent outline-none border-none text-xs text-gray-950 w-full !m-0 font-medium">
+            {{this?.profile?.profileLocation?.ward?.name || '---'}}
+          </p>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

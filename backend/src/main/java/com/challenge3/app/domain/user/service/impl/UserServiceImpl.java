@@ -3,6 +3,7 @@ package com.challenge3.app.domain.user.service.impl;
 import com.challenge3.app.configuration.auth.role.ROLE;
 import com.challenge3.app.domain.user.dto.UserDTO;
 import com.challenge3.app.domain.user.repository.UserRepository;
+import com.challenge3.app.domain.user.request.UserAuthorityRequest;
 import com.challenge3.app.domain.user.request.UserRequest;
 import com.challenge3.app.domain.user.service.UserService;
 import com.challenge3.app.entity.AuthoritiesEntity;
@@ -37,8 +38,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDTO> findAll() {
         List<UserEntity> userEntities = this.userRepository.findAllUsers();
-
-        if(userEntities.isEmpty()) throw new IsNullOrEmptyException("Danh sách nhân viên trống!");
 
         return this.modelMapper.map(userEntities, new TypeToken<List<UserDTO>>(){}.getType());
     }
@@ -75,38 +74,37 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public UserDTO save(UserRequest userRequest) {
+    public UserDTO save(UserAuthorityRequest userAuthorityRequest) {
 
-        if(userRequest == null) throw new IsNullOrEmptyException("Đầu vào không hợp lệ!");
+        System.out.println(userAuthorityRequest);
 
-        UserEntity userEntity = this.userRepository.findById(userRequest.getEmail()).orElse(null);
+        if(userAuthorityRequest == null) throw new IsNullOrEmptyException("Đầu vào không hợp lệ!");
 
-        if(userEntity != null) throw new IsExistedException("Email " + userRequest.getEmail() + " tồn tại!");
+        UserEntity userEntity = this.userRepository.findById(userAuthorityRequest.getEmail()).orElse(null);
 
-        userEntity = this.userRepository.save(
-                injectUserEntity(userRequest)
-        );
+        if(userEntity != null) throw new IsExistedException("Email " + userAuthorityRequest.getEmail() + " tồn tại!");
 
-        return this.modelMapper.map(userEntity, UserDTO.class);
-    }
+//        System.out.println(userAuthorityRequest);
+        userEntity = UserEntity
+                .builder()
+                .email(userAuthorityRequest.getEmail())
+                .password(this.passwordEncoder.encode(userAuthorityRequest.getPassword()))
+                .enabled(true)
+                .build();
 
-    private UserEntity injectUserEntity(UserRequest userRequest) {
-
-//        System.out.println(userRequest);
-        UserEntity userEntity = UserEntity
-                                        .builder()
-                                            .email(userRequest.getEmail())
-                                            .password(this.passwordEncoder.encode(userRequest.getPassword()))
-                                        .build();
+//        System.out.println("isvaid password: " + passwordEncoder.matches(userAuthorityRequest.getPassword(), userEntity.getPassword()));
 
         userEntity.setAuthority(
-              AuthoritiesEntity.builder()
-                      .user(userEntity)
-                      .email(userRequest.getEmail())
-                      .name(ROLE.USER)
-                      .build()
+                AuthoritiesEntity.builder()
+                        .user(userEntity)
+                        .email(userAuthorityRequest.getEmail())
+                        .name(userAuthorityRequest.getRole())
+                        .build()
         );
 
-        return userEntity;
+        return this.modelMapper.map(
+                this.userRepository.save(userEntity),
+                UserDTO.class
+        );
     }
 }

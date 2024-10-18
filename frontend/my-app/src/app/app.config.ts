@@ -15,7 +15,11 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(),
     provideAnimationsAsync(),
     provideHttpClient(),
-    provideAnimations(), // required animations providers
-    provideToastr(), // Toastr providers
+    provideAnimations(),
+    provideToastr({
+      timeOut: 5000,
+      positionClass: 'toast-bottom-left',
+      preventDuplicates: true,
+    }), provideAnimationsAsync(),
   ],
 };

@@ -28,7 +28,7 @@ public class AuthoritiesEntity {
     private String email;
 
     @OneToOne
-    @JoinColumn(name = "email")
+    @JoinColumn(name = "email", referencedColumnName = "email")
     private UserEntity user;
 
     @NotNull(message = "Tên vai trò là bắt buộc!")

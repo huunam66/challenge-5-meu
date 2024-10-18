@@ -13,14 +13,14 @@ import java.util.Optional;
 public interface ProvinceRepository extends JpaRepository<ProvinceEntity, String> {
 
 
-    @Query("SELECT p FROM provinces p")
+    @Query("SELECT p FROM provinces p ORDER BY p.full_name")
     List<ProvinceEntity> findAllProvinces();
 
-    @Query("SELECT p FROM provinces p WHERE p.code_name = :code_name")
-    Optional<ProvinceEntity> findByProvinceId(@Param("code_name") String code_name);
+    @Query("SELECT p FROM provinces p WHERE p.id = :id")
+    Optional<ProvinceEntity> findByProvinceId(@Param("id") String id);
 
     @EntityGraph(attributePaths = {"districts"})
-    @Query("SELECT p FROM provinces p WHERE p.code_name = :code_name")
-    Optional<ProvinceEntity> findAllDistrictByProvinceId(@Param("code_name") String code_name);
+    @Query("SELECT p FROM provinces p WHERE p.id = :id")
+    Optional<ProvinceEntity> findAllDistrictByProvinceId(@Param("id") String id);
 
 }

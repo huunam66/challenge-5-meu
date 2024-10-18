@@ -30,9 +30,6 @@ public class ProvinceServiceImpl implements ProvinceService {
 
         List<ProvinceEntity> provinces = this.provinceRepository.findAllProvinces();
 
-        if(provinces.isEmpty())
-            throw new IsNullOrEmptyException("Danh sách tỉnh thành hiện trống!");
-
         Type listType = new TypeToken<List<ProvinceDTO>>() {}.getType();
 
         return this.modelMapper.map(provinces, listType);

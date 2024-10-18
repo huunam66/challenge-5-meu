@@ -1,6 +1,8 @@
 package com.challenge3.app.entity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 import java.util.List;
 
 @AllArgsConstructor
@@ -31,10 +33,11 @@ public class DistrictsEntity {
     private String code_name;
 
     @ManyToOne
-    @JoinColumn(name = "province_id")
+    @JoinColumn(name = "province_id", referencedColumnName = "id")
     private ProvinceEntity province;
 
     @OneToMany(mappedBy = "district", fetch = FetchType.LAZY)
+    @Cascade({CascadeType.ALL, CascadeType.DELETE_ORPHAN})
     private List<WardEntity> wards;
 
 

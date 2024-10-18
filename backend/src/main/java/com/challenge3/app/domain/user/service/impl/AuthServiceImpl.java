@@ -39,7 +39,7 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public String signin(UserRequest userRequest) throws AuthenticationException {
 
-//        System.out.println(userRequest);
+        System.out.println(userRequest);
 
         if(userRequest == null) throw new IsNullOrEmptyException("Đầu vào không hợp lệ!");
 

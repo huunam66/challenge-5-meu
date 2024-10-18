@@ -36,12 +36,11 @@ create table profile_location(
     street varchar(50),
     profile_id char(36) not null,
     ward_id varchar(30) not null,
-    country varchar(30) default 'Việt Nam',
+    country varchar(36) default 'Việt Nam',
     constraint pr_profile_location primary key(id),
     constraint fk_profile_id__profile_location foreign key(profile_id) references profile(id),
     constraint fk_ward_code__profile_location foreign key(ward_id) references wards(id)
 );
-	
 
 CREATE TABLE products (
   id bigint(10) UNSIGNED NOT NULL AUTO_INCREMENT primary key,

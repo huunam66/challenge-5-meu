@@ -6,6 +6,7 @@ import com.challenge3.app.domain.location.province.dto.ProvinceDTO;
 import com.challenge3.app.domain.location.province.dto.ProvinceDistrictsDTO;
 import com.challenge3.app.domain.location.province.service.ProvinceService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -26,6 +27,7 @@ public class ProvinceController {
         this.provinceService = provinceService;
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @RequestMapping(path = "/provinces", method = RequestMethod.GET)
     public ApiResponse<Map<String, Object>> findAllProvinces() {
 
@@ -39,6 +41,7 @@ public class ProvinceController {
         return new IsFound<>(message, response);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @RequestMapping(path = "/provinces/{id}", method = RequestMethod.GET)
     public ApiResponse<Map<String, Object>> findProvinceById(@PathVariable("id") String id) {
 
@@ -52,6 +55,7 @@ public class ProvinceController {
         return new IsFound<>(message, response);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @RequestMapping(path = "/provinces/{id}/districts", method = RequestMethod.GET)
     public ApiResponse<Map<String, Object>> findAndAllDistrictsByProvinceId(@PathVariable("id") String id) {
         ProvinceDTO provinceDTO = this.provinceService.findAllDistrictByProvinceId(id);

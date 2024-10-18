@@ -2,7 +2,7 @@ package com.challenge3.app.domain.user.service;
 
 import com.challenge3.app.domain.user.dto.ProfileDTO;
 import com.challenge3.app.domain.user.dto.ProfileLocationDTO;
-import org.springframework.web.multipart.MultipartFile;
+import com.challenge3.app.domain.user.request.UploadAvatar;
 
 public interface ProfileService {
 
@@ -10,5 +10,7 @@ public interface ProfileService {
 
     ProfileLocationDTO save(ProfileLocationDTO profileLocationDTO, String email);
 
-    void uploadAvatar(String email, MultipartFile file) throws Exception;
+    String uploadAvatar(UploadAvatar uploadAvatar) throws Exception;
+
+    ProfileDTO getProfileAndLocationByUserEmail(String email);
 }

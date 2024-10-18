@@ -1,6 +1,7 @@
 package com.challenge3.app.entity;
 import java.time.ZonedDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -54,12 +55,12 @@ public class ProductEntity {
     @Column(name = "description")
     private String description;
 
-
+    @JsonIgnore
     @CreationTimestamp
     @Column(name = "created_at", nullable = false)
     private ZonedDateTime created_at;
 
-
+    @JsonIgnore
     @UpdateTimestamp
     @Column(name = "updated_at", nullable = false)
     private ZonedDateTime updated_at;

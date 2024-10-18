@@ -31,12 +31,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductEntity> findAll() {
-
-        List<ProductEntity> productEntities = productRepository.findAll();
-
-        if (productEntities.isEmpty()) throw new IsNullOrEmptyException("Danh sách sản phẩm trống!");
-
-        return productEntities;
+        return productRepository.findAll();
     }
 
     @Override

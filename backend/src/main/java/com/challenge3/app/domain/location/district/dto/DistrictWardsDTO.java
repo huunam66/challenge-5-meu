@@ -4,18 +4,16 @@ import com.challenge3.app.domain.location.province.dto.ProvinceDTO;
 import com.challenge3.app.domain.location.ward.dto.WardDTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-@Builder
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 public class DistrictWardsDTO extends DistrictDTO{
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private ProvinceDTO province;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private List<WardDTO> wards;
