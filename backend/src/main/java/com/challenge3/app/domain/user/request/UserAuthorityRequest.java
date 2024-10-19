@@ -18,7 +18,7 @@ public class UserAuthorityRequest extends UserRequest {
 
     @NotNull(message = "Tên vai trò là bắt buộc!")
     @Enumerated(EnumType.STRING)
-    @Schema(description = "-> Vai trò của người dùng", example = "ADMIN")
+    @Schema(description = "-> Vai trò của người dùng", example = "USER (ghi hoa)")
     private ROLE role;
 
 }

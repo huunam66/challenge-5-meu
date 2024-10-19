@@ -1,9 +1,6 @@
 package com.challenge3.app.domain.user.request;
 
-import com.challenge3.app.configuration.auth.role.ROLE;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -27,7 +24,7 @@ public class UserRequest {
     @Size(min = 10, message = "Mât khẩu chứa ít nhất 10 kí tự")
     @Size(max = 30, message = "Mât khẩu chứa nhiều nhất 30 kí tự")
     @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^a-zA-Z0-9])(?!.*[^a-zA-Z0-9]{2,}).{8,}$", message = "Cho phép ít nhất một kí tự hoa, kí tự thường và số từ 0 -> 9 và đối đa 2 kí tự đặc biệt!")
-    @Schema(description = "-> Mật của người dùng", example = "pass.word@123")
+    @Schema(description = "-> Mật khẩu của người dùng", example = "pass.word@123")
     private String password;
 
 }

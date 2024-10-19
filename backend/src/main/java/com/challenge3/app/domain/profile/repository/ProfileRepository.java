@@ -1,4 +1,4 @@
-package com.challenge3.app.domain.user.repository;
+package com.challenge3.app.domain.profile.repository;
 
 import com.challenge3.app.entity.ProfileEntity;
 import org.springframework.data.jpa.repository.EntityGraph;

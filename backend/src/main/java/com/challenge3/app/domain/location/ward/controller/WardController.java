@@ -10,7 +10,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +24,7 @@ public class WardController {
 
     private final WardService wardService;
 
-    public WardController(final WardService wardService) {
+    public WardController(WardService wardService) {
         this.wardService = wardService;
     }
 

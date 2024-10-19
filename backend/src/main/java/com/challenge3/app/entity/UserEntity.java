@@ -4,6 +4,7 @@ import jakarta.persistence.Table;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 
@@ -12,6 +13,7 @@ import org.hibernate.annotations.CascadeType;
 @AllArgsConstructor
 @Data
 @Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity(name = "users")
 @Table(name = "users")
 public class UserEntity {
@@ -24,24 +26,24 @@ public class UserEntity {
     @Size(max = 100, message = "Email chứa nhiều nhất 100 kí tự")
     @Pattern(regexp = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$", message = "Email không hợp lệ!")
     @Column(name = "email", nullable = false, updatable = false, unique = true)
-    private String email;
+    String email;
 
     @NotBlank(message = "Mật khẩu là bắt buộc!")
     @NotNull(message = "Mật khẩu là bắt buộc!")
     @Column(name = "password", nullable = false)
-    private String password;
+    String password;
 
     @Column(name = "enabled", nullable = false)
-    private boolean enabled;
+    boolean enabled;
 
     @ToString.Exclude
     @OneToOne(mappedBy = "user")
     @Cascade({CascadeType.ALL, CascadeType.DELETE_ORPHAN})
-    private ProfileEntity profile;
+    ProfileEntity profile;
 
     @ToString.Exclude
     @OneToOne(mappedBy = "user")
     @Cascade({CascadeType.ALL, CascadeType.DELETE_ORPHAN})
-    private AuthoritiesEntity authority;
+    AuthoritiesEntity authority;
 
 }

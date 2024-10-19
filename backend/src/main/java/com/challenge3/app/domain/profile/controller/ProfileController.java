@@ -1,13 +1,15 @@
-package com.challenge3.app.domain.user.controller.profile;
+package com.challenge3.app.domain.profile.controller;
 
 
 import com.challenge3.app.common.response.ApiResponse;
 import com.challenge3.app.common.response.IsFound;
 import com.challenge3.app.common.response.SavedSuccessfully;
-import com.challenge3.app.domain.user.dto.ProfileDTO;
-import com.challenge3.app.domain.user.dto.ProfileLocationDTO;
-import com.challenge3.app.domain.user.request.UploadAvatar;
-import com.challenge3.app.domain.user.service.ProfileService;
+import com.challenge3.app.domain.profile.dto.ProfileDTO;
+import com.challenge3.app.domain.profile.dto.ProfileLocationDTO;
+import com.challenge3.app.domain.profile.request.ProfileLocationRequest;
+import com.challenge3.app.domain.profile.request.ProfileRequest;
+import com.challenge3.app.domain.profile.request.UploadAvatarRequest;
+import com.challenge3.app.domain.profile.service.ProfileService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -32,11 +34,11 @@ public class ProfileController {
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(path = "/{email}", method = RequestMethod.POST)
     public ApiResponse<Map<String, Object>> saveProfile(
-            @RequestBody ProfileDTO requestProfile,
+            @RequestBody ProfileRequest profileRequest,
             @PathVariable(name = "email")  String email
     ) {
 
-        ProfileDTO profileDTO = this.profileService.save(requestProfile, email);
+        ProfileDTO profileDTO = this.profileService.save(profileRequest, email);
 
         String message = "Cập nhật thông tin người dùng thành công!";
 
@@ -49,11 +51,11 @@ public class ProfileController {
     @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(path = "/{email}/location", method = RequestMethod.POST)
     public ApiResponse<Map<String, Object>> saveLocationProfile(
-            @RequestBody ProfileLocationDTO requestProfileLocation,
+            @RequestBody ProfileLocationRequest profileLocationRequest,
             @PathVariable(name = "email") String email
     ){
 
-        ProfileLocationDTO profileLocationDTO = this.profileService.save(requestProfileLocation, email);
+        ProfileLocationDTO profileLocationDTO = this.profileService.save(profileLocationRequest, email);
 
         String message = "Cập nhật vị trí người dùng thành công!";
 
@@ -72,7 +74,7 @@ public class ProfileController {
     ) throws Exception {
 
         String avartar = this.profileService.uploadAvatar(
-                UploadAvatar.builder().email(email).file(file).build()
+                UploadAvatarRequest.builder().email(email).file(file).build()
         );
 
         String message = "Tải ảnh đại diện thành công!";
@@ -89,7 +91,7 @@ public class ProfileController {
     public ApiResponse<Map<String, Object>> getProfile(
             @PathVariable(name = "email") String email
     ){
-        System.out.println("HELOOOOOOOOOOOO");
+//        System.out.println("HELOOOOOOOOOOOO");
         ProfileDTO profileDTO = this.profileService.getProfileAndLocationByUserEmail(email);
 
         String message = "Thông tin người dùng " + email + " hiện có!";

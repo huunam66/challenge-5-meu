@@ -3,17 +3,16 @@ package com.challenge3.app.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
+import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.SqlTypes;
-
 import java.util.UUID;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "profile_location")
 public class ProfileLocationEntity {
@@ -22,23 +21,23 @@ public class ProfileLocationEntity {
     @GeneratedValue(strategy = GenerationType.UUID)
     @JdbcTypeCode(SqlTypes.VARCHAR)
     @Column(name = "id")
-    private UUID id;
+    UUID id;
 
     @Column(name = "home_number")
-    private String home_number;
+    String home_number;
 
     @Column(name = "street")
-    private String street;
+    String street;
 
     @Column(name = "country")
-    private String country;
+    String country;
 
     @JoinColumn(name = "ward_id", referencedColumnName = "id")
     @ManyToOne
-    private WardEntity ward;
+    WardEntity ward;
 
     @JoinColumn(name = "profile_id", referencedColumnName = "id")
     @OneToOne
-    private ProfileEntity profile;
+    ProfileEntity profile;
 
 }

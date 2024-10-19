@@ -114,16 +114,8 @@ public class ProductServiceImpl implements ProductService {
             code = Helper.toCode(id, zeroCodelevel, firstCaseCode);
         } else code = Helper.toCode(listId.get(0), zeroCodelevel, firstCaseCode);
 
-        ProductEntity productIsExited = this.productRepository.findByCode(code);
-        if (productIsExited != null) throw new BadRequestException("Mã "+code+" đã tồn tại !");
-
-        productDTO.setId((long)0);
-        productDTO.setCode(code);
-
-
         ProductEntity productEntity = this.modelMapper.map(productDTO, ProductEntity.class);
-
-        System.out.println(productEntity);
+        productEntity.setCode(code);
 
         return productRepository.save(
                 productEntity
@@ -137,16 +129,13 @@ public class ProductServiceImpl implements ProductService {
         System.out.println("productDTO: " + productDTO);
         ProductEntity findByCode = findByCode(code);
 
-        if (productDTO.getId() != findByCode.getId()) productDTO.setId(findByCode.getId());
+        findByCode.setName(productDTO.getName());
+        findByCode.setBrand(productDTO.getBrand());
+        findByCode.setDescription(productDTO.getDescription());
+        findByCode.setType(productDTO.getType());
+        findByCode.setCategory(productDTO.getCategory());
 
-        productDTO.setCode(code);
-//        ProductEntity product = injectProduct(productDTO);
-//
-//        System.out.println("product: " + product);
-
-        return productRepository.save(
-                this.modelMapper.map(productDTO, ProductEntity.class)
-        );
+        return productRepository.save(findByCode);
     }
 
     @Transactional

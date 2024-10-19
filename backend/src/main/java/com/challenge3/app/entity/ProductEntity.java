@@ -1,21 +1,21 @@
 package com.challenge3.app.entity;
-import java.time.ZonedDateTime;
 
+
+import java.time.ZonedDateTime;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 import org.hibernate.annotations.CreationTimestamp;
-
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.lang.Nullable;
 
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Data
 @Entity(name = "products")
 @Table(name = "products")
@@ -25,44 +25,42 @@ public class ProductEntity {
     @NotNull(message = "Id sản phẩm là bắt buọộc!")
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    long id;
 
     @NotBlank(message = "Mã code sản phẩm là bắt buộc!")
     @NotNull(message = "Mã code sản phẩm là bắt buộc!")
     @Column(name = "code", nullable = false, unique = true)
-    private String code;
+    String code;
 
     @NotBlank(message = "Tên sản phẩm là bắt buộc!")
     @NotNull(message = "Tên sản phẩm là bắt buộc!")
     @Column(name = "name", nullable = false)
-    private String name;
+    String name;
 
     @NotBlank(message = "Thể loại sản phẩm là bắt buộc!")
     @NotNull(message = "Thể loại sản phẩm là bắt buộc!")
     @Column(name = "category", nullable = false)
-    private String category;
+    String category;
 
     @NotBlank(message = "Hãng sản phẩm là bắt buôộc!")
     @NotNull(message = "Hãng sản phẩm là bắt buôộc!")
     @Column(name = "brand")
-    private String brand;
+    String brand;
 
-    @Nullable
     @Column(name = "type")
-    private String type;
+    String type;
 
-    @Nullable
     @Column(name = "description")
-    private String description;
+    String description;
 
     @JsonIgnore
     @CreationTimestamp
     @Column(name = "created_at", nullable = false)
-    private ZonedDateTime created_at;
+    ZonedDateTime created_at;
 
     @JsonIgnore
     @UpdateTimestamp
     @Column(name = "updated_at", nullable = false)
-    private ZonedDateTime updated_at;
+    ZonedDateTime updated_at;
 
 }

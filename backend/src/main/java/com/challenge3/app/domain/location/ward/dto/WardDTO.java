@@ -1,29 +1,28 @@
 package com.challenge3.app.domain.location.ward.dto;
 
 import com.challenge3.app.domain.location.district.dto.DistrictDTO;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @SuperBuilder
 public class WardDTO {
 
-    private String id;
+    String id;
 
-    private String name;
+    String name;
 
-    private String name_en;
+    String name_en;
 
-    private String full_name;
+    String full_name;
 
-    private String full_name_en;
+    String full_name_en;
 
-    private String code_name;
+    String code_name;
 
 }

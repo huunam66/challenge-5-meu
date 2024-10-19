@@ -1,12 +1,13 @@
-package com.challenge3.app.domain.user.service.impl;
+package com.challenge3.app.domain.profile.service;
 
 import com.challenge3.app.domain.location.ward.repository.WardRepository;
-import com.challenge3.app.domain.user.dto.ProfileDTO;
-import com.challenge3.app.domain.user.dto.ProfileLocationDTO;
-import com.challenge3.app.domain.user.repository.ProfileRepository;
+import com.challenge3.app.domain.profile.dto.ProfileDTO;
+import com.challenge3.app.domain.profile.dto.ProfileLocationDTO;
+import com.challenge3.app.domain.profile.repository.ProfileRepository;
+import com.challenge3.app.domain.profile.request.ProfileLocationRequest;
+import com.challenge3.app.domain.profile.request.ProfileRequest;
 import com.challenge3.app.domain.user.repository.UserRepository;
-import com.challenge3.app.domain.user.request.UploadAvatar;
-import com.challenge3.app.domain.user.service.ProfileService;
+import com.challenge3.app.domain.profile.request.UploadAvatarRequest;
 import com.challenge3.app.entity.ProfileEntity;
 import com.challenge3.app.entity.ProfileLocationEntity;
 import com.challenge3.app.entity.UserEntity;
@@ -34,9 +35,9 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public ProfileDTO save(ProfileDTO profileDTO, String email) {
+    public ProfileDTO save(ProfileRequest profileRequest, String email) {
 
-        if(profileDTO == null) throw new IsNullOrEmptyException("Đầu vào không hợp lệ!");
+        if(profileRequest == null) throw new IsNullOrEmptyException("Đầu vào không hợp lệ!");
 
         ProfileEntity profileEntity = this.profileRepository.findProfileByUsername(email).orElse(null);
 
@@ -48,12 +49,11 @@ public class ProfileServiceImpl implements ProfileService {
             profileEntity = ProfileEntity.builder().user(userEntity).profileLocation(null).build();
         }
 
-        profileEntity.setFirst_name(profileDTO.getFirst_name());
-        profileEntity.setLast_name(profileDTO.getLast_name());
-        profileEntity.setIdentification_code(profileDTO.getIdentification_code());
-        profileEntity.setBirthDay(profileDTO.getBirthDay());
-        profileEntity.setGender(profileDTO.getGender());
-
+        profileEntity.setFirst_name(profileRequest.getFirst_name());
+        profileEntity.setLast_name(profileRequest.getLast_name());
+        profileEntity.setIdentification_code(profileRequest.getIdentification_code());
+        profileEntity.setBirthDay(profileRequest.getBirthDay());
+        profileEntity.setGender(profileRequest.getGender());
 
         return this.modelMapper.map(
                 this.profileRepository.save(profileEntity),
@@ -62,11 +62,11 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public ProfileLocationDTO save(ProfileLocationDTO profileLocationDTO, String email) {
+    public ProfileLocationDTO save(ProfileLocationRequest profileLocationRequest, String email) {
 
 //        System.out.println(profileLocationDTO);
 
-        if(profileLocationDTO == null) throw new IsNullOrEmptyException("Đầu vào không hợp lệ!");
+        if(profileLocationRequest == null) throw new IsNullOrEmptyException("Đầu vào không hợp lệ!");
 
         ProfileEntity profileEntity = this.profileRepository.findProfileLocationByUsername(email).orElseThrow(null);
 
@@ -87,13 +87,15 @@ public class ProfileServiceImpl implements ProfileService {
             profileEntity.setProfileLocation(profileLocationEntity);
         }
 
-        profileLocationEntity.setHome_number(profileLocationDTO.getHome_number());
-        profileLocationEntity.setStreet(profileLocationDTO.getStreet());
+        profileLocationEntity.setHome_number(profileLocationRequest.getHome_number());
+        profileLocationEntity.setStreet(profileLocationRequest.getStreet());
         profileLocationEntity.setCountry("Việt Nam");
 
-        if(profileLocationEntity.getWard() == null || !profileLocationEntity.getWard().getId().equals(profileLocationDTO.getWard().getId())){
+        if(profileLocationEntity.getWard() == null
+                || !profileLocationEntity.getWard().getId().equals(profileLocationRequest.getWardId())){
+
             profileLocationEntity.setWard(
-                    this.wardRepository.findWardDById(profileLocationDTO.getWard().getId()).orElse(null)
+                    this.wardRepository.findWardDById(profileLocationRequest.getWardId()).orElse(null)
             );
         }
 
@@ -105,7 +107,7 @@ public class ProfileServiceImpl implements ProfileService {
 
 
     @Override
-    public String uploadAvatar(UploadAvatar uploadAvatar) throws Exception {
+    public String uploadAvatar(UploadAvatarRequest uploadAvatar) throws Exception {
 
         String email = uploadAvatar.getEmail();
         MultipartFile file = uploadAvatar.getFile();

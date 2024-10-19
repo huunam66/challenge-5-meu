@@ -1,4 +1,4 @@
-package com.challenge3.app.domain.user.dto;
+package com.challenge3.app.domain.profile.dto;
 
 import com.challenge3.app.domain.location.ward.dto.WardDistrictProvinceDTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
