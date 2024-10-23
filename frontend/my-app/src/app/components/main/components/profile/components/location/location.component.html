@@ -22,7 +22,7 @@
     <div class="grid grid-cols-[1fr_1fr_1fr] gap-6">
       <div class="flex items-start space-x-1">
         <div>
-          <mat-icon class="text-gray-400 text-base">
+          <mat-icon class="text-gray-400 text-base leading-[1]">
             home
           </mat-icon>
         </div>
@@ -32,7 +32,8 @@
           <input [(ngModel)]="this.profile.profileLocation.home_number" placeholder="Nhập..."
             class="input-field px-4 py-3 bg-transparent rounded-md outline-none border border-gray-300 text-xs text-gray-950 w-full duration-200 focus:ring-1 focus:border-transparent focus:ring-blue-500" />
           }@else {
-          <p class="py-3 bg-transparent outline-none border-none text-xs text-gray-950 w-full !m-0 font-medium">
+          <p
+            class="py-3 bg-transparent outline-none border border-transparent text-xs text-gray-950 w-full !m-0 font-medium">
             {{this?.profile?.profileLocation?.home_number || '---'}}
           </p>
           }
@@ -41,7 +42,7 @@
       </div>
       <div class="flex items-start space-x-1">
         <div>
-          <mat-icon class="text-gray-400 text-base">
+          <mat-icon class="text-gray-400 text-base leading-[1]">
             add_road
           </mat-icon>
         </div>
@@ -51,7 +52,8 @@
           <input [(ngModel)]="this.profile.profileLocation.street" placeholder="Nhập..."
             class="input-field px-4 py-3 bg-transparent rounded-md outline-none border border-gray-300 text-xs text-gray-950 w-full duration-200 focus:ring-1 focus:border-transparent focus:ring-blue-500" />
           }@else {
-          <p class="py-3 bg-transparent outline-none border-none text-xs text-gray-950 w-full !m-0 font-medium">
+          <p
+            class="py-3 bg-transparent outline-none border border-transparent text-xs text-gray-950 w-full !m-0 font-medium">
             {{this?.profile?.profileLocation?.street || '---'}}
           </p>
           }
@@ -59,13 +61,15 @@
       </div>
       <div class="flex items-start space-x-1">
         <div>
-          <mat-icon class="text-gray-400 text-base">
+          <mat-icon class="text-gray-400 text-base leading-[1]">
             flag
           </mat-icon>
         </div>
         <div class="flex flex-col flex-1 gap-2">
           <label class="text-gray-500 text-xs">Nước</label>
-          <p class="py-3 bg-transparent outline-none border-none text-xs text-gray-950 w-full !m-0 font-medium">{{'Việt
+          <p
+            class="py-3 bg-transparent outline-none border border-transparent text-xs text-gray-950 w-full !m-0 font-medium">
+            {{'Việt
             Nam'}}
           </p>
         </div>
@@ -77,7 +81,7 @@
     <div class="grid grid-cols-[1fr_1fr_1fr] gap-5">
       <div class="flex items-start space-x-1">
         <div>
-          <mat-icon class="text-gray-400 text-base">
+          <mat-icon class="text-gray-400 text-base leading-[1]">
             location_on
           </mat-icon>
         </div>
@@ -93,7 +97,8 @@
             }
           </select>
           }@else {
-          <p class="py-3 bg-transparent outline-none border-none text-xs text-gray-950 w-full !m-0 font-medium">
+          <p
+            class="py-3 bg-transparent outline-none border border-transparent text-xs text-gray-950 w-full !m-0 font-medium">
             {{this?.profile?.profileLocation?.ward?.district?.province?.name || '---'}}
           </p>
           }
@@ -101,7 +106,7 @@
       </div>
       <div class="flex items-start space-x-1">
         <div>
-          <mat-icon class="text-gray-400 text-base">
+          <mat-icon class="text-gray-400 text-base leading-[1]">
             location_on
           </mat-icon>
         </div>
@@ -118,7 +123,8 @@
             }
           </select>
           }@else {
-          <p class="py-3 bg-transparent outline-none border-none text-xs text-gray-950 w-full !m-0 font-medium">
+          <p
+            class="py-3 bg-transparent outline-none border border-transparent text-xs text-gray-950 w-full !m-0 font-medium">
             {{this?.profile?.profileLocation?.ward?.district?.name || '---'}}
           </p>
           }
@@ -126,7 +132,7 @@
       </div>
       <div class="flex items-start space-x-1">
         <div>
-          <mat-icon class="text-gray-400 text-base">
+          <mat-icon class="text-gray-400 text-base leading-[1]">
             location_on
           </mat-icon>
         </div>
@@ -142,7 +148,8 @@
             }
           </select>
           }@else {
-          <p class="py-3 bg-transparent outline-none border-none text-xs text-gray-950 w-full !m-0 font-medium">
+          <p
+            class="py-3 bg-transparent outline-none border border-transparent text-xs text-gray-950 w-full !m-0 font-medium">
             {{this?.profile?.profileLocation?.ward?.name || '---'}}
           </p>
           }

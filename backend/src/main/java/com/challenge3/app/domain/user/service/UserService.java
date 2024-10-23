@@ -10,6 +10,6 @@ public interface UserService {
 
     List<UserDTO> findAll();
     UserDTO findByEmail(String email);
-    String deleteByEmail(String email);
+    void deleteByEmail(String email);
     UserDTO save(UserAuthorityRequest userAuthorityRequest);
 }

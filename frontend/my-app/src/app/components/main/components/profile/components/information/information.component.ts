@@ -8,8 +8,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { ToastrService } from 'ngx-toastr';
 import { finalize, Subscription } from 'rxjs';
-import { Profile } from '../../../../../../model/user/profile.model';
-import { ProfileApiService } from '../../../../../../service/api/profile-api.service';
+import { ProfileApiService } from '../../../../../../../service/profile/profile.service';
+import { Profile } from '../../../../../../model/profile.model';
 
 @Component({
   selector: 'app-information',
@@ -43,36 +43,36 @@ export class InformationComponent {
   constructor(
     private toastrService: ToastrService,
     private profileApiService: ProfileApiService
-  ){}
+  ) { }
 
 
-  onBirthDayDateChange(event: any){
+  onBirthDayDateChange(event: any) {
     console.log(event)
   }
 
-  onIconEditProfileInformationClick(){
+  onIconEditProfileInformationClick() {
     this.isEditProfileInformation = true;
   }
 
-  onIconCloseEditProfileInformationClick(){
+  onIconCloseEditProfileInformationClick() {
     this.isEditProfileInformation = false;
   }
 
-  onSaveProfileInformationClick(){
+  onSaveProfileInformationClick() {
     this.subscription = this.profileApiService.postProfile(this.profile)
-                .pipe(
-                  finalize(() => this.subscription.unsubscribe())
-                )
-                .subscribe({
-                  next: (res) => {
-                    // console.log(res);
-                    this.toastrService.success(res.message, '')
-                    this.onReGetProfile.emit();
-                    this.isEditProfileInformation = false;
-                  },
-                  error: (err) => {
-                    console.log(err);
-                  }
-                })
+      .pipe(
+        finalize(() => this.subscription.unsubscribe())
+      )
+      .subscribe({
+        next: (res) => {
+          // console.log(res);
+          this.toastrService.success(res.message, '')
+          this.onReGetProfile.emit();
+          this.isEditProfileInformation = false;
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      })
   }
 }

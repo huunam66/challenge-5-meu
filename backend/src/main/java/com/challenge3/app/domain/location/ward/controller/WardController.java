@@ -10,9 +10,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 @CrossOrigin({"http://localhost:8080", "http://localhost:4200"})
@@ -30,7 +28,7 @@ public class WardController {
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(path = "/wards", method = RequestMethod.GET)
-    public ApiResponse<Map<String, Object>> findALlWardByDistrictId(
+    public ApiResponse<List<WardDTO>> findALlWardByDistrictId(
             @RequestParam(name = "district_id") String district_id,
             @Parameter(
                     in = ParameterIn.QUERY,
@@ -48,17 +46,13 @@ public class WardController {
 
         String message = "Danh sách phường xã hiện có!";
 
-        Map<String, Object> response = new HashMap<>();
-
-        response.put("wards", wardDTOs);
-
-        return new IsFound<>(message, response);
+        return new IsFound<>(message, wardDTOs);
 
     }
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(path = "/wards/{id}", method = RequestMethod.GET)
-    public ApiResponse<Map<String, Object>> findWardDById(
+    public ApiResponse<WardDTO> findWardDById(
             @PathVariable(name = "id") String id,
             @Parameter(
                     in = ParameterIn.QUERY,
@@ -75,9 +69,6 @@ public class WardController {
 
         String message = "Phường xã hiện tồn tại!";
 
-        Map<String, Object> response = new HashMap<>();
-        response.put("ward", wardDTO);
-
-        return new IsFound<>(message, response);
+        return new IsFound<>(message, wardDTO);
     }
 }

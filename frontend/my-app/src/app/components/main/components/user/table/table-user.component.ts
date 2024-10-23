@@ -3,10 +3,10 @@ import { Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { finalize, Subscription } from 'rxjs';
-import { PayloadToken } from '../../../../../model/common/payload-token.model';
-import { User } from '../../../../../model/user/user.model';
-import { UserApiService } from '../../../../../service/api/user-api.service';
-import { JwtService } from '../../../../../service/utils/jwt.service';
+import { UserApiService } from '../../../../../../service/user/user.service';
+import { JwtService } from '../../../../../../utils/jwt.service';
+import { PayloadToken } from '../../../../../model/payload-token.model';
+import { User } from '../../../../../model/user.model';
 import { DetailUserComponent } from '../detail/detail-user.component';
 import { SaveUserComponent } from "../save/save-user.component";
 
@@ -24,119 +24,119 @@ import { SaveUserComponent } from "../save/save-user.component";
   styleUrl: './table-user.component.scss'
 })
 export class TableUserComponent implements OnDestroy {
-// State component
-focus_Search: boolean = false;
-isLoading: boolean = false;
+  // State component
+  focus_Search: boolean = false;
+  isLoading: boolean = false;
 
-isOpenSaveForm: boolean = false;
-isOpenDetailForm: boolean = false;
+  isOpenSaveForm: boolean = false;
+  isOpenDetailForm: boolean = false;
 
-showDetailCode: string = '';
+  showDetailCode: string = '';
 
-// Binding component
-searchValue: string = '';
-listUser: User[] = new Array();
+  // Binding component
+  searchValue: string = '';
+  listUser: User[] = new Array();
 
-@ViewChild('searchInpEl')
-search_inpEl!: ElementRef<HTMLInputElement>;
+  @ViewChild('searchInpEl')
+  search_inpEl!: ElementRef<HTMLInputElement>;
 
-payloadToken!: PayloadToken;
+  payloadToken!: PayloadToken;
 
-private subcription: Subscription;
+  private subcription: Subscription;
 
-ngOnDestroy(): void {
+  ngOnDestroy(): void {
     this.subcription.unsubscribe();
-}
+  }
 
-constructor(
-  private userApiService: UserApiService,
-  private jwtService: JwtService
-) {
-  this.payloadToken = jwtService.getPayload();
-  console.log(this.payloadToken)
-}
+  constructor(
+    private userApiService: UserApiService,
+    private jwtService: JwtService
+  ) {
+    this.payloadToken = jwtService.getPayload();
+    console.log(this.payloadToken)
+  }
 
-ngOnInit(): void {
-  this.getProductOnInitComponent();
-}
+  ngOnInit(): void {
+    this.getProductOnInitComponent();
+  }
 
-onCloseSaveForm(event: boolean): void {
-  this.isOpenSaveForm = event;
-}
+  onCloseSaveForm(event: boolean): void {
+    this.isOpenSaveForm = event;
+  }
 
-onCloseDetailForm(event: any): void {
-  this.isOpenDetailForm = event.statusIsOpen;
-  if (event.statusReloadTable) {
+  onCloseDetailForm(event: any): void {
+    this.isOpenDetailForm = event.statusIsOpen;
+    if (event.statusReloadTable) {
+      this.getUsers();
+    }
+  }
+
+  fillDataByPage(res: any): void {
+
+    this.injectListUser(res);
+
+    this.isLoading = false;
+    this.showDetailCode = '';
+  }
+
+  injectListUser(res: any): void {
+    console.log(res)
+    const users = res.data.users;
+
+    this.listUser = new Array();
+
+    users.forEach((u: any) => {
+      const user = new User();
+      user.email = u.email;
+      user.role = u.authority.name;
+
+      console.log(user)
+
+      // console.log(user);
+      this.listUser.push(user);
+    })
+  }
+
+
+
+  getProductOnInitComponent(): void {
     this.getUsers();
   }
-}
 
-fillDataByPage(res: any): void {
+  getUsers(): void {
+    // console.log('hello')
 
-  this.injectListUser(res);
-
-  this.isLoading = false;
-  this.showDetailCode = '';
-}
-
-injectListUser(res: any): void{
-  console.log(res)
-  const users = res.data.users;
-
-  this.listUser = new Array();
-
-  users.forEach((u: any) =>{
-    const user = new User();
-    user.email = u.email;
-    user.role = u.authority.name;
-
-    console.log(user)
-
-    // console.log(user);
-    this.listUser.push(user);
-  })
-}
+    this.isLoading = true;
+    this.subcription = this.userApiService
+      .getAll()
+      .pipe(
+        finalize(() => {
+          this.subcription.unsubscribe();
+        })
+      )
+      .subscribe((res: any) => this.fillDataByPage(res));
+  }
 
 
+  onClickLabelSearchTemp(): void {
+    // console.log(this.search_inpEl.nativeElement);
+    this.search_inpEl.nativeElement.focus();
+  }
 
-getProductOnInitComponent(): void {
-  this.getUsers();
-}
-
-getUsers(): void {
-  // console.log('hello')
-
-  this.isLoading = true;
-  this.subcription = this.userApiService
-    .getAll()
-    .pipe(
-      finalize(() => {
-        this.subcription.unsubscribe();
-      })
-    )
-    .subscribe((res: any) => this.fillDataByPage(res));
-}
+  onFocusSearch(): void {
+    this.focus_Search = true;
+  }
 
 
-onClickLabelSearchTemp(): void {
-  // console.log(this.search_inpEl.nativeElement);
-  this.search_inpEl.nativeElement.focus();
-}
+  onFocusOut(): void {
+    if (this.searchValue !== '') return;
 
-onFocusSearch(): void {
-  this.focus_Search = true;
-}
+    this.focus_Search = false;
+  }
 
-
-onFocusOut(): void {
-  if (this.searchValue !== '') return;
-
-  this.focus_Search = false;
-}
-
-onShowDetail(code: string) {
-  // console.log(code);
-  this.showDetailCode = code;
-  this.isOpenDetailForm = true;
-}
+  onShowDetail(code: string) {
+    // console.log(code);
+    this.showDetailCode = code;
+    this.isOpenDetailForm = true;
+  }
 }

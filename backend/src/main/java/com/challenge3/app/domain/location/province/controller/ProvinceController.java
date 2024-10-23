@@ -3,15 +3,11 @@ package com.challenge3.app.domain.location.province.controller;
 import com.challenge3.app.common.response.ApiResponse;
 import com.challenge3.app.common.response.IsFound;
 import com.challenge3.app.domain.location.province.dto.ProvinceDTO;
-import com.challenge3.app.domain.location.province.dto.ProvinceDistrictsDTO;
 import com.challenge3.app.domain.location.province.service.ProvinceService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 @CrossOrigin({"http://localhost:8080", "http://localhost:4200"})
@@ -29,42 +25,34 @@ public class ProvinceController {
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(path = "/provinces", method = RequestMethod.GET)
-    public ApiResponse<Map<String, Object>> findAllProvinces() {
+    public ApiResponse<List<ProvinceDTO>> findAllProvinces() {
 
         List<ProvinceDTO> provinces = this.provinceService.findAllProvinces();
 
         String message = "Danh sách tỉnh thành hiện có!";
 
-        Map<String, Object> response = new HashMap<>();
-        response.put("provinces", provinces);
-
-        return new IsFound<>(message, response);
+        return new IsFound<>(message, provinces);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(path = "/provinces/{id}", method = RequestMethod.GET)
-    public ApiResponse<Map<String, Object>> findProvinceById(@PathVariable("id") String id) {
+    public ApiResponse<ProvinceDTO> findProvinceById(@PathVariable("id") String id) {
 
         ProvinceDTO provinceDTO = this.provinceService.findByProvinceId(id);
 
         String message = "Tỉnh thành hiện tồn tại!";
 
-        Map<String, Object> response = new HashMap<>();
-        response.put("province", provinceDTO);
-
-        return new IsFound<>(message, response);
+        return new IsFound<>(message, provinceDTO);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(path = "/provinces/{id}/districts", method = RequestMethod.GET)
-    public ApiResponse<Map<String, Object>> findAndAllDistrictsByProvinceId(@PathVariable("id") String id) {
+    public ApiResponse<ProvinceDTO> findAndAllDistrictsByProvinceId(@PathVariable("id") String id) {
+
         ProvinceDTO provinceDTO = this.provinceService.findAllDistrictByProvinceId(id);
 
         String message = "Tỉnh thành và danh sách quận huyện liên quan hiện có!";
 
-        Map<String, Object> response = new HashMap<>();
-        response.put("province", provinceDTO);
-
-        return new IsFound<>(message, response);
+        return new IsFound<>(message, provinceDTO);
     }
 }

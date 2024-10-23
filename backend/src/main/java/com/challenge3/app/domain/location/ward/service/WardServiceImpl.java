@@ -28,7 +28,7 @@ public class WardServiceImpl implements WardService{
     @Override
     public List<WardDTO> findALlWardByDistrictId(String district_id, boolean district_include) {
 
-        System.out.println("district_include: " + district_include);
+//        System.out.println("district_include: " + district_include);
 
         List<WardEntity> wardEntities = this.wardRepository.findALlWardByDistrictId(district_id);
 

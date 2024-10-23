@@ -5,6 +5,7 @@ import com.challenge3.app.domain.profile.dto.ProfileLocationDTO;
 import com.challenge3.app.domain.profile.request.ProfileLocationRequest;
 import com.challenge3.app.domain.profile.request.ProfileRequest;
 import com.challenge3.app.domain.profile.request.UploadAvatarRequest;
+import com.challenge3.app.domain.profile.dto.UploadAvatarDTO;
 
 public interface ProfileService {
 
@@ -12,7 +13,7 @@ public interface ProfileService {
 
     ProfileLocationDTO save(ProfileLocationRequest profileLocationRequest, String email);
 
-    String uploadAvatar(UploadAvatarRequest uploadAvatar) throws Exception;
+    UploadAvatarDTO uploadAvatar(UploadAvatarRequest uploadAvatar) throws Exception;
 
     ProfileDTO getProfileAndLocationByUserEmail(String email);
 }

@@ -23,7 +23,7 @@
     <div class="grid grid-cols-[1fr_1fr_1fr] gap-6">
       <div class="flex items-start space-x-1">
         <div>
-          <mat-icon class="text-gray-400 text-base">
+          <mat-icon class="text-gray-400 text-base leading-[1]">
             person
           </mat-icon>
         </div>
@@ -33,7 +33,8 @@
           <input [(ngModel)]="this.profile.first_name" placeholder="Nhập..."
             class="input-field px-4 py-3 bg-transparent rounded-md outline-none border border-gray-300 text-xs text-gray-950 w-full duration-200 focus:ring-1 focus:border-transparent focus:ring-blue-500" />
           }@else {
-          <p class="py-3 bg-transparent outline-none border-none text-xs text-gray-950 w-full !m-0 font-medium">
+          <p
+            class="py-3 bg-transparent outline-none border border-transparent text-xs text-gray-950 w-full !m-0 font-medium">
             {{this?.profile?.first_name || '---'}}
           </p>
           }
@@ -41,7 +42,7 @@
       </div>
       <div class="flex items-start space-x-1">
         <div>
-          <mat-icon class="text-gray-400 text-base">
+          <mat-icon class="text-gray-400 text-base leading-[1]">
             person
           </mat-icon>
         </div>
@@ -51,7 +52,8 @@
           <input [(ngModel)]="this.profile.last_name" placeholder="Nhập..."
             class="input-field px-4 py-3 bg-transparent rounded-md outline-none border border-gray-300 text-xs text-gray-950 w-full duration-200 focus:ring-1 focus:border-transparent focus:ring-blue-500" />
           }@else {
-          <p class="py-3 bg-transparent outline-none border-none text-xs text-gray-950 w-full !m-0 font-medium">
+          <p
+            class="py-3 bg-transparent outline-none border border-transparent text-xs text-gray-950 w-full !m-0 font-medium">
             {{this?.profile?.last_name || '---'}}
           </p>
           }
@@ -59,7 +61,7 @@
       </div>
       <div class="flex items-start space-x-1">
         <div>
-          <mat-icon class="text-gray-400 text-base">
+          <mat-icon class="text-gray-400 text-base leading-[1]">
             fingerprint
           </mat-icon>
         </div>
@@ -69,7 +71,8 @@
           <input [(ngModel)]="this.profile.identification_code" placeholder="Nhập..."
             class="input-field px-4 py-3 bg-transparent rounded-md outline-none border border-gray-300 text-xs text-gray-950 w-full duration-200 focus:ring-1 focus:border-transparent focus:ring-blue-500" />
           }@else {
-          <p class="py-3 bg-transparent outline-none border-none text-xs text-gray-950 w-full !m-0 font-medium">
+          <p
+            class="py-3 bg-transparent outline-none border border-transparent text-xs text-gray-950 w-full !m-0 font-medium">
             {{this?.profile?.identification_code || '---'}}
           </p>
           }
@@ -82,7 +85,7 @@
     <div class="grid grid-cols-[1fr_1fr_1fr] gap-5">
       <div class="flex items-start space-x-1">
         <div>
-          <mat-icon class="text-gray-400 text-base">
+          <mat-icon class="text-gray-400 text-base leading-[1]">
             calendar_month
           </mat-icon>
         </div>
@@ -92,7 +95,8 @@
           <input [(ngModel)]="this.profile.birthDay" type="date" placeholder="Nhập..."
             class="input-field px-4 py-3 bg-transparent rounded-md outline-none border border-gray-300 text-xs text-gray-950 w-full duration-200 focus:ring-1 focus:border-transparent focus:ring-blue-500" />
           }@else {
-          <p class="py-3 bg-transparent outline-none border-none text-xs text-gray-950 w-full !m-0 font-medium">
+          <p
+            class="py-3 bg-transparent outline-none border border-transparent text-xs text-gray-950 w-full !m-0 font-medium">
             {{this?.profile?.birthDay| date: 'dd/MM/yyyy'}}
           </p>
           }
@@ -100,7 +104,7 @@
       </div>
       <div class="flex items-start space-x-1">
         <div>
-          <mat-icon class="text-gray-400 text-base">
+          <mat-icon class="text-gray-400 text-base leading-[1]">
             wc
           </mat-icon>
         </div>
@@ -114,7 +118,8 @@
             <option [value]="'Nữ'">Nữ</option>
           </select>
           }@else {
-          <p class="py-3 bg-transparent outline-none border-none text-xs text-gray-950 w-full !m-0 font-medium">
+          <p
+            class="py-3 bg-transparent outline-none border border-transparent text-xs text-gray-950 w-full !m-0 font-medium">
             {{this?.profile?.gender
             || '---'}}
           </p>
@@ -123,7 +128,7 @@
       </div>
       <div class="flex items-start space-x-1">
         <div>
-          <mat-icon class="text-gray-400 text-base">
+          <mat-icon class="text-gray-400 text-base leading-[1]">
             mail
           </mat-icon>
         </div>
@@ -133,7 +138,8 @@
           <input [(ngModel)]="this.profile.email" readonly placeholder="Nhập..."
             class="input-field px-4 py-3 bg-transparent rounded-md outline-none border border-gray-300 text-xs text-gray-950 w-full duration-200 focus:ring-1 focus:border-transparent focus:ring-blue-500" />
           }@else {
-          <p class="py-3 bg-transparent outline-none border-none text-xs text-gray-950 w-full !m-0 font-medium">
+          <p
+            class="py-3 bg-transparent outline-none border border-transparent text-xs text-gray-950 w-full !m-0 font-medium">
             {{this?.profile?.email
             || '---'}}
           </p>

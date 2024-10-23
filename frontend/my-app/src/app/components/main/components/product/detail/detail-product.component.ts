@@ -4,11 +4,11 @@ import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { ToastrService } from 'ngx-toastr';
 import { finalize, Subscription } from 'rxjs';
+import { ProductApiService } from '../../../../../../service/product/product.service';
+import { JwtService } from '../../../../../../utils/jwt.service';
 import { ProductError } from '../../../../../error/config/ProductError.config';
-import { PayloadToken } from '../../../../../model/common/payload-token.model';
-import { Product } from '../../../../../model/product/product.model';
-import { ProductApiService } from '../../../../../service/api/product-api.service';
-import { JwtService } from '../../../../../service/utils/jwt.service';
+import { PayloadToken } from '../../../../../model/payload-token.model';
+import { Product } from '../../../../../model/product.model';
 import { ConfirmBoxComponent } from '../../../../common/confirm-box/confirm-box.component';
 
 @Component({
@@ -104,7 +104,7 @@ export class DetailProductComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-      this.subcription?.unsubscribe();
+    this.subcription?.unsubscribe();
   }
 
   onTurnEditView(): void {

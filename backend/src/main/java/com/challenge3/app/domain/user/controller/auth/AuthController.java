@@ -1,6 +1,7 @@
 package com.challenge3.app.domain.user.controller.auth;
 
 import com.challenge3.app.common.response.ApiResponse;
+import com.challenge3.app.domain.user.dto.AuthenticatedDTO;
 import com.challenge3.app.domain.user.request.GrantRequest;
 import com.challenge3.app.domain.user.request.UserRequest;
 import com.challenge3.app.domain.user.response.GrantSuccessfully;
@@ -10,9 +11,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import java.util.HashMap;
-import java.util.Map;
-
 
 
 @CrossOrigin({"http://localhost:8080", "http://localhost:4200"})
@@ -30,19 +28,13 @@ public class AuthController {
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(path = "/signin", method = RequestMethod.POST)
-    public ApiResponse<Map<String, Object>> signin(@Valid @RequestBody UserRequest userDTO){
+    public ApiResponse<AuthenticatedDTO> signin(@Valid @RequestBody UserRequest userDTO){
 
-        String token = this.authService.signin(userDTO);
-
-//        System.out.println(token);
+        AuthenticatedDTO authenticatedDTO = this.authService.signin(userDTO);
 
         String message = "Đăng nhập thành công!";
 
-        Map<String, Object> responseEntity = new HashMap<>();
-        responseEntity.put("token", token);
-        responseEntity.put("authentication", true);
-
-        return new SignInSuccessfully<>(message, responseEntity);
+        return new SignInSuccessfully<>(message, authenticatedDTO);
     }
 
     @ResponseStatus(HttpStatus.OK)

@@ -6,7 +6,6 @@ import com.challenge3.app.domain.location.district.dto.DistrictProvinceWardsDTO;
 import com.challenge3.app.domain.location.district.dto.DistrictWardsDTO;
 import com.challenge3.app.domain.location.district.repository.DistrictRepository;
 import com.challenge3.app.entity.DistrictsEntity;
-import com.challenge3.app.exception.IsNullOrEmptyException;
 import com.challenge3.app.exception.NotFoundException;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;

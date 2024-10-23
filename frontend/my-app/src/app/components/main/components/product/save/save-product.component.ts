@@ -3,9 +3,9 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { MatIconModule } from '@angular/material/icon';
 import { ToastrService } from 'ngx-toastr';
 import { finalize, Subscription } from 'rxjs';
+import { ProductApiService } from '../../../../../../service/product/product.service';
 import { ProductError } from '../../../../../error/config/ProductError.config';
-import { Product } from '../../../../../model/product/product.model';
-import { ProductApiService } from '../../../../../service/api/product-api.service';
+import { Product } from '../../../../../model/product.model';
 import { ConfirmBoxComponent } from '../../../../common/confirm-box/confirm-box.component';
 
 @Component({
@@ -47,7 +47,7 @@ export class SaveProductComponent implements OnInit, OnDestroy {
   constructor(
     private toastr: ToastrService,
     private productApiService: ProductApiService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.categories = [

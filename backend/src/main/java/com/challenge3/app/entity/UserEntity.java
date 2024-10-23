@@ -1,5 +1,6 @@
 package com.challenge3.app.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Table;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -28,6 +29,7 @@ public class UserEntity {
     @Column(name = "email", nullable = false, updatable = false, unique = true)
     String email;
 
+    @JsonIgnore
     @NotBlank(message = "Mật khẩu là bắt buộc!")
     @NotNull(message = "Mật khẩu là bắt buộc!")
     @Column(name = "password", nullable = false)

@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
 
     @Transactional
     @Override
-    public String deleteByEmail(String email) {
+    public void deleteByEmail(String email) {
 
         UserEntity userEntity = this.userRepository.findById(email).orElseThrow(
                 () -> new NotFoundException("Nhân viên không tồn tại!")
@@ -65,18 +65,14 @@ public class UserServiceImpl implements UserService {
 
         if(isSuperAdmin) throw new RuntimeException("Không thể xóa nhân viên cao nhất!");
 
-        String emailOldUser = userEntity.getEmail();
-
         this.userRepository.delete(userEntity);
-
-        return emailOldUser;
     }
 
     @Transactional
     @Override
     public UserDTO save(UserAuthorityRequest userAuthorityRequest) {
 
-        System.out.println(userAuthorityRequest);
+//        System.out.println(userAuthorityRequest);
 
         if(userAuthorityRequest == null) throw new IsNullOrEmptyException("Đầu vào không hợp lệ!");
 

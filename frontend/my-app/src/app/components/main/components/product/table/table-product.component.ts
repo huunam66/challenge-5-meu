@@ -3,11 +3,11 @@ import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/co
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { finalize, Subscription } from 'rxjs';
-import { PayloadToken } from '../../../../../model/common/payload-token.model';
-import { Product } from '../../../../../model/product/product.model';
-import { ProductApiService } from '../../../../../service/api/product-api.service';
-import { JwtService } from '../../../../../service/utils/jwt.service';
-import { RouteService } from '../../../../../service/utils/route.service';
+import { ProductApiService } from '../../../../../../service/product/product.service';
+import { JwtService } from '../../../../../../utils/jwt.service';
+import { RouteService } from '../../../../../../utils/route.service';
+import { PayloadToken } from '../../../../../model/payload-token.model';
+import { Product } from '../../../../../model/product.model';
 import { LoadingComponent } from '../../../../common/loading/loading.component';
 import { DetailProductComponent } from '../detail/detail-product.component';
 import { SaveProductComponent } from '../save/save-product.component';
@@ -22,7 +22,7 @@ import { SaveProductComponent } from '../save/save-product.component';
     SaveProductComponent,
     DetailProductComponent,
     LoadingComponent
-],
+  ],
   templateUrl: './table-product.component.html',
   styleUrl: './table-product.component.scss',
 })
@@ -75,7 +75,7 @@ export class TableProductComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-      this.subcription?.unsubscribe();
+    this.subcription?.unsubscribe();
   }
 
   onCloseSaveForm(event: boolean): void {

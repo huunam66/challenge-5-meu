@@ -1,11 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormControl, FormGroup, FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { ToastrService } from 'ngx-toastr';
-import { finalize, Subscription } from 'rxjs';
-import { User } from '../../../../../model/user/user.model';
-import { UserApiService } from '../../../../../service/api/user-api.service';
+import { catchError, finalize, of, Subscription, tap } from 'rxjs';
+import { environment } from '../../../../../../environments/environment.role-grant';
+import { InvalidField } from '../../../../../../model/error.model';
+import { ResponseResult } from '../../../../../../model/responseResult.model';
+import { User } from '../../../../../../model/user.model';
+import { UserService } from '../../../../../../service/user/user.service';
 import { ConfirmBoxComponent } from '../../../../common/confirm-box/confirm-box.component';
 
 @Component({
@@ -20,24 +23,23 @@ import { ConfirmBoxComponent } from '../../../../common/confirm-box/confirm-box.
   templateUrl: './save-user.component.html',
   styleUrl: './save-user.component.scss'
 })
-export class SaveUserComponent implements OnInit, OnDestroy {
-  user: User = new User();
+export class SaveUserComponent implements OnInit {
 
-  ROLE_STORE: string[] = ["USER", "ADMIN"];
+  @Input() forSave!: string;
+  @Input() isOpenThis: boolean = false;
+  @Output() onCloseThis = new EventEmitter<boolean>();
+  @Output() onReloadWhenSaveDone = new EventEmitter();
+
+  ROLE_GRANT: string[] = environment.ROLE_GRANT;
+
+  userSave: FormGroup = new FormGroup({
+    email: new FormControl(''),
+    password: new FormControl(''),
+    role: new FormControl(this.ROLE_GRANT[0])
+  });
+
 
   isLoading: boolean = false;
-
-  @Input()
-  forSave!: string;
-
-  @Input()
-  isOpenThis: boolean = false;
-
-  @Output()
-  onCloseThis = new EventEmitter<boolean>();
-
-  @Output()
-  onReloadWhenSaveDone = new EventEmitter();
 
   isConfirmExit: boolean = false;
 
@@ -46,17 +48,13 @@ export class SaveUserComponent implements OnInit, OnDestroy {
   private subcription: Subscription;
 
   ngOnInit(): void {
-      this.user.role = this.ROLE_STORE[0];
-  }
 
-  ngOnDestroy(): void {
-      this.subcription?.unsubscribe();
   }
 
   constructor(
     private toastr: ToastrService,
-    private userApiService: UserApiService
-  ) {}
+    private userService: UserService
+  ) { }
 
   onCancelConfirmSave(): void {
     this.isConfirmSave = false;
@@ -74,10 +72,6 @@ export class SaveUserComponent implements OnInit, OnDestroy {
     }, 400);
   }
 
-  onClose(): void {
-
-    this.onOkExitFormSave();
-  }
 
   onCloseConfirmExit(event: boolean): void {
     this.isConfirmExit = event;
@@ -93,48 +87,48 @@ export class SaveUserComponent implements OnInit, OnDestroy {
   onSavingProduct(): void {
     this.isLoading = true;
     setTimeout(() => {
-      console.log(this.user)
-      this.user.password = this.user.email.charAt(0).toUpperCase() + this.user.email.substring(1);
-      console.log(this.user.password)
-      this.subcription = this.userApiService
-        .post(this.user)
+
+      const { email } = this.userSave.value;
+
+      this.userSave.patchValue({
+        password: email.charAt(0).toUpperCase() + email.substring(1)
+      })
+
+      const userReadySave: User = { ...this.userSave.value }
+
+      this.userService
+        .postUser(userReadySave)
         .pipe(
-          finalize(() => this.subcription.unsubscribe())
+
+          tap((res: ResponseResult<User>) => {
+            this.toastr.success(res.message, '');
+            this.onCloseThis.emit(!this.isOpenThis);
+            this.onReloadWhenSaveDone.emit();
+          }),
+
+          catchError((error: ResponseResult<InvalidField[]>) => {
+            const invalidFields = error.data;
+
+            if (invalidFields) {
+
+              invalidFields.forEach((f, index) => {
+                setTimeout(() => {
+                  this.toastr.error(f.defaultMessage, f.field);
+                }, 400 * index);
+              })
+            }
+            else this.toastr.error(error.message, '');
+
+            return of(null);
+          }),
+
+          finalize(() => {
+            this.isLoading = false;
+            this.isConfirmSave = false;
+          })
         )
-        .subscribe({
-          next: (res) => this.onResponseSavingProduct(res),
-          error: (err) => {
-          this.isLoading = false;
-          this.isConfirmSave = false;
-          console.log(err);
-          const invalidFields: any = err?.error?.data?.invalidFields;
-
-          if(invalidFields != undefined && invalidFields != null){
-            Object.keys(invalidFields).forEach((key, index) => {
-              setTimeout(() => {
-                this.toastr.error(invalidFields[key], key);
-              }, 400 * index);
-            })
-
-            return;
-          }
-
-          this.toastr.error(err.error.message, '');
-        }})
+        .subscribe()
     }, 2000);
   }
 
-  onResponseSavingProduct(res: any): void {
-    this.isLoading = false;
-    this.isConfirmSave = false;
-
-    if (res.code != 201) {
-      this.toastr.error(res.message, '');
-    } else {
-      this.toastr.success(res.message, '');
-
-      this.onCloseThis.emit(!this.isOpenThis);
-      this.onReloadWhenSaveDone.emit();
-    }
-  }
 }

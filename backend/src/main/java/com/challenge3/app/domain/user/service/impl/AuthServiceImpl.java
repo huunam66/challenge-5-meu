@@ -5,6 +5,7 @@ import com.challenge3.app.configuration.auth.role.ROLE;
 import com.challenge3.app.domain.user.dto.AuthorityDTO;
 import com.challenge3.app.domain.user.dto.UserDTO;
 import com.challenge3.app.domain.user.request.GrantRequest;
+import com.challenge3.app.domain.user.dto.AuthenticatedDTO;
 import com.challenge3.app.domain.user.service.AuthService;
 import com.challenge3.app.entity.UserEntity;
 import com.challenge3.app.domain.user.request.UserRequest;
@@ -37,7 +38,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public String signin(UserRequest userRequest) throws AuthenticationException {
+    public AuthenticatedDTO signin(UserRequest userRequest) throws AuthenticationException {
 
         System.out.println(userRequest);
 
@@ -49,13 +50,19 @@ public class AuthServiceImpl implements AuthService {
                 )
         );
 
-        return jwtService.generateToken(
-            UserDTO.builder().email(authentication.getName()).authority(
-                    AuthorityDTO.builder().name(
-                            ROLE.valueOf(authentication.getAuthorities().stream().toList().get(0).getAuthority().split("ROLE_")[1])
-                    ).build()
-            ).build()
+        String token = jwtService.generateToken(
+                UserDTO.builder().email(authentication.getName()).authority(
+                        AuthorityDTO.builder().name(
+                                ROLE.valueOf(authentication.getAuthorities().stream().toList().get(0).getAuthority().split("ROLE_")[1])
+                        ).build()
+                ).build()
         );
+
+        return AuthenticatedDTO
+                .builder()
+                    .token(token)
+                    .authenticated(true)
+                .build();
     }
 
     @Transactional

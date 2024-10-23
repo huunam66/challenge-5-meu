@@ -1,4 +1,4 @@
-import { Profile } from './../../../../../../model/user/profile.model';
+import { Profile } from '../../../../../../model/profile.model';
 
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
@@ -6,11 +6,11 @@ import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { ToastrService } from 'ngx-toastr';
 import { finalize, Subscription } from 'rxjs';
+import { LocationApiService } from '../../../../../../../service/location/location.service';
+import { ProfileApiService } from '../../../../../../../service/profile/profile.service';
 import { District } from '../../../../../../model/location/district.model';
 import { Province } from '../../../../../../model/location/province.model';
 import { Ward } from '../../../../../../model/location/ward.model';
-import { LocationApiService } from '../../../../../../service/api/location-api.service';
-import { ProfileApiService } from '../../../../../../service/api/profile-api.service';
 
 @Component({
   selector: 'app-location',
@@ -41,100 +41,100 @@ export class LocationComponent implements OnInit, OnDestroy {
     private toastrService: ToastrService,
     private profileApiService: ProfileApiService,
     private locationApiService: LocationApiService
-  ){}
+  ) { }
 
   ngOnInit(): void {
     this.onLoadLocationProfile();
   }
 
   ngOnDestroy(): void {
-      this.subscription?.unsubscribe();
+    this.subscription?.unsubscribe();
   }
 
 
-  onSaveProfileLocationClick(){
+  onSaveProfileLocationClick() {
     this.subscription = this.profileApiService.postProfileLocation(this.profile)
-                .pipe(
-                  finalize(() => this.subscription.unsubscribe())
-                )
-                .subscribe({
-                  next: (res) => {
-                    // console.log(res);
-                    this.toastrService.success(res.message, '')
-                    this.onReGetProfile.emit();
-                    this.isEditProfileLocation = false;
-                  },
-                  error: (err) => {
-                    console.log(err);
-                  }
-                })
+      .pipe(
+        finalize(() => this.subscription.unsubscribe())
+      )
+      .subscribe({
+        next: (res) => {
+          // console.log(res);
+          this.toastrService.success(res.message, '')
+          this.onReGetProfile.emit();
+          this.isEditProfileLocation = false;
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      })
   }
 
-  onIconEditProfileLocationClick(){
+  onIconEditProfileLocationClick() {
     this.isEditProfileLocation = true;
   }
 
-  onIconCloseEditProfileLocationClick(){
+  onIconCloseEditProfileLocationClick() {
     this.isEditProfileLocation = false;
   }
 
 
-  onLoadWardsByDistrictId(districtId: string){
+  onLoadWardsByDistrictId(districtId: string) {
 
     this.subscription = this.locationApiService.getAllWardsByDistrictId(districtId)
-                    .pipe(
-                      finalize(() => this.subscription.unsubscribe())
-                    )
-                    .subscribe({
-                      next: (res) => {
-                        // console.log(res);
-                        this.wards = res.data.wards;
-                        // console.log(this.wards)
-                      },
-                      error: (err) => {
-                        console.log(err);
-                      }
-                    })
+      .pipe(
+        finalize(() => this.subscription.unsubscribe())
+      )
+      .subscribe({
+        next: (res) => {
+          // console.log(res);
+          this.wards = res.data.wards;
+          // console.log(this.wards)
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      })
 
   }
 
 
-  onLoadProvinces(){
+  onLoadProvinces() {
     this.subscription = this.locationApiService.getAllProvinces()
-                    .pipe(
-                      finalize(() => this.subscription.unsubscribe())
-                    )
-                    .subscribe({
-                      next: (res) => {
-                        // console.log(res)
-                        this.provinces = res.data.provinces;
-                        // console.log(this.provinces);
-                      },
-                      error: (err) => {
-                        console.log(err);
-                      }
-                    })
+      .pipe(
+        finalize(() => this.subscription.unsubscribe())
+      )
+      .subscribe({
+        next: (res) => {
+          // console.log(res)
+          this.provinces = res.data.provinces;
+          // console.log(this.provinces);
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      })
   }
 
 
-  onLoadDistrictsByProvinceId(provinceId: string){
+  onLoadDistrictsByProvinceId(provinceId: string) {
     this.subscription = this.locationApiService.getAllDistrictsByProvinceId(provinceId)
-        .pipe(
-          finalize(() => this.subscription.unsubscribe())
-        )
-        .subscribe({
-          next: (res) => {
-            // console.log(res);
-            this.districts = res.data.districts;
-            this.wards = [];
-          },
-          error: (err) => {
-            console.log(err);
-          }
-        })
+      .pipe(
+        finalize(() => this.subscription.unsubscribe())
+      )
+      .subscribe({
+        next: (res) => {
+          // console.log(res);
+          this.districts = res.data.districts;
+          // this.wards = [];
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      })
   }
 
-  onLoadLocationProfile(){
+  onLoadLocationProfile() {
     this.onLoadProvinces();
 
     const provinceId: string = this?.profile?.profileLocation?.ward?.district?.province?.id;
@@ -146,15 +146,15 @@ export class LocationComponent implements OnInit, OnDestroy {
     this.onLoadWardsByDistrictId(districtId);
 
 
-    console.log(this.provinces)
-    console.log(this.districts)
-    console.log(this.wards)
+    // console.log(this.provinces)
+    // console.log(this.districts)
+    // console.log(this.wards)
   }
 
-  onChangeProvinceCombobox(e: any){
+  onChangeProvinceCombobox(e: any) {
     const provinceId: string = e.target.value;
 
-    if(!provinceId) {
+    if (!provinceId) {
       this.districts = [];
       this.wards = [];
       return;
@@ -163,10 +163,10 @@ export class LocationComponent implements OnInit, OnDestroy {
     this.onLoadDistrictsByProvinceId(provinceId);
   }
 
-  onChangeDistrictCombobox(e: any){
+  onChangeDistrictCombobox(e: any) {
     const districtId: string = e.target.value;
 
-    if(!districtId){
+    if (!districtId) {
       this.wards = [];
       return;
     }

@@ -51,6 +51,7 @@ export const routes: Routes = [
   {
     path: 'auth',
     component: AuthComponent,
+    canActivate: [authGuard],
     children: [
       {
         path: 'signin',

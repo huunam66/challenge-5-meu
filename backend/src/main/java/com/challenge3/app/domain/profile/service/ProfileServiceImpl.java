@@ -3,6 +3,7 @@ package com.challenge3.app.domain.profile.service;
 import com.challenge3.app.domain.location.ward.repository.WardRepository;
 import com.challenge3.app.domain.profile.dto.ProfileDTO;
 import com.challenge3.app.domain.profile.dto.ProfileLocationDTO;
+import com.challenge3.app.domain.profile.dto.UploadAvatarDTO;
 import com.challenge3.app.domain.profile.repository.ProfileRepository;
 import com.challenge3.app.domain.profile.request.ProfileLocationRequest;
 import com.challenge3.app.domain.profile.request.ProfileRequest;
@@ -107,7 +108,7 @@ public class ProfileServiceImpl implements ProfileService {
 
 
     @Override
-    public String uploadAvatar(UploadAvatarRequest uploadAvatar) throws Exception {
+    public UploadAvatarDTO uploadAvatar(UploadAvatarRequest uploadAvatar) throws Exception {
 
         String email = uploadAvatar.getEmail();
         MultipartFile file = uploadAvatar.getFile();
@@ -139,7 +140,10 @@ public class ProfileServiceImpl implements ProfileService {
 
         profileEntity.setAvatar(imageBase64);
 
-        return this.profileRepository.save(profileEntity).getAvatar();
+        return new UploadAvatarDTO(
+                this.profileRepository.save(profileEntity).getAvatar(),
+                true
+        );
     }
 
     @Override

@@ -5,7 +5,7 @@
   </app-save-user>
   } @if(this.isOpenDetailForm){
   <app-detail-user (onCloseThis)="onCloseDetailForm($event)" [isOpenThis]="isOpenDetailForm"
-    [detailCode]="showDetailCode" [isDetailView]="showDetailCode != ''">
+    [emailDetail]="showDetailCode" [isDetailView]="showDetailCode != ''">
   </app-detail-user>
   }
 

@@ -5,7 +5,6 @@ import com.challenge3.app.common.response.IsFound;
 import com.challenge3.app.common.response.ApiResponse;
 import com.challenge3.app.domain.user.dto.UserDTO;
 import com.challenge3.app.domain.user.request.UserAuthorityRequest;
-import com.challenge3.app.domain.user.request.UserRequest;
 import com.challenge3.app.domain.user.response.SignUpSuccessfully;
 import com.challenge3.app.domain.user.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -44,40 +43,34 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(method = RequestMethod.GET)
-    public ApiResponse<Map<String, Object>> findAll(){
+    public ApiResponse<List<UserDTO>> findAll(){
 
         List<UserDTO> userModels = this.userService.findAll();
 
         String message = "Danh sách người dùng hiện có!";
 
-        Map<String, Object> responseEntity = new HashMap<>();
-        responseEntity.put("users", userModels);
-
-        return new IsFound<>(message, responseEntity);
+        return new IsFound<>(message, userModels);
     }
 
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(path = "/{email}", method = RequestMethod.GET)
-    public ApiResponse<Map<String, Object>> findByEmail(@PathVariable(name = "email") String email){
+    public ApiResponse<UserDTO> findByEmail(@PathVariable(name = "email") String email){
 
         UserDTO userModel = this.userService.findByEmail(email);
 
         String message = "Người dùng " + userModel.getEmail() + " tồn tại!";
 
-        Map<String, Object> responseEntity = new HashMap<>();
-        responseEntity.put("user", userModel);
-
-        return new IsFound<>(message, responseEntity);
+        return new IsFound<>(message, userModel);
     }
 
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(path = "/{email}", method = RequestMethod.DELETE)
     public ApiResponse<Object> deleteByEmail(@PathVariable(name = "email") String email){
 
-        String emailOldUser = this.userService.deleteByEmail(email);
+        this.userService.deleteByEmail(email);
 
-        String message = "Đã xóa người dùng " + emailOldUser + " thành công!";
+        String message = "Đã xóa người dùng " + email + " thành công!";
 
         return new DeletedSuccessfully<>(message);
     }
