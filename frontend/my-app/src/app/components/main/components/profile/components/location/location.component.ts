@@ -1,76 +1,66 @@
-import { Profile } from '../../../../../../model/profile.model';
-
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { ToastrService } from 'ngx-toastr';
-import { finalize, Subscription } from 'rxjs';
-import { LocationApiService } from '../../../../../../../service/location/location.service';
-import { ProfileApiService } from '../../../../../../../service/profile/profile.service';
-import { District } from '../../../../../../model/location/district.model';
-import { Province } from '../../../../../../model/location/province.model';
-import { Ward } from '../../../../../../model/location/ward.model';
+import { catchError, tap, throwError } from 'rxjs';
+import { District, Province, Ward } from '../../../../../../../model/location.model';
+import { ProfileLocation } from '../../../../../../../model/profile.model';
+import { ResponseResult } from '../../../../../../../model/responseResult.model';
+import { LocationService } from '../../../../../../../service/location.service';
+import { ProfileService } from '../../../../../../../service/profile.service';
 
 @Component({
   selector: 'app-location',
   standalone: true,
-  imports: [MatIconModule, FormsModule, CommonModule],
+  imports: [MatIconModule, FormsModule, CommonModule, ReactiveFormsModule],
   templateUrl: './location.component.html',
   styleUrl: './location.component.scss'
 })
-export class LocationComponent implements OnInit, OnDestroy {
+export class LocationComponent implements OnInit {
 
-  @Input("profile")
-  profile!: Profile;
+  @Input("profileLocation") IProfileLocation: ProfileLocation;
+  @Output() onReGetProfile = new EventEmitter();
 
-  @Output("onReGetProfile")
-  onReGetProfile = new EventEmitter();
+  profileLocationReadySave: FormGroup = new FormGroup({
+    id: new FormControl(''),
+    home_number: new FormControl(''),
+    street: new FormControl(''),
+    country: new FormControl(''),
+    ward: new FormGroup({
+      id: new FormControl('')
+    })
+  });
+
+  provinces: Province[] = [];
+  districts: District[] = [];
+  wards: Ward[] = [];
 
   isEditProfileLocation: boolean = false;
 
-  provinces: Province[] = [];
-
-  districts: District[] = [];
-
-  wards: Ward[] = [];
-
-  private subscription: Subscription;
-
   constructor(
     private toastrService: ToastrService,
-    private profileApiService: ProfileApiService,
-    private locationApiService: LocationApiService
+    private profileService: ProfileService,
+    private locationService: LocationService
   ) { }
 
   ngOnInit(): void {
     this.onLoadLocationProfile();
   }
 
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
-  }
-
-
-  onSaveProfileLocationClick() {
-    this.subscription = this.profileApiService.postProfileLocation(this.profile)
-      .pipe(
-        finalize(() => this.subscription.unsubscribe())
-      )
-      .subscribe({
-        next: (res) => {
-          // console.log(res);
-          this.toastrService.success(res.message, '')
-          this.onReGetProfile.emit();
-          this.isEditProfileLocation = false;
-        },
-        error: (err) => {
-          console.log(err);
-        }
-      })
-  }
 
   onIconEditProfileLocationClick() {
+    this.profileLocationReadySave.patchValue({
+      id: this.IProfileLocation.id || '',
+      home_number: this.IProfileLocation.home_number || '',
+      street: this.IProfileLocation.street || '',
+      country: this.IProfileLocation.country || '',
+    });
+
+    this.profileLocationReadySave.get('ward')?.patchValue({
+      id: this.IProfileLocation.ward?.id || ''
+    })
+
     this.isEditProfileLocation = true;
   }
 
@@ -78,77 +68,76 @@ export class LocationComponent implements OnInit, OnDestroy {
     this.isEditProfileLocation = false;
   }
 
+  onSaveProfileLocationClick() {
+    const profileLocationToSave: ProfileLocation = {
+      ...this.profileLocationReadySave.value,
+      ward: this.profileLocationReadySave.value.ward.value || undefined
+    }
+
+    this.profileService
+      .postProfileLocation(profileLocationToSave)
+      .pipe(
+        tap((res: ResponseResult<ProfileLocation>) => {
+          this.toastrService.success(res.message, '')
+          this.onReGetProfile.emit();
+          this.isEditProfileLocation = false;
+        }),
+
+        catchError((error: ResponseResult<never>) => {
+          this.toastrService.error(error.message, '');
+          return throwError(() => error);
+        })
+      )
+      .subscribe()
+  }
 
   onLoadWardsByDistrictId(districtId: string) {
-
-    this.subscription = this.locationApiService.getAllWardsByDistrictId(districtId)
+    this.locationService
+      .getAllWardsByDistrictId(districtId)
       .pipe(
-        finalize(() => this.subscription.unsubscribe())
+        tap((res: ResponseResult<Ward[]>) => {
+          this.wards = res.data || [];
+        })
       )
-      .subscribe({
-        next: (res) => {
-          // console.log(res);
-          this.wards = res.data.wards;
-          // console.log(this.wards)
-        },
-        error: (err) => {
-          console.log(err);
-        }
-      })
+      .subscribe();
 
   }
 
 
   onLoadProvinces() {
-    this.subscription = this.locationApiService.getAllProvinces()
+    this.locationService
+      .getAllProvinces()
       .pipe(
-        finalize(() => this.subscription.unsubscribe())
+        tap((res: ResponseResult<Province[]>) => {
+          this.provinces = res.data || [];
+        })
       )
-      .subscribe({
-        next: (res) => {
-          // console.log(res)
-          this.provinces = res.data.provinces;
-          // console.log(this.provinces);
-        },
-        error: (err) => {
-          console.log(err);
-        }
-      })
+      .subscribe();
   }
 
 
   onLoadDistrictsByProvinceId(provinceId: string) {
-    this.subscription = this.locationApiService.getAllDistrictsByProvinceId(provinceId)
+    this.locationService.
+      getAllDistrictsByProvinceId(provinceId)
       .pipe(
-        finalize(() => this.subscription.unsubscribe())
+        tap((res: ResponseResult<District[]>) => {
+          this.districts = res.data || [];
+        })
       )
-      .subscribe({
-        next: (res) => {
-          // console.log(res);
-          this.districts = res.data.districts;
-          // this.wards = [];
-        },
-        error: (err) => {
-          console.log(err);
-        }
-      })
+      .subscribe();
   }
 
   onLoadLocationProfile() {
     this.onLoadProvinces();
 
-    const provinceId: string = this?.profile?.profileLocation?.ward?.district?.province?.id;
+    const { id: provinceId } = this.IProfileLocation.ward?.district?.province || {} as Province;
 
-    this.onLoadDistrictsByProvinceId(provinceId)
+    this.onLoadDistrictsByProvinceId(provinceId || '')
 
-    const districtId: string = this?.profile?.profileLocation?.ward?.district?.id;
+    const { id: districtId } = this.IProfileLocation.ward?.district || {} as District;
 
-    this.onLoadWardsByDistrictId(districtId);
+    this.onLoadWardsByDistrictId(districtId || '');
 
-
-    // console.log(this.provinces)
-    // console.log(this.districts)
-    // console.log(this.wards)
   }
 
   onChangeProvinceCombobox(e: any) {

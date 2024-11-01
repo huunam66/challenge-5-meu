@@ -1,84 +1,95 @@
 <div class="overflow-hidden h-full flex flex-col md:m-auto w-[1280px] max-w-full">
-  @if (this.isOpenSaveForm) {
-  <app-save-product (onCloseThis)="onCloseSaveForm($event)" (onReloadWhenSaveDone)="onTailPage()"
-    [isOpenThis]="isOpenSaveForm">
-  </app-save-product>
-  } @if(this.isOpenDetailForm){
-  <app-detail-product (onCloseThis)="onCloseDetailForm($event)" [isOpenThis]="isOpenDetailForm"
-    [detailCode]="showDetailCode" [isDetailView]="showDetailCode != ''"></app-detail-product>
-  }
+  <ng-template *ngIf="isOpenSaveForm">
+    <app-save-product (onCloseThis)="onCloseSaveForm($event)" (onReloadWhenSaveDone)="onTailPage()"
+      [isOpenThis]="isOpenSaveForm">
+    </app-save-product>
+  </ng-template>
+
+
+  <ng-template *ngIf="isOpenDetailForm">
+    <app-detail-product (onCloseThis)="onCloseDetailForm($event)" [isOpenThis]="isOpenDetailForm"
+      [detailCode]="showDetailCode" [isDetailView]="showDetailCode != ''">
+    </app-detail-product>
+  </ng-template>
 
   <div class="flex-1 h-0 w-full flex flex-col">
     <div class="bg-white shadow-2xl rounded-md p-6 flex-1 h-0 flex flex-col w-full mt-10">
       <div class="relative flex flex-col md:flex-row md:justify-between md:items-center md:space-y-0 space-y-4 py-4">
         <div class="relative md:w-[360px] w-full">
-          @if(focus_Search){
-          <label class="pl-1 pr-4 absolute text-xs bg-white -top-2 left-2 z-50">
-            <span class="mov-text-search">Nhập tìm kiếm</span>
-          </label>
-          }
+
+          <ng-template *ngIf="focus_Search">
+            <label class="pl-1 pr-4 absolute text-xs bg-white -top-2 left-2 z-50">
+              <span class="mov-text-search">Nhập tìm kiếm</span>
+            </label>
+          </ng-template>
+
           <div class="relative rounded-md border border-gray-300 overflow-hidden duration-300 flex items-center w-full"
             (click)="onFocusSearch()" [ngClass]="{ 'ring-1 ring-gray-400': focus_Search }">
             <input #searchInpEl (input)="onChangeSearchInput($event)" [value]="searchValue" (focusout)="onFocusOut()"
               class="border-none outline-none p-2 py-3 w-full text-sm focus:inset-2 text-slate-900 caret-blue-500 placeholder:text-slate-950" />
 
-            @if(!focus_Search){
-            <label (click)="onClickLabelSearchTemp()" id="label-temp-search"
-              class="text-sm text-gray-500 pr-4 pl-1 absolute left-0 flex items-center cursor-text">
-              <mat-icon class="mr-1"> search </mat-icon>
-              <span>Nhập tìm kiếm</span>
-            </label>
-            }
+            <ng-template *ngIf="!focus_Search">
+              <label (click)="onClickLabelSearchTemp()" id="label-temp-search"
+                class="text-sm text-gray-500 pr-4 pl-1 absolute left-0 flex items-center cursor-text">
+                <mat-icon class="mr-1"> search </mat-icon>
+                <span>Nhập tìm kiếm</span>
+              </label>
+            </ng-template>
+
           </div>
         </div>
-        @if(this?.payloadToken?.scp === "ADMIN" || this?.payloadToken?.scp === "SUPER_ADMIN"){
-        <button (click)="isOpenSaveForm = true"
-          class="absolute right-0 hover:shadow-lg hover:scale-110 flex items-center h-fit py-2 px-10 rounded-full text-sm text-white font-medium bg-green-500 hover:bg-green-600 duration-300">
-          <mat-icon class="mr-2"> add_card </mat-icon>
-          <span>Tạo mới</span>
-        </button>
-        }
+
+        <ng-template *ngIf="payloadToken.scp === 'ADMIN' || payloadToken.scp === 'SUPER_ADMIN'">
+          <button (click)="isOpenSaveForm = true"
+            class="absolute right-0 hover:shadow-lg hover:scale-110 flex items-center h-fit py-2 px-10 rounded-full text-sm text-white font-medium bg-green-500 hover:bg-green-600 duration-300">
+            <mat-icon class="mr-2"> add_card </mat-icon>
+            <span>Tạo mới</span>
+          </button>
+        </ng-template>
+
       </div>
       <div id="table-product" class="w-full overflow-auto flex-1 h-0">
-        @if(!isLoading){
-        <div id="tableProduct" class="flex flex-col mt-6 w-[1280px]">
-          <div id="header-table"
-            class="grid grid-cols-columnsTable py-2 px-6 pt-6 border-b border-b-gray-400 mt-4 sticky top-0 left-0 bg-white shadow-md">
-            <p class="font-medium text-sm uppercase px-4 text-ellipsis whitespace-nowrap overflow-hidden">
-              #
-            </p>
-            <p class="font-medium text-sm uppercase px-4 text-ellipsis whitespace-nowrap overflow-hidden">
-              Tên sản phẩm
-            </p>
-            <p class="font-medium text-sm uppercase px-4 text-ellipsis whitespace-nowrap overflow-hidden">
-              Mô tả
-            </p>
-            <p class="font-medium text-sm uppercase px-4 text-ellipsis whitespace-nowrap overflow-hidden">
-              Xem
-            </p>
-          </div>
+        <ng-container *ngIf="!isLoading">
+          <div id="tableProduct" class="flex flex-col mt-6 w-[1280px]">
+            <div id="header-table"
+              class="grid grid-cols-columnsTable py-2 px-6 pt-6 border-b border-b-gray-400 mt-4 sticky top-0 left-0 bg-white shadow-md">
+              <p class="font-medium text-sm uppercase px-4 text-ellipsis whitespace-nowrap overflow-hidden">
+                #
+              </p>
+              <p class="font-medium text-sm uppercase px-4 text-ellipsis whitespace-nowrap overflow-hidden">
+                Tên sản phẩm
+              </p>
+              <p class="font-medium text-sm uppercase px-4 text-ellipsis whitespace-nowrap overflow-hidden">
+                Mô tả
+              </p>
+              <p class="font-medium text-sm uppercase px-4 text-ellipsis whitespace-nowrap overflow-hidden">
+                Xem
+              </p>
+            </div>
 
-          @for(product of ListProduct; track product.id; let index = $index){
-          <div id="content-table" [ngClass]="{ '!bg-yellow-200': showDetailCode == product.code }"
-            class="grid grid-cols-columnsTable py-2 px-6 pt-7 border-b border-b-gray-100 bg-white shadow-sm hover:bg-gray-200 duration-200">
-            <p class="text-sm px-4 text-ellipsis whitespace-nowrap overflow-hidden">
-              {{ index + 1 }}
-            </p>
-            <p class="text-sm px-4 text-ellipsis whitespace-nowrap overflow-hidden">
-              {{ product.name }}
-            </p>
-            <p class="text-sm px-4 text-ellipsis whitespace-nowrap overflow-hidden">
-              {{ product.description }}
-            </p>
-            <p class="text-sm px-4 text-ellipsis whitespace-nowrap overflow-hidden">
-              <button (click)="onShowDetail(product.code)" class="bg-transparent border-none outline-none">
-                <mat-icon> drag_indicator </mat-icon>
-              </button>
-            </p>
+            <ng-template *ngFor="let product of pageableFilter.content; let i = index">
+              <div id="content-table" [ngClass]="{ '!bg-yellow-200': showDetailCode == product.code }"
+                class="grid grid-cols-columnsTable py-2 px-6 pt-7 border-b border-b-gray-100 bg-white shadow-sm hover:bg-gray-200 duration-200">
+                <p class="text-sm px-4 text-ellipsis whitespace-nowrap overflow-hidden">
+                  {{ i + 1 }}
+                </p>
+                <p class="text-sm px-4 text-ellipsis whitespace-nowrap overflow-hidden">
+                  {{ product.name }}
+                </p>
+                <p class="text-sm px-4 text-ellipsis whitespace-nowrap overflow-hidden">
+                  {{ product.description }}
+                </p>
+                <p class="text-sm px-4 text-ellipsis whitespace-nowrap overflow-hidden">
+                  <button (click)="onShowDetail(product.code || '')" class="bg-transparent border-none outline-none">
+                    <mat-icon> drag_indicator </mat-icon>
+                  </button>
+                </p>
+              </div>
+            </ng-template>
+
           </div>
-          }
-        </div>
-        }
+        </ng-container>
+
       </div>
       <div class="flex justify-end p-4 pt-6 pb-0">
         <!-- <div>
@@ -91,42 +102,40 @@
               <div class="absolute bottom-0"></div>
             </div>
           </div> -->
-        @if(this.searchValue == ''){
+        @if(searchValue == ''){
         <div class="flex items-center space-x-4">
           <div class="flex items-center space-x-4">
             <div (click)="onHeadPage()" [ngClass]="{
-                  headPage: this.currentPage > 1,
-                  '!text-gray-500 !hover:text-gray-600': this.currentPage > 1,
-                  '!cursor-default !select-none': this.currentPage <= 1
+                  headPage: pageableFilter.hasPreviousPage,
+                  '!text-gray-500 !hover:text-gray-600': pageableFilter.hasPreviousPage,
+                  '!cursor-default !select-none': !pageableFilter.hasPreviousPage
                 }" class="cursor-pointer text-gray-300 hover:text-gray-400 duration-200 leading-[0]">
               <mat-icon class="scale-150"> skip_previous </mat-icon>
             </div>
             <div (click)="onPrevPage()" [ngClass]="{
-                  prevPage: this.currentPage > 1,
-                  '!text-gray-500 !hover:text-gray-600': this.currentPage > 1,
-                  '!cursor-default !select-none': this.currentPage <= 1
+                  prevPage: pageableFilter.hasPreviousPage,
+                  '!text-gray-500 !hover:text-gray-600': pageableFilter.hasPreviousPage,
+                  '!cursor-default !select-none': !pageableFilter.hasPreviousPage
                 }" class="cursor-pointer text-gray-300 hover:text-gray-400 duration-200 leading-[0]">
               <mat-icon class="scale-150"> chevron_left</mat-icon>
             </div>
           </div>
           <div
             class="relative flex items-center justify-center text-white p-4 rounded-full font-medium select-none bg-colorHeader">
-            <div class="absolute text-base">{{ currentPage }}</div>
+            <div class="absolute text-base">{{ pageableFilter.pageNumber }}</div>
           </div>
           <div class="flex items-center space-x-4">
             <div (click)="onNextPage()" [ngClass]="{
-                  nextPage: this.currentPage < this.pages,
-                  '!text-gray-500 !hover:text-gray-600':
-                    this.currentPage < this.pages,
-                  '!cursor-default !select-none': this.currentPage >= this.pages
+                  nextPage: pageableFilter.hasNextPage,
+                  '!text-gray-500 !hover:text-gray-600': pageableFilter.hasNextPage,
+                  '!cursor-default !select-none': !pageableFilter.hasNextPage
                 }" class="cursor-pointer text-gray-300 hover:text-gray-400 duration-200 leading-[0]">
               <mat-icon class="scale-150">chevron_right</mat-icon>
             </div>
             <div (click)="onTailPage()" [ngClass]="{
-                  tailPage: this.currentPage < this.pages,
-                  '!text-gray-500 !hover:text-gray-600':
-                    this.currentPage < this.pages,
-                  '!cursor-default !select-none': this.currentPage >= this.pages
+                  tailPage: pageableFilter.hasNextPage,
+                  '!text-gray-500 !hover:text-gray-600': pageableFilter.hasNextPage,
+                  '!cursor-default !select-none': !pageableFilter.hasNextPage
                 }" class="cursor-pointer text-gray-300 hover:text-gray-400 duration-200 leading-[0]">
               <mat-icon class="scale-150"> skip_next </mat-icon>
             </div>

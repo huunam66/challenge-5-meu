@@ -1,24 +1,29 @@
 <div class="bg-white shadow-md rounded-md text-gray-700 pb-16">
   <div class="p-2 px-4 text-left border-b border-b-gray-200 flex items-center justify-between">
     <label>Địa chỉ liên lạc</label>
-    @if(!isEditProfileLocation){
-    <button type="button" (click)="onIconEditProfileLocationClick()">
-      <mat-icon class="text-base">
-        tune
-      </mat-icon>
-    </button>
-    }@else {
-    <div class="flex gap-4">
-      <button type="button">
-        <mat-icon class="text-lg" (click)="onSaveProfileLocationClick()"> save</mat-icon>
+
+    <ng-template *ngIf="isEditProfileLocation; else turnOptionEdit">
+      <button type="button" (click)="onIconEditProfileLocationClick()">
+        <mat-icon class="text-base">
+          tune
+        </mat-icon>
       </button>
-      <button type="button">
-        <mat-icon class="text-lg" (click)="onIconCloseEditProfileLocationClick()"> disabled_by_default</mat-icon>
-      </button>
-    </div>
-    }
+    </ng-template>
+
+    <ng-template #turnOptionEdit>
+      <div class="flex gap-4">
+        <button type="submit" form="formProfileLocation">
+          <mat-icon class="text-lg"> save</mat-icon>
+        </button>
+        <button type="button">
+          <mat-icon class="text-lg" (click)="onIconCloseEditProfileLocationClick()"> disabled_by_default</mat-icon>
+        </button>
+      </div>
+    </ng-template>
+
   </div>
-  <div class="p-2 px-4">
+  <form id="formProfileLocation" (submit)="onSaveProfileLocationClick()" class="p-2 px-4"
+    [formGroup]="profileLocationReadySave">
     <div class="grid grid-cols-[1fr_1fr_1fr] gap-6">
       <div class="flex items-start space-x-1">
         <div>
@@ -28,15 +33,18 @@
         </div>
         <div class="flex flex-col flex-1 gap-2">
           <label class="text-gray-500 text-xs">Số nhà</label>
-          @if(isEditProfileLocation){
-          <input [(ngModel)]="this.profile.profileLocation.home_number" placeholder="Nhập..."
-            class="input-field px-4 py-3 bg-transparent rounded-md outline-none border border-gray-300 text-xs text-gray-950 w-full duration-200 focus:ring-1 focus:border-transparent focus:ring-blue-500" />
-          }@else {
-          <p
-            class="py-3 bg-transparent outline-none border border-transparent text-xs text-gray-950 w-full !m-0 font-medium">
-            {{this?.profile?.profileLocation?.home_number || '---'}}
-          </p>
-          }
+
+          <ng-template *ngIf="isEditProfileLocation; else home_number_text">
+            <input formControlName="home_number" placeholder="Nhập..."
+              class="input-field px-4 py-3 bg-transparent rounded-md outline-none border border-gray-300 text-xs text-gray-950 w-full duration-200 focus:ring-1 focus:border-transparent focus:ring-blue-500" />
+          </ng-template>
+
+          <ng-template #home_number_text>
+            <p
+              class="py-3 bg-transparent outline-none border border-transparent text-xs text-gray-950 w-full !m-0 font-medium">
+              {{IProfileLocation.home_number || '---'}}
+            </p>
+          </ng-template>
 
         </div>
       </div>
@@ -48,15 +56,18 @@
         </div>
         <div class="flex flex-col flex-1 gap-2">
           <label class="text-gray-500 text-xs">Tên đường</label>
-          @if(isEditProfileLocation){
-          <input [(ngModel)]="this.profile.profileLocation.street" placeholder="Nhập..."
-            class="input-field px-4 py-3 bg-transparent rounded-md outline-none border border-gray-300 text-xs text-gray-950 w-full duration-200 focus:ring-1 focus:border-transparent focus:ring-blue-500" />
-          }@else {
-          <p
-            class="py-3 bg-transparent outline-none border border-transparent text-xs text-gray-950 w-full !m-0 font-medium">
-            {{this?.profile?.profileLocation?.street || '---'}}
-          </p>
-          }
+
+          <ng-template *ngIf="isEditProfileLocation; else street_text">
+            <input formControlName="street" placeholder="Nhập..."
+              class="input-field px-4 py-3 bg-transparent rounded-md outline-none border border-gray-300 text-xs text-gray-950 w-full duration-200 focus:ring-1 focus:border-transparent focus:ring-blue-500" />
+          </ng-template>
+
+          <ng-template #street_text>
+            <p
+              class="py-3 bg-transparent outline-none border border-transparent text-xs text-gray-950 w-full !m-0 font-medium">
+              {{IProfileLocation.street || '---'}}
+            </p>
+          </ng-template>
         </div>
       </div>
       <div class="flex items-start space-x-1">
@@ -69,8 +80,7 @@
           <label class="text-gray-500 text-xs">Nước</label>
           <p
             class="py-3 bg-transparent outline-none border border-transparent text-xs text-gray-950 w-full !m-0 font-medium">
-            {{'Việt
-            Nam'}}
+            {{'Việt Nam'}}
           </p>
         </div>
       </div>
@@ -87,21 +97,27 @@
         </div>
         <div class="flex flex-col flex-1 gap-2">
           <label class="text-gray-500 text-xs">Tỉnh/thành</label>
-          @if(this.isEditProfileLocation){
-          <select (change)="onChangeProvinceCombobox($event)"
-            class="input-field px-4 py-3 bg-transparent rounded-md outline-none border border-gray-300 text-xs text-gray-950 w-full duration-200 focus:ring-1 focus:border-transparent focus:ring-blue-500">
-            <option [value]="''">Chọn</option>
-            @for(p of provinces; track p.id; let index = $index){
-            <option [selected]="this?.profile?.profileLocation?.ward?.district?.province?.id === p.id" [value]="p.id">
-              {{p.full_name}}</option>
-            }
-          </select>
-          }@else {
-          <p
-            class="py-3 bg-transparent outline-none border border-transparent text-xs text-gray-950 w-full !m-0 font-medium">
-            {{this?.profile?.profileLocation?.ward?.district?.province?.name || '---'}}
-          </p>
-          }
+
+          <ng-template *ngIf="isEditProfileLocation; else province_text">
+            <select (change)="onChangeProvinceCombobox($event)"
+              class="input-field px-4 py-3 bg-transparent rounded-md outline-none border border-gray-300 text-xs text-gray-950 w-full duration-200 focus:ring-1 focus:border-transparent focus:ring-blue-500">
+              <option [value]="''">Chọn</option>
+
+              <option *ngFor="let p of provinces" [selected]="IProfileLocation.ward?.district?.province?.id === p.id"
+                [value]="p.id">
+                {{p.full_name}}
+              </option>
+
+            </select>
+          </ng-template>
+
+          <ng-template #province_text>
+            <p
+              class="py-3 bg-transparent outline-none border border-transparent text-xs text-gray-950 w-full !m-0 font-medium">
+              {{IProfileLocation.ward?.district?.province?.name || '---'}}
+            </p>
+          </ng-template>
+
         </div>
       </div>
       <div class="flex items-start space-x-1">
@@ -112,22 +128,26 @@
         </div>
         <div class="flex flex-col flex-1 gap-2">
           <label class="text-gray-500 text-xs">Quận/huyện</label>
-          @if(this.isEditProfileLocation){
-          <select (change)="onChangeDistrictCombobox($event)"
-            class="input-field px-4 py-3 bg-transparent rounded-md outline-none border border-gray-300 text-xs text-gray-950 w-full duration-200 focus:ring-1 focus:border-transparent focus:ring-blue-500">
-            <option [value]="''">Chọn</option>
-            @for(d of districts; track d.id; let index = $index){
-            <option [selected]="this?.profile?.profileLocation?.ward?.district?.id === d.id" [value]="d.id">
-              {{d.full_name}}
-            </option>
-            }
-          </select>
-          }@else {
-          <p
-            class="py-3 bg-transparent outline-none border border-transparent text-xs text-gray-950 w-full !m-0 font-medium">
-            {{this?.profile?.profileLocation?.ward?.district?.name || '---'}}
-          </p>
-          }
+          <ng-template *ngIf="isEditProfileLocation; else district_text">
+            <select (change)="onChangeDistrictCombobox($event)"
+              class="input-field px-4 py-3 bg-transparent rounded-md outline-none border border-gray-300 text-xs text-gray-950 w-full duration-200 focus:ring-1 focus:border-transparent focus:ring-blue-500">
+              <option [value]="''">Chọn</option>
+
+              <option *ngFor="let d of districts" [selected]="IProfileLocation.ward?.district?.id === d.id"
+                [value]="d.id">
+                {{d.full_name}}
+              </option>
+
+            </select>
+          </ng-template>
+
+          <ng-template #district_text>
+            <p
+              class="py-3 bg-transparent outline-none border border-transparent text-xs text-gray-950 w-full !m-0 font-medium">
+              {{IProfileLocation.ward?.district?.name || '---'}}
+            </p>
+          </ng-template>
+
         </div>
       </div>
       <div class="flex items-start space-x-1">
@@ -138,23 +158,26 @@
         </div>
         <div class="flex flex-col flex-1 gap-2">
           <label class="text-gray-500 text-xs">Phường/xã</label>
-          @if(this.isEditProfileLocation){
-          <select [(ngModel)]="this.profile.profileLocation.ward.id"
-            class="input-field px-4 py-3 bg-transparent rounded-md outline-none border border-gray-300 text-xs text-gray-950 w-full duration-200 focus:ring-1 focus:border-transparent focus:ring-blue-500">
-            <option [value]="''">Chọn</option>
-            @for(w of wards; track w.id; let index = $index){
-            <option [selected]="this?.profile?.profileLocation?.ward?.id === w.id" [value]="w.id">{{w.full_name}}
-            </option>
-            }
-          </select>
-          }@else {
-          <p
-            class="py-3 bg-transparent outline-none border border-transparent text-xs text-gray-950 w-full !m-0 font-medium">
-            {{this?.profile?.profileLocation?.ward?.name || '---'}}
-          </p>
-          }
+
+          <ng-template *ngIf="isEditProfileLocation; else ward_text">
+            <select formControlName="id" [formGroupName]="'ward'"
+              class="input-field px-4 py-3 bg-transparent rounded-md outline-none border border-gray-300 text-xs text-gray-950 w-full duration-200 focus:ring-1 focus:border-transparent focus:ring-blue-500">
+              <option [value]="''">Chọn</option>
+              <option *ngFor="let w of wards" [selected]="IProfileLocation.ward?.id === w.id" [value]="w.id">
+                {{w.full_name}}
+              </option>
+            </select>
+          </ng-template>
+
+          <ng-template #ward_text>
+            <p
+              class="py-3 bg-transparent outline-none border border-transparent text-xs text-gray-950 w-full !m-0 font-medium">
+              {{IProfileLocation.ward?.name || '---'}}
+            </p>
+          </ng-template>
+
         </div>
       </div>
     </div>
-  </div>
+  </form>
 </div>

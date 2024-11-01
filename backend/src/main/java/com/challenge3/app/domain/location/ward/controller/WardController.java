@@ -63,7 +63,8 @@ public class WardController {
                             defaultValue = "false"
                     )
             )
-            @RequestParam(name = "province_include", defaultValue = "false") boolean province_include) {
+            @RequestParam(name = "province_include", defaultValue = "false") boolean province_include
+    ) {
 
         WardDTO wardDTO = this.wardService.findWardDById(id, province_include);
 

@@ -3,12 +3,12 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { ToastrService } from 'ngx-toastr';
-import { catchError, finalize, of, tap } from 'rxjs';
+import { catchError, finalize, tap, throwError } from 'rxjs';
 import { PayloadToken } from '../../../../../../model/payload-token.model';
 import { ResponseResult } from '../../../../../../model/responseResult.model';
 import { Grant, User } from '../../../../../../model/user.model';
 import { AuthService } from '../../../../../../service/auth/auth.service';
-import { UserService } from '../../../../../../service/user/user.service';
+import { UserService } from '../../../../../../service/user.service';
 import { JwtService } from '../../../../../../utils/jwt.service';
 import { ConfirmBoxComponent } from '../../../../common/confirm-box/confirm-box.component';
 import { environment as environment_role } from './../../../../../../environments/environment.role-grant';
@@ -65,10 +65,6 @@ export class DetailUserComponent implements OnInit {
       .pipe(
 
         tap((res: ResponseResult<User>) => {
-          this.userDetail.patchValue({
-            email: res.data?.email,
-            role: res.data?.role
-          })
 
           this.IUser = { ...res.data };
 
@@ -82,7 +78,7 @@ export class DetailUserComponent implements OnInit {
 
         catchError((error) => {
           console.log(error);
-          return of(null);
+          return throwError(() => error);
         })
 
       )
@@ -91,6 +87,12 @@ export class DetailUserComponent implements OnInit {
 
 
   onTurnEditView(): void {
+
+    this.userDetail.patchValue({
+      email: this.IUser.email,
+      role: this.IUser.role
+    })
+
     this.isDetailView = false;
     this.isEditView = true;
   }
@@ -139,7 +141,7 @@ export class DetailUserComponent implements OnInit {
 
           catchError((error) => {
             console.log(error);
-            return of(null);
+            return throwError(() => error);
           }),
 
           finalize(() => {
@@ -201,7 +203,7 @@ export class DetailUserComponent implements OnInit {
 
           catchError((error) => {
             console.log(error);
-            return of(null);
+            return throwError(() => error);
           }),
 
           finalize(() => {

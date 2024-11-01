@@ -6,7 +6,7 @@ import { TableProductComponent } from './components/main/components/product/tabl
 import { ProfileComponent } from './components/main/components/profile/profile.component';
 import { TableUserComponent } from './components/main/components/user/table/table-user.component';
 import { MainComponent } from './components/main/main.component';
-import { authGuard } from './guards/auth-guard.guard';
+import { authGuard } from '../guards/auth-guard.guard';
 
 export const routes: Routes = [
   {

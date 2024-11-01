@@ -1,13 +1,15 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
-import { finalize, Subscription } from 'rxjs';
-import { ProductApiService } from '../../../../../../service/product/product.service';
+import { Router } from '@angular/router';
+import { finalize, tap } from 'rxjs';
+import { PayloadToken } from '../../../../../../model/payload-token.model';
+import { Product } from '../../../../../../model/product.model';
+import { PageableFilter, ResponseResult } from '../../../../../../model/responseResult.model';
+import { ProductService } from '../../../../../../service/product.service';
 import { JwtService } from '../../../../../../utils/jwt.service';
 import { RouteService } from '../../../../../../utils/route.service';
-import { PayloadToken } from '../../../../../model/payload-token.model';
-import { Product } from '../../../../../model/product.model';
 import { LoadingComponent } from '../../../../common/loading/loading.component';
 import { DetailProductComponent } from '../detail/detail-product.component';
 import { SaveProductComponent } from '../save/save-product.component';
@@ -26,43 +28,30 @@ import { SaveProductComponent } from '../save/save-product.component';
   templateUrl: './table-product.component.html',
   styleUrl: './table-product.component.scss',
 })
-export class TableProductComponent implements OnInit, OnDestroy {
-  // State component
-  focus_Search: boolean = false;
-  isLoading: boolean = false;
+export class TableProductComponent implements OnInit {
 
-  isOpenSaveForm: boolean = false;
-  isOpenDetailForm: boolean = false;
-
-  showDetailCode: string = '';
-
-  // Binding component
-  searchValue: string = '';
-  ListProduct: Product[] = [];
-
-  @ViewChild('searchInpEl')
-  search_inpEl!: ElementRef<HTMLInputElement>;
-
-  pages: number = 0;
-
-  currentPage: number = 0;
-
-  limitProductInPage: number = 5;
-
-  sizeProducts: number = 0;
+  @ViewChild('searchInpEl') search_inpEl!: ElementRef<HTMLInputElement>;
 
   payloadToken!: PayloadToken;
 
+  focus_Search: boolean = false;
+  isLoading: boolean = false;
+  isOpenSaveForm: boolean = false;
+  isOpenDetailForm: boolean = false;
+  showDetailCode: string = '';
+  searchValue: string = '';
+
+  pageableFilter: PageableFilter<Product[]>;
+
   constructor(
-    private productApiService: ProductApiService,
+    private productService: ProductService,
+    private router: Router,
     private routeService: RouteService,
     private jwtService: JwtService
   ) {
     this.payloadToken = jwtService.getPayload();
-    console.log(this.payloadToken);
   }
 
-  private subcription: Subscription;
 
   ngOnInit(): void {
     this.routeService.query((query: any) => {
@@ -74,10 +63,6 @@ export class TableProductComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
-    this.subcription?.unsubscribe();
-  }
-
   onCloseSaveForm(event: boolean): void {
     this.isOpenSaveForm = event;
   }
@@ -85,83 +70,71 @@ export class TableProductComponent implements OnInit, OnDestroy {
   onCloseDetailForm(event: any): void {
     this.isOpenDetailForm = event.statusIsOpen;
     if (event.statusReloadTable) {
-      this.getProducts(this.currentPage);
+      this.getProducts(this.pageableFilter.pageNumber || 1);
     }
   }
 
-  fillDataByPage(res: any): void {
-
-    const results = res.data.results;
-
-    this.ListProduct = results.values.products;
-    this.limitProductInPage = results.limit;
-    this.currentPage = results.page;
-    this.pages = results.pages;
-    this.sizeProducts = results.size;
-    this.isLoading = false;
-    this.showDetailCode = '';
-  }
-
   onPrevPage(): void {
-    if (this.currentPage <= 1) return;
-    this.currentPage -= 1;
-    this.navigatePage();
+    const hastPrevPage = this.pageableFilter.hasPreviousPage;
+
+    if (!hastPrevPage) return;
+
+    const prevPage: number = this.pageableFilter.pageNumber || 2;
+
+    this.router.navigate([`/products?page=${prevPage - 1}`]);
   }
 
   onNextPage(): void {
-    if (this.currentPage >= this.pages) return;
-    this.currentPage += 1;
-    this.navigatePage();
+
+    const hastNextPage = this.pageableFilter.hasNextPage;
+
+    if (!hastNextPage) return;
+
+    const nextPage: number = this.pageableFilter.pageNumber || 0;
+
+    this.router.navigate([`/products?page=${nextPage + 1}`]);
   }
 
   onHeadPage(): void {
-    if (this.currentPage <= 1) return;
-    this.currentPage = 1;
-    this.navigatePage();
+    const headPage: number = 1;
+
+    this.router.navigate([`/products?page=${headPage}`])
   }
 
   onTailPage(): void {
-    if (this.currentPage >= this.pages) return;
-    this.routeService.navigate('', { page: this.pages });
-  }
+    const tailPage: number = this.pageableFilter.totalPages || 1;
 
-  navigatePage(): void {
-    this.routeService.navigate('', { page: this.currentPage });
+    this.router.navigate([`/products?page=${tailPage}`])
   }
 
   getProductOnInitComponent(): void {
     this.routeService.query((query: any) => {
       if (query.page) {
         this.getProducts(Number.parseInt(query.page));
-      } else if (this.currentPage == 0) {
-        this.getProducts(1);
-      }
+      } else this.getProducts(1);
     });
   }
 
   getProducts(page: number): void {
 
     this.isLoading = true;
-    this.subcription = this.productApiService
-      .filter(this.limitProductInPage, page)
+    this.productService
+      .filterProductByLimitAndPage(5, page)
       .pipe(
-        finalize(() => this.subcription.unsubscribe())
+
+        tap((res: ResponseResult<PageableFilter<Product[]>>) => {
+          this.pageableFilter = { ...res.data };
+
+        }),
+
+        finalize(() => {
+          this.isLoading = false;
+          this.showDetailCode = '';
+        })
       )
-      .subscribe({
-        next: (res: any) => this.fillDataByPage(res),
-        error: (err) => console.log(err)
-      })
+      .subscribe();
   }
 
-  fillDataBySearch(res: any): void {
-
-    // console.log(res);
-
-    const products = res.data.products;
-
-    this.ListProduct = products;
-    this.isLoading = false;
-  }
 
   searchProduct(): void {
     this.isLoading = true;
@@ -170,15 +143,16 @@ export class TableProductComponent implements OnInit, OnDestroy {
       if (query.search) {
         this.searchValue = query.search;
 
-        this.subcription = this.productApiService
-          .search(query.search)
+        this.productService
+          .searchProduct(query.search)
           .pipe(
-            finalize(() => this.subcription.unsubscribe())
+            tap((res: ResponseResult<Product[]>) => {
+              this.pageableFilter.content = res.data;
+            }),
+
+            finalize(() => this.isLoading = false)
           )
-          .subscribe({
-            next: (res: any) => this.fillDataBySearch(res),
-            error: (err) => console.log(err)
-          })
+          .subscribe()
       }
     });
   }
@@ -200,10 +174,10 @@ export class TableProductComponent implements OnInit, OnDestroy {
 
     if (value == '') {
       this.routeService.navigate('', { search: null });
-      this.navigatePage();
+      const currentPage: number = this.pageableFilter.pageNumber || 1;
+      this.router.navigate([`/products?page=${currentPage}`]);
     } else this.searchProduct();
 
-    //this.route.queryParams.subscribe((query) => console.log(query.search))
   }
 
   onFocusOut(): void {

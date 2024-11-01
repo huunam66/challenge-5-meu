@@ -3,6 +3,7 @@ package com.challenge3.app.domain.profile.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 
 import java.util.Date;
@@ -13,24 +14,25 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ProfileDTO {
 
-    private UUID id;
+    UUID id;
 
-    private String first_name;
+    String first_name;
 
-    private String last_name;
+    String last_name;
 
-    private String identification_code;
+    String identification_code;
 
-    private Date birthDay;
+    Date birthDay;
 
-    private String gender;
+    String gender;
 
-    private String avatar;
+    String avatar;
 
-    private String email;
+    String email;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private ProfileLocationDTO profileLocation;
+    ProfileLocationDTO profileLocation;
 }

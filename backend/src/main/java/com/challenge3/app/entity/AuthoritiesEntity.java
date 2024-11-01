@@ -12,7 +12,7 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Data
-@Entity(name = "authorities")
+@Entity
 @Table(name = "authorities", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"email", "name"})
 })

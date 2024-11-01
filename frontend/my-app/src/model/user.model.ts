@@ -1,18 +1,18 @@
-export interface User{
-  email?: string;
+export interface User {
+  email: string;
 
-  password?: string;
+  password: string;
 
-  role?: string;
+  role: string;
 }
 
-export interface Grant{
-  email?: string;
+export interface Grant {
+  email: string;
 
-  role?: string;
+  role: string;
 }
 
-export interface Authenticated{
-  token?: string,
-  authentication?: boolean;
+export interface Authenticated {
+  token: string,
+  authentication: boolean;
 }

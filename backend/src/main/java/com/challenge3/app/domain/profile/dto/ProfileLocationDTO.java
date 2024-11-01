@@ -3,6 +3,7 @@ package com.challenge3.app.domain.profile.dto;
 import com.challenge3.app.domain.location.ward.dto.WardDistrictProvinceDTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.util.UUID;
 
@@ -10,16 +11,17 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ProfileLocationDTO  {
 
-    private UUID id;
+    UUID id;
 
-    private String home_number;
+    String home_number;
 
-    private String street;
+    String street;
 
-    private String country;
+    String country;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private WardDistrictProvinceDTO ward;
+    WardDistrictProvinceDTO ward;
 }

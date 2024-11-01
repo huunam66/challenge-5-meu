@@ -2,24 +2,28 @@
   <div class="p-2 px-4 text-left border-b border-b-gray-200 flex items-center justify-between">
     <label>Thông tin cá nhân</label>
 
-    @if(!isEditProfileInformation){
-    <button type="button" (click)="onIconEditProfileInformationClick()">
-      <mat-icon class="text-base">
-        tune
-      </mat-icon>
-    </button>
-    }@else {
-    <div class="flex gap-4">
-      <button type="button">
-        <mat-icon class="text-lg" (click)="onSaveProfileInformationClick()"> save</mat-icon>
+    <ng-template *ngIf="isEditProfileInformation; else turnOptionEdit">
+      <button type="button" (click)="onIconEditProfileInformationClick()">
+        <mat-icon class="text-base">
+          tune
+        </mat-icon>
       </button>
-      <button type="button">
-        <mat-icon class="text-lg" (click)="onIconCloseEditProfileInformationClick()"> disabled_by_default</mat-icon>
-      </button>
-    </div>
-    }
+    </ng-template>
+
+    <ng-template #turnOptionEdit>
+      <div class="flex gap-4">
+        <button type="submit" form="formProfileInformation">
+          <mat-icon class="text-lg"> save</mat-icon>
+        </button>
+        <button type="button">
+          <mat-icon class="text-lg" (click)="onIconCloseEditProfileInformationClick()"> disabled_by_default</mat-icon>
+        </button>
+      </div>
+    </ng-template>
+
   </div>
-  <div class="p-2 px-4">
+  <form id="formProfileInformation" [formGroup]="informationReadySave" class="p-2 px-4"
+    (submit)="onSaveProfileInformationClick()">
     <div class="grid grid-cols-[1fr_1fr_1fr] gap-6">
       <div class="flex items-start space-x-1">
         <div>
@@ -29,15 +33,19 @@
         </div>
         <div class="flex flex-col flex-1 gap-2">
           <label class="text-gray-500 text-xs">Họ</label>
-          @if(isEditProfileInformation){
-          <input [(ngModel)]="this.profile.first_name" placeholder="Nhập..."
-            class="input-field px-4 py-3 bg-transparent rounded-md outline-none border border-gray-300 text-xs text-gray-950 w-full duration-200 focus:ring-1 focus:border-transparent focus:ring-blue-500" />
-          }@else {
-          <p
-            class="py-3 bg-transparent outline-none border border-transparent text-xs text-gray-950 w-full !m-0 font-medium">
-            {{this?.profile?.first_name || '---'}}
-          </p>
-          }
+
+          <ng-template *ngIf="isEditProfileInformation; else first_name_text">
+            <input formControlName="first_name" placeholder="Nhập..."
+              class="input-field px-4 py-3 bg-transparent rounded-md outline-none border border-gray-300 text-xs text-gray-950 w-full duration-200 focus:ring-1 focus:border-transparent focus:ring-blue-500" />
+          </ng-template>
+
+          <ng-template #first_name_text>
+            <p
+              class="py-3 bg-transparent outline-none border border-transparent text-xs text-gray-950 w-full !m-0 font-medium">
+              {{IProfile.first_name || '---'}}
+            </p>
+          </ng-template>
+
         </div>
       </div>
       <div class="flex items-start space-x-1">
@@ -48,15 +56,19 @@
         </div>
         <div class="flex flex-col flex-1 gap-2">
           <label class="text-gray-500 text-xs">Tên</label>
-          @if(isEditProfileInformation){
-          <input [(ngModel)]="this.profile.last_name" placeholder="Nhập..."
-            class="input-field px-4 py-3 bg-transparent rounded-md outline-none border border-gray-300 text-xs text-gray-950 w-full duration-200 focus:ring-1 focus:border-transparent focus:ring-blue-500" />
-          }@else {
-          <p
-            class="py-3 bg-transparent outline-none border border-transparent text-xs text-gray-950 w-full !m-0 font-medium">
-            {{this?.profile?.last_name || '---'}}
-          </p>
-          }
+
+          <ng-template *ngIf="isEditProfileInformation; else last_name_text">
+            <input formControlName="last_name" placeholder="Nhập..."
+              class="input-field px-4 py-3 bg-transparent rounded-md outline-none border border-gray-300 text-xs text-gray-950 w-full duration-200 focus:ring-1 focus:border-transparent focus:ring-blue-500" />
+          </ng-template>
+
+          <ng-template #last_name_text>
+            <p
+              class="py-3 bg-transparent outline-none border border-transparent text-xs text-gray-950 w-full !m-0 font-medium">
+              {{IProfile.last_name || '---'}}
+            </p>
+          </ng-template>
+
         </div>
       </div>
       <div class="flex items-start space-x-1">
@@ -67,19 +79,24 @@
         </div>
         <div class="flex flex-col flex-1 gap-2">
           <label class="text-gray-500 text-xs">Số căn cước</label>
-          @if(isEditProfileInformation){
-          <input [(ngModel)]="this.profile.identification_code" placeholder="Nhập..."
-            class="input-field px-4 py-3 bg-transparent rounded-md outline-none border border-gray-300 text-xs text-gray-950 w-full duration-200 focus:ring-1 focus:border-transparent focus:ring-blue-500" />
-          }@else {
-          <p
-            class="py-3 bg-transparent outline-none border border-transparent text-xs text-gray-950 w-full !m-0 font-medium">
-            {{this?.profile?.identification_code || '---'}}
-          </p>
-          }
+
+          <ng-template *ngIf="isEditProfileInformation; else identification_code_text">
+            <input formControlName="identification_code" placeholder="Nhập..."
+              class="input-field px-4 py-3 bg-transparent rounded-md outline-none border border-gray-300 text-xs text-gray-950 w-full duration-200 focus:ring-1 focus:border-transparent focus:ring-blue-500" />
+          </ng-template>
+
+          <ng-template #identification_code_text>
+            <p
+              class="py-3 bg-transparent outline-none border border-transparent text-xs text-gray-950 w-full !m-0 font-medium">
+              {{IProfile.identification_code || '---'}}
+            </p>
+          </ng-template>
+
         </div>
       </div>
 
     </div>
+
     <div class="border-b border-b-gray-200 my-4"></div>
 
     <div class="grid grid-cols-[1fr_1fr_1fr] gap-5">
@@ -91,15 +108,19 @@
         </div>
         <div class="flex flex-col flex-1 gap-2">
           <label class="text-gray-500 text-xs">Ngày sinh</label>
-          @if(isEditProfileInformation){
-          <input [(ngModel)]="this.profile.birthDay" type="date" placeholder="Nhập..."
-            class="input-field px-4 py-3 bg-transparent rounded-md outline-none border border-gray-300 text-xs text-gray-950 w-full duration-200 focus:ring-1 focus:border-transparent focus:ring-blue-500" />
-          }@else {
-          <p
-            class="py-3 bg-transparent outline-none border border-transparent text-xs text-gray-950 w-full !m-0 font-medium">
-            {{this?.profile?.birthDay| date: 'dd/MM/yyyy'}}
-          </p>
-          }
+
+          <ng-template *ngIf="isEditProfileInformation; else birthDay_text">
+            <input formControlName="birthDay" type="date" placeholder="Nhập..."
+              class="input-field px-4 py-3 bg-transparent rounded-md outline-none border border-gray-300 text-xs text-gray-950 w-full duration-200 focus:ring-1 focus:border-transparent focus:ring-blue-500" />
+          </ng-template>
+
+          <ng-template #birthDay_text>
+            <p
+              class="py-3 bg-transparent outline-none border border-transparent text-xs text-gray-950 w-full !m-0 font-medium">
+              {{IProfile.birthDay| date: 'dd/MM/yyyy'}}
+            </p>
+          </ng-template>
+
         </div>
       </div>
       <div class="flex items-start space-x-1">
@@ -110,20 +131,22 @@
         </div>
         <div class="flex flex-col flex-1 gap-2">
           <label class="text-gray-500 text-xs">Giới tính</label>
-          @if(isEditProfileInformation){
-          <select [(ngModel)]="this.profile.gender" placeholder="Nhập..."
-            class="input-field px-4 py-3 bg-transparent rounded-md outline-none border border-gray-300 text-xs text-gray-950 w-full duration-200 focus:ring-1 focus:border-transparent focus:ring-blue-500">
-            <option [value]="''">Chọn</option>
-            <option [value]="'Nam'">Nam</option>
-            <option [value]="'Nữ'">Nữ</option>
-          </select>
-          }@else {
-          <p
-            class="py-3 bg-transparent outline-none border border-transparent text-xs text-gray-950 w-full !m-0 font-medium">
-            {{this?.profile?.gender
-            || '---'}}
-          </p>
-          }
+
+          <ng-template *ngIf="isEditProfileInformation; else gender_text">
+            <select formControlName="gender" placeholder="Nhập..."
+              class="input-field px-4 py-3 bg-transparent rounded-md outline-none border border-gray-300 text-xs text-gray-950 w-full duration-200 focus:ring-1 focus:border-transparent focus:ring-blue-500">
+              <option [value]="''">Chọn</option>
+              <option [value]="'Nam'">Nam</option>
+              <option [value]="'Nữ'">Nữ</option>
+            </select>
+          </ng-template>
+
+          <ng-template #gender_text>
+            <p
+              class="py-3 bg-transparent outline-none border border-transparent text-xs text-gray-950 w-full !m-0 font-medium">
+              {{IProfile.gender || '---'}}
+            </p>
+          </ng-template>
         </div>
       </div>
       <div class="flex items-start space-x-1">
@@ -134,18 +157,19 @@
         </div>
         <div class="flex flex-col flex-1 gap-2">
           <label class="text-gray-500 text-xs">Email</label>
-          @if(isEditProfileInformation){
-          <input [(ngModel)]="this.profile.email" readonly placeholder="Nhập..."
-            class="input-field px-4 py-3 bg-transparent rounded-md outline-none border border-gray-300 text-xs text-gray-950 w-full duration-200 focus:ring-1 focus:border-transparent focus:ring-blue-500" />
-          }@else {
-          <p
-            class="py-3 bg-transparent outline-none border border-transparent text-xs text-gray-950 w-full !m-0 font-medium">
-            {{this?.profile?.email
-            || '---'}}
-          </p>
-          }
+          <ng-template *ngIf="isEditProfileInformation; else gender_text">
+            <input formControlName="email" readonly placeholder="Nhập..."
+              class="input-field px-4 py-3 bg-transparent rounded-md outline-none border border-gray-300 text-xs text-gray-950 w-full duration-200 focus:ring-1 focus:border-transparent focus:ring-blue-500" />
+          </ng-template>
+
+          <ng-template #gender_text>
+            <p
+              class="py-3 bg-transparent outline-none border border-transparent text-xs text-gray-950 w-full !m-0 font-medium">
+              {{IProfile.email || '---'}}
+            </p>
+          </ng-template>
         </div>
       </div>
     </div>
-  </div>
+  </form>
 </div>

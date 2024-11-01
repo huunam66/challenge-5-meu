@@ -2,8 +2,11 @@ import { Component, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { ToastrService } from 'ngx-toastr';
-import { finalize, Subscription } from 'rxjs';
-import { AuthApiService } from '../../../../service/auth/auth.service';
+import { catchError, of, Subscription, tap, throwError } from 'rxjs';
+import { InvalidField } from '../../../../model/error.model';
+import { ResponseResult } from '../../../../model/responseResult.model';
+import { Authenticated } from '../../../../model/user.model';
+import { AuthService } from '../../../../service/auth/auth.service';
 import { LocalStorageService } from '../../../../utils/local-storage.service';
 import { RouteService } from '../../../../utils/route.service';
 
@@ -23,7 +26,7 @@ export class SigninComponent implements OnDestroy {
 
   constructor(
     private localStorageService: LocalStorageService,
-    private authApiService: AuthApiService,
+    private authService: AuthService,
     private routeService: RouteService,
     private toastr: ToastrService
   ) { }
@@ -36,37 +39,21 @@ export class SigninComponent implements OnDestroy {
 
 
   onSubmitSignin() {
-    this.subcription = this.authApiService
+    this.authService
       .signin(this.formLogin.value)
       .pipe(
-        finalize(() => this.subcription.unsubscribe())
+        tap((res: ResponseResult<Authenticated>) => {
+          const token: string = res.data?.token || '';
+          this.localStorageService.setData("token", token);
+          this.routeService.navigate('', null);
+        }),
+        catchError((error: ResponseResult<InvalidField[]>) => {
+          error.data?.forEach(f => this.toastr.error(f.defaultMessage, f.field))
+
+          return throwError(() => error);
+        })
       )
-      .subscribe({
-        next: (res) => {
-          if (res != null && res.status && res.code == 200) {
-            console.log(res)
-            const token: string = res.data.token;
-            this.localStorageService.setData("token", token);
-            this.routeService.navigate('', null);
-          }
-        },
-        error: (err) => {
-          console.error(err.error);
-          const invalidFields: any = err?.error?.data?.invalidFields;
-
-          if (invalidFields != undefined && invalidFields != null) {
-            Object.keys(invalidFields).forEach((key, index) => {
-              setTimeout(() => {
-                this.toastr.error(invalidFields[key], key);
-              }, 400 * index);
-            })
-
-            return;
-          }
-
-          this.toastr.error(err.error.message, '');
-        }
-      })
+      .subscribe()
   }
 
 

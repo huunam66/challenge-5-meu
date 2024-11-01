@@ -10,7 +10,7 @@ import com.challenge3.app.domain.profile.request.ProfileRequest;
 import com.challenge3.app.domain.user.repository.UserRepository;
 import com.challenge3.app.domain.profile.request.UploadAvatarRequest;
 import com.challenge3.app.entity.ProfileEntity;
-import com.challenge3.app.entity.ProfileLocationEntity;
+import com.challenge3.app.entity.UserLocationEntity;
 import com.challenge3.app.entity.UserEntity;
 import com.challenge3.app.exception.BadRequestException;
 import com.challenge3.app.exception.IsNullOrEmptyException;
@@ -19,6 +19,8 @@ import org.apache.tomcat.util.codec.binary.Base64;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @Service
 public class ProfileServiceImpl implements ProfileService {
@@ -76,18 +78,13 @@ public class ProfileServiceImpl implements ProfileService {
                     () -> new NotFoundException("Người dùng "+email+" không tồn tại!")
             );
 
-            profileEntity = ProfileEntity.builder().user(userEntity).profileLocation(
-                    ProfileLocationEntity.builder().profile(profileEntity).ward(null).build()
-            ).build();
+            profileEntity = ProfileEntity.builder().user(userEntity).build();
         }
 
-        ProfileLocationEntity profileLocationEntity = profileEntity.getProfileLocation();
+        List<UserLocationEntity> profileLocationEnties = profileEntity.getProfileLocation();
 
-        if(profileLocationEntity == null){
-            profileLocationEntity = ProfileLocationEntity.builder().profile(profileEntity).ward(null).build();
-            profileEntity.setProfileLocation(profileLocationEntity);
-        }
-
+        UserLocationEntity profileLocationEntity = new UserLocationEntity();
+        profileLocationEntity.setProfile(profileEntity);
         profileLocationEntity.setHome_number(profileLocationRequest.getHome_number());
         profileLocationEntity.setStreet(profileLocationRequest.getStreet());
         profileLocationEntity.setCountry("Việt Nam");
@@ -96,9 +93,13 @@ public class ProfileServiceImpl implements ProfileService {
                 || !profileLocationEntity.getWard().getId().equals(profileLocationRequest.getWardId())){
 
             profileLocationEntity.setWard(
-                    this.wardRepository.findWardDById(profileLocationRequest.getWardId()).orElse(null)
+                    this.wardRepository.findWardDById(profileLocationRequest.getWardId()).orElseThrow(
+                            () -> new NotFoundException("Phường/xã không tồn tại!")
+                    )
             );
         }
+
+        profileLocationEnties.add(profileLocationEntity);
 
         return this.modelMapper.map(
                 this.profileRepository.save(profileEntity).getProfileLocation(),

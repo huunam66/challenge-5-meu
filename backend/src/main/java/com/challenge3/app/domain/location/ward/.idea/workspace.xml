@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="ca7baf8b-9e3c-4d13-b4a9-067b9bb30cc8" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../../../configuration/OpenApiConfiguration.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../configuration/OpenApiConfiguration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../configuration/auth/JdbcUserDetailsManagerImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../configuration/auth/JdbcUserDetailsManagerImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../configuration/auth/jwt/JwtServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../configuration/auth/jwt/JwtServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../configuration/auth/jwt/filter/JwtRequestFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../configuration/auth/jwt/filter/JwtRequestFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../district/dto/DistrictProvinceDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../district/dto/DistrictProvinceDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../district/dto/DistrictProvinceWardsDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../district/dto/DistrictProvinceWardsDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../district/dto/DistrictWardsDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../district/dto/DistrictWardsDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../district/repository/DistrictRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../district/repository/DistrictRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../province/dto/ProvinceDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../province/dto/ProvinceDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../province/dto/ProvinceDistrictsDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../province/dto/ProvinceDistrictsDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../province/repository/ProvinceRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../province/repository/ProvinceRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/controller/WardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/controller/WardController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/repository/WardRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/repository/WardRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../product/repository/ProductRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../product/repository/ProductRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../profile/controller/ProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../profile/controller/ProfileController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../profile/dto/ProfileDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../profile/dto/ProfileDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../profile/dto/ProfileLocationDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../profile/dto/ProfileLocationDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../profile/repository/ProfileRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../profile/repository/ProfileRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../profile/service/ProfileServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../profile/service/ProfileServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../user/dto/AuthorityDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../user/dto/AuthorityDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../user/dto/UserDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../user/dto/UserDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../user/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../user/repository/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../entity/AuthoritiesEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../entity/AuthoritiesEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../entity/DistrictsEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../entity/DistrictsEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../entity/ProductEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../entity/ProductEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../entity/ProfileEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../entity/ProfileEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../entity/ProfileLocationEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../entity/UserLocationEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../entity/ProvinceEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../entity/ProvinceEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../entity/UserEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../entity/UserEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../entity/WardEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../entity/WardEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../exceptionHandler/dto/FieldErrorExceptionDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/../../../exceptionHandler/dto/FieldErrorExceptionDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/application.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/AppApplication.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/common/dto/PageableFiltersDTO$PageableFiltersDTOBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/common/dto/PageableFiltersDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/common/response/ApiResponse$ApiResponseBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/common/response/ApiResponse$ApiResponseBuilderImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/common/response/ApiResponse.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/common/response/DeletedSuccessfully.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/common/response/IsFound.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/common/response/SavedSuccessfully.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/configuration/ModelMapperConfiguration.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/configuration/OpenApiConfiguration.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/configuration/auth/JdbcUserDetailsManagerImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/configuration/auth/jwt/JwtService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/configuration/auth/jwt/JwtServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/configuration/auth/jwt/filter/JwtRequestFilter.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/configuration/auth/role/ROLE.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/configuration/security/AccessDeniedHandlerImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/configuration/security/AuthenticationEntryPointImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/configuration/security/WebSecurityConfig.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/location/district/controller/DistrictController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/location/district/dto/DistrictDTO$DistrictDTOBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/location/district/dto/DistrictDTO$DistrictDTOBuilderImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/location/district/dto/DistrictDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/location/district/dto/DistrictProvinceDTO$DistrictProvinceDTOBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/location/district/dto/DistrictProvinceDTO$DistrictProvinceDTOBuilderImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/location/district/dto/DistrictProvinceDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/location/district/dto/DistrictProvinceWardsDTO$DistrictProvinceWardsDTOBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/location/district/dto/DistrictProvinceWardsDTO$DistrictProvinceWardsDTOBuilderImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/location/district/dto/DistrictProvinceWardsDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/location/district/dto/DistrictWardsDTO$DistrictWardsDTOBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/location/district/dto/DistrictWardsDTO$DistrictWardsDTOBuilderImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/location/district/dto/DistrictWardsDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/location/district/repository/DistrictRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/location/district/service/DistrictService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/location/district/service/DistrictServiceImpl$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/location/district/service/DistrictServiceImpl$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/location/district/service/DistrictServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/location/province/controller/ProvinceController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/location/province/dto/ProvinceDTO$ProvinceDTOBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/location/province/dto/ProvinceDTO$ProvinceDTOBuilderImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/location/province/dto/ProvinceDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/location/province/dto/ProvinceDistrictsDTO$ProvinceDistrictsDTOBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/location/province/dto/ProvinceDistrictsDTO$ProvinceDistrictsDTOBuilderImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/location/province/dto/ProvinceDistrictsDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/location/province/repository/ProvinceRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/location/province/service/ProvinceService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/location/province/service/ProvinceServiceImpl$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/location/province/service/ProvinceServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/location/ward/controller/WardController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/location/ward/dto/WardDTO$WardDTOBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/location/ward/dto/WardDTO$WardDTOBuilderImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/location/ward/dto/WardDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/location/ward/dto/WardDistrictDTO$WardDistrictDTOBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/location/ward/dto/WardDistrictDTO$WardDistrictDTOBuilderImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/location/ward/dto/WardDistrictDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/location/ward/dto/WardDistrictProvinceDTO$WardDistrictProvinceDTOBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/location/ward/dto/WardDistrictProvinceDTO$WardDistrictProvinceDTOBuilderImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/location/ward/dto/WardDistrictProvinceDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/location/ward/repository/WardRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/location/ward/service/WardService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/location/ward/service/WardServiceImpl$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/location/ward/service/WardServiceImpl$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/location/ward/service/WardServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/product/controller/ProductController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/product/dto/ProductDTO$ProductDTOBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/product/dto/ProductDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/product/repository/ProductRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/product/request/ProductRequest$ProductRequestBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/product/request/ProductRequest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/product/service/ProductService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/product/service/ProductServiceImpl$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/product/service/ProductServiceImpl$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/product/service/ProductServiceImpl$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/product/service/ProductServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/profile/controller/ProfileController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/profile/dto/ProfileDTO$ProfileDTOBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/profile/dto/ProfileDTO$ProfileDTOBuilderImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/profile/dto/ProfileDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/profile/dto/ProfileLocationDTO$ProfileLocationDTOBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/profile/dto/ProfileLocationDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/profile/dto/UploadAvatarDTO$UploadAvatarDTOBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/profile/dto/UploadAvatarDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/profile/repository/ProfileRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/profile/request/ProfileLocationRequest$ProfileLocationRequestBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/profile/request/ProfileLocationRequest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/profile/request/ProfileRequest$ProfileRequestBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/profile/request/ProfileRequest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/profile/request/UploadAvatarRequest$UploadAvatarRequestBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/profile/request/UploadAvatarRequest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/profile/service/ProfileService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/profile/service/ProfileServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/user/controller/auth/AuthController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/user/controller/user/UserController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/user/dto/AuthenticatedDTO$AuthenticatedDTOBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/user/dto/AuthenticatedDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/user/dto/AuthorityDTO$AuthorityDTOBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/user/dto/AuthorityDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/user/dto/UserDTO$UserDTOBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/user/dto/UserDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/user/repository/UserRepository.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/user/request/GrantRequest$GrantRequestBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/user/request/GrantRequest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/user/request/UserAuthorityRequest$UserAuthorityRequestBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/user/request/UserAuthorityRequest$UserAuthorityRequestBuilderImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/user/request/UserAuthorityRequest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/user/request/UserRequest$UserRequestBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/user/request/UserRequest$UserRequestBuilderImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/user/request/UserRequest.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/user/response/GrantSuccessfully$GrantSuccessfullyBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/user/response/GrantSuccessfully$GrantSuccessfullyBuilderImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/user/response/GrantSuccessfully.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/user/response/SignInSuccessfully$SignInSuccessfullyBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/user/response/SignInSuccessfully$SignInSuccessfullyBuilderImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/user/response/SignInSuccessfully.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/user/response/SignUpSuccessfully$SignUpSuccessfullyBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/user/response/SignUpSuccessfully$SignUpSuccessfullyBuilderImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/user/response/SignUpSuccessfully.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/user/service/AuthService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/user/service/UserService.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/user/service/impl/AuthServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/user/service/impl/UserServiceImpl$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/domain/user/service/impl/UserServiceImpl.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/entity/AuthoritiesEntity$AuthoritiesEntityBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/entity/AuthoritiesEntity.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/entity/DistrictsEntity$DistrictsEntityBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/entity/DistrictsEntity.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/entity/ProductEntity$ProductEntityBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/entity/ProductEntity.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/entity/ProfileEntity$ProfileEntityBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/entity/ProfileEntity.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/entity/ProfileLocationEntity$ProfileLocationEntityBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/entity/ProfileLocationEntity.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/entity/ProvinceEntity$ProvinceEntityBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/entity/ProvinceEntity.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/entity/UserEntity$UserEntityBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/entity/UserEntity.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/entity/WardEntity$WardEntityBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/entity/WardEntity.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/exception/BadRequestException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/exception/IsExistedException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/exception/IsNullOrEmptyException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/exception/NotFoundException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/exceptionHandler/ExceptionHandlerGlobal.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/exceptionHandler/dto/AuthenticationExceptionDTO$AuthenticationExceptionDTOBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/exceptionHandler/dto/AuthenticationExceptionDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/exceptionHandler/dto/FieldErrorExceptionDTO$FieldErrorExceptionDTOBuilder.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/exceptionHandler/dto/FieldErrorExceptionDTO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/com/challenge3/app/utils/Helper.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/openApi.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/classes/security.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/generated-sources/annotations/com/challenge3/app/entity/AuthoritiesEntityEntityGraph.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/generated-sources/annotations/com/challenge3/app/entity/DistrictsEntityEntityGraph.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/generated-sources/annotations/com/challenge3/app/entity/ProductEntityEntityGraph.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/generated-sources/annotations/com/challenge3/app/entity/ProfileEntityEntityGraph.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/generated-sources/annotations/com/challenge3/app/entity/ProfileLocationEntityEntityGraph.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/generated-sources/annotations/com/challenge3/app/entity/ProvinceEntityEntityGraph.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/generated-sources/annotations/com/challenge3/app/entity/UserEntityEntityGraph.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/generated-sources/annotations/com/challenge3/app/entity/WardEntityEntityGraph.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../target/test-classes/com/challenge3/app/AppApplicationTests.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/.angular/cache/18.2.4/my-app/.tsbuildinfo" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/.angular/cache/18.2.4/my-app/.tsbuildinfo" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/.angular/cache/18.2.4/my-app/angular-compiler.db" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/.angular/cache/18.2.4/my-app/angular-compiler.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/.angular/cache/18.2.4/vite/deps/@angular_material_icon.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/.angular/cache/18.2.4/vite/deps/@angular_material_icon.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/.angular/cache/18.2.4/vite/deps/@angular_platform-browser_animations.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/.angular/cache/18.2.4/vite/deps/@angular_platform-browser_animations.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/.angular/cache/18.2.4/vite/deps/_metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/.angular/cache/18.2.4/vite/deps/_metadata.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/.angular/cache/18.2.4/vite/deps/ngx-toastr.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/.angular/cache/18.2.4/vite/deps/ngx-toastr.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/.angular/cache/18.2.4/vite/deps_ssr/@angular_material_icon.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/.angular/cache/18.2.4/vite/deps_ssr/@angular_material_icon.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/.angular/cache/18.2.4/vite/deps_ssr/_metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/.angular/cache/18.2.4/vite/deps_ssr/_metadata.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/angular.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/angular.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/app/app.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/app/app.routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/app/components/auth/signin/signin.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/app/components/auth/signin/signin.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/app/components/main/components/navbar/navbar.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/app/components/main/components/navbar/navbar.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/app/components/main/components/product/detail/detail-product.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/app/components/main/components/product/detail/detail-product.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/app/components/main/components/product/detail/detail-product.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/app/components/main/components/product/detail/detail-product.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/app/components/main/components/product/save/save-product.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/app/components/main/components/product/save/save-product.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/app/components/main/components/product/save/save-product.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/app/components/main/components/product/save/save-product.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/app/components/main/components/product/table/table-product.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/app/components/main/components/product/table/table-product.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/app/components/main/components/product/table/table-product.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/app/components/main/components/product/table/table-product.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/app/components/main/components/profile/components/avatar/avatar.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/app/components/main/components/profile/components/avatar/avatar.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/app/components/main/components/profile/components/information/information.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/app/components/main/components/profile/components/information/information.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/app/components/main/components/profile/components/information/information.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/app/components/main/components/profile/components/information/information.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/app/components/main/components/profile/components/location/location.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/app/components/main/components/profile/components/location/location.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/app/components/main/components/profile/components/location/location.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/app/components/main/components/profile/components/location/location.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/app/components/main/components/profile/profile.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/app/components/main/components/profile/profile.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/app/components/main/components/profile/profile.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/app/components/main/components/profile/profile.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/app/components/main/components/user/detail/detail-user.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/app/components/main/components/user/detail/detail-user.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/app/components/main/components/user/save/save-user.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/app/components/main/components/user/save/save-user.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/app/components/main/components/user/save/save-user.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/app/components/main/components/user/save/save-user.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/app/components/main/components/user/table/table-user.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/app/components/main/components/user/table/table-user.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/app/components/main/components/user/table/table-user.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/app/components/main/components/user/table/table-user.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/error/config/ProductError.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/error/config/ProductError.config.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/guards/auth-guard.guard.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/guards/auth-guard.guard.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/model/location.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/model/location.model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/model/payload-token.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/model/payload-token.model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/model/product.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/model/product.model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/model/profile.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/model/profile.model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/model/responseResult.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/model/responseResult.model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/model/user.model.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/model/user.model.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/service/auth/auth.interceptor.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/service/auth/auth.module.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/service/auth/auth.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/service/location/location.interceptor.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/service/location/location.module.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/service/location/location.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/service/product/product.interceptor.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/service/product/product.module.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/service/product/product.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/service/profile/profile.interceptor.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/service/profile/profile.module.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/service/profile/profile.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/service/user/user.interceptor.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/service/user/user.module.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../../../../../../../frontend/my-app/src/service/user/user.service.ts" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../../../../../../../../.." />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 6
+}]]></component>
+  <component name="ProjectId" id="2o4AJvrcYDlc3XfBCBw1euxeeek" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/nguye/Desktop/BE_Fastfood",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-18abd8497189-intellij.indexing.shared.core-IU-241.14494.240" />
+        <option value="bundled-js-predefined-1d06a55b98c1-74d2a5396914-JavaScript-IU-241.14494.240" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="ca7baf8b-9e3c-4d13-b4a9-067b9bb30cc8" name="Changes" comment="" />
+      <created>1730118406161</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1730118406161</updated>
+      <workItem from="1730118407170" duration="16000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>

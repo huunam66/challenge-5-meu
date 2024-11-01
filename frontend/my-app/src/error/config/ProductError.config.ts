@@ -1,15 +1,15 @@
 export class ProductError {
-  public name = {
+  name = {
     error: false,
     message: 'Tên sản phẩm là bắt buộc!',
   };
 
-  public category = {
+  category = {
     error: false,
     message: 'Thể loại sản phẩm là bắt buộc!',
   };
 
-  public brand = {
+  brand = {
     error: false,
     message: 'Hãng sản phẩm là bắt buộc!',
   };

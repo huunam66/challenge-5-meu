@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { PayloadToken } from '../../../../model/payload-token.model';
 import { JwtService } from '../../../../../utils/jwt.service';
+import { PayloadToken } from '../../../../../model/payload-token.model';
 
 @Component({
   selector: 'app-navbar',

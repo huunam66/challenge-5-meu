@@ -1,18 +1,22 @@
-@if(this.isConfirmExit){
-<app-confirm-box [isOpenConfirmBox]="this.isConfirmExit" [ok]="'OK'" [cancel]="'Quay lại'" [typeConfirm]="'question'"
-  [messageContent]="'Hủy bỏ tạo sản phẩm?'" (cancelClick)="onCancelConfirmExit()"
-  (okClick)="onOkExitFormSave()"></app-confirm-box>
-} @if(this.isConfirmSave){
-<app-confirm-box [isOpenConfirmBox]="this.isConfirmSave" [ok]="'OK'" [cancel]="'Quay lại'" [typeConfirm]="'question'"
-  [messageContent]="'Đồng ý tạo sản phẩm ' + this.product.name + '?'" [isLoading]="this.isLoading"
-  (cancelClick)="onCancelConfirmSave()" (okClick)="onSavingProduct()"></app-confirm-box>
-}
+<ng-template *ngIf="isConfirmExit">
+  <app-confirm-box [isOpenConfirmBox]="isConfirmExit" [ok]="'OK'" [cancel]="'Quay lại'" [typeConfirm]="'question'"
+    [messageContent]="'Hủy bỏ tạo sản phẩm?'" (cancelClick)="onCancelConfirmExit()" (okClick)="onOkExitFormSave()">
+  </app-confirm-box>
+</ng-template>
+
+<ng-template *ngIf="isConfirmSave">
+  <app-confirm-box [isOpenConfirmBox]="isConfirmSave" [ok]="'OK'" [cancel]="'Quay lại'" [typeConfirm]="'question'"
+    [messageContent]="'Đồng ý tạo sản phẩm ' + productSave.value.name" [isLoading]="isLoading"
+    (cancelClick)="onCancelConfirmSave()" (okClick)="onSavingProduct()">
+  </app-confirm-box>
+</ng-template>
+
 
 <div class="fixed z-[9999] top-0 left-0 right-0 bottom-0 flex justify-center items-center">
   <div (click)="onClose()" class="absolute top-0 left-0 w-full h-full z-40 backdrop-blur-md bg-white-opa01"></div>
 
   <div [ngClass]="
-      this.isOpenThis ? 'form-create-product-vsb' : 'form-create-product-hid'
+      isOpenThis ? 'form-create-product-vsb' : 'form-create-product-hid'
     "
     class="form-create-product relative p-10 pt-14 bg-white rounded-md overflow-hidden shadow-2xl w-[640px] z-50 mx-2">
     <div class="absolute top-0 left-0 flex w-full justify-between items-center p-2 px-4 bg-gray-100">
@@ -24,7 +28,7 @@
         <mat-icon class="w-24 h-24 text-white"> close </mat-icon>
       </button>
     </div>
-    <div class="w-full space-y-4 mt-12">
+    <form (submit)="onSubmitAddNew()" [formGroup]="productSave" class="w-full space-y-4 mt-12">
       <div
         class="relative flex flex-col md:flex-row w-full md:items-center md:space-y-0 space-y-2 border-b border-b-gray-200 pb-4">
         <label class="text-left text-base text-slate-950 w-[140px]"><span class="required">Tên sản phẩm:</span></label>
@@ -32,13 +36,19 @@
             '!border-red-500 !ring-red-500': onErrorTextName()
           }" placeholder="Nhập..."
           class="text-base text-slate-950 p-2 rounded-md w-full md:w-0 md:flex-1 outline-none border-gray-400 border focus:ring-1 focus:ring-blue-400 focus:border-blue-400 placeholder:text-gray-500 duration-200" />
-        <mat-icon *ngIf="!this.onErrorTextName() && this.product.name != ''" class="absolute -right-8 text-green-500">
-          <span class="material-symbols-sharp"> check_circle </span>
-        </mat-icon>
 
-        <mat-icon *ngIf="this.onErrorTextName()" class="absolute -right-8 text-red-500">
-          <span class="material-symbols-sharp"> error </span>
-        </mat-icon>
+        <ng-template *ngIf="!onErrorTextName(); else textNameErrorIcon">
+          <mat-icon class="absolute -right-8 text-green-500">
+            <span class="material-symbols-sharp"> check_circle </span>
+          </mat-icon>
+        </ng-template>
+
+        <ng-template #textNameErrorIcon>
+          <mat-icon class="absolute -right-8 text-red-500">
+            <span class="material-symbols-sharp"> error </span>
+          </mat-icon>
+        </ng-template>
+
       </div>
       <div
         class="relative flex flex-col md:flex-row w-full md:items-center md:space-y-0 space-y-2 border-b border-b-gray-200 pb-4">
@@ -47,21 +57,23 @@
             '!border-red-500 !ring-red-500': onErrorOptionCategory()
           }"
           class="text-base text-slate-950 p-2 rounded-md w-full md:w-0 md:flex-1 outline-none border-gray-400 border focus:ring-1 focus:ring-blue-400 focus:border-blue-400 placeholder:text-gray-500 duration-200">
+
           <option value="">Chọn</option>
-          @for(category of this.categories; track $index){
-          <option value="{{ category }}">{{ category }}</option>
-          }
+          <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
         </select>
 
-        <mat-icon *ngIf="
-            !this.onErrorOptionCategory() && this.product.category != ''
-          " class="absolute -right-8 text-green-500">
-          <span class="material-symbols-sharp"> check_circle </span>
-        </mat-icon>
+        <ng-template *ngIf="!onErrorOptionCategory(); else categoryErrorIcon">
+          <mat-icon class="absolute -right-8 text-green-500">
+            <span class="material-symbols-sharp"> check_circle </span>
+          </mat-icon>
+        </ng-template>
 
-        <mat-icon *ngIf="this.onErrorOptionCategory()" class="absolute -right-8 text-red-500">
-          <span class="material-symbols-sharp"> error </span>
-        </mat-icon>
+        <ng-template #categoryErrorIcon>
+          <mat-icon class="absolute -right-8 text-red-500">
+            <span class="material-symbols-sharp"> error </span>
+          </mat-icon>
+        </ng-template>
+
       </div>
       <div
         class="relative flex flex-col md:flex-row w-full md:items-center md:space-y-0 space-y-2 border-b border-b-gray-200 pb-4">
@@ -71,19 +83,21 @@
           }"
           class="text-base text-slate-950 p-2 rounded-md w-full md:w-0 md:flex-1 outline-none border-gray-400 border focus:ring-1 focus:ring-blue-400 focus:border-blue-400 placeholder:text-gray-500 duration-200">
           <option value="">Chọn</option>
-          @for(brand of this.brands; track $index){
-          <option value="{{ brand }}">{{ brand }}</option>
-          }
+          <option *ngFor="let brand of brands" [value]="brand">{{ brand }}</option>
         </select>
 
-        <mat-icon *ngIf="!this.onErrorOptionBrand() && this.product.brand != ''"
-          class="absolute -right-8 text-green-500">
-          <span class="material-symbols-sharp"> check_circle </span>
-        </mat-icon>
+        <ng-template *ngIf="!onErrorOptionBrand(); else brandErrorIcon">
+          <mat-icon class="absolute -right-8 text-green-500">
+            <span class="material-symbols-sharp"> check_circle </span>
+          </mat-icon>
+        </ng-template>
 
-        <mat-icon *ngIf="this.onErrorOptionBrand()" class="absolute -right-8 text-red-500">
-          <span class="material-symbols-sharp"> error </span>
-        </mat-icon>
+        <ng-template #brandErrorIcon>
+          <mat-icon class="absolute -right-8 text-red-500">
+            <span class="material-symbols-sharp"> error </span>
+          </mat-icon>
+        </ng-template>
+
       </div>
       <div
         class="flex flex-col md:flex-row w-full md:items-center md:space-y-0 space-y-2 border-b border-b-gray-200 pb-4">
@@ -98,13 +112,13 @@
           class="min-h-10 max-h-44 text-base text-slate-950 p-2 rounded-md w-full md:w-0 md:flex-1 outline-none border-gray-400 border focus:ring-1 focus:ring-blue-400 focus:border-blue-400 placeholder:text-gray-500"></textarea>
       </div>
       <div class="w-full md:items-center md:space-y-0 !mt-8">
-        <button (click)="onSubmitAddNew()" class="w-full bg-green-600 overflow-hidden rounded-md group">
+        <button type="submit" class="w-full bg-green-600 overflow-hidden rounded-md group">
           <div
             class="p-3 leading-8 rounded-md w-full text-white font-semibold text-base bg-green-500 -translate-y-2 group-hover:translate-y-0 duration-300">
             Hoàn tất
           </div>
         </button>
       </div>
-    </div>
+    </form>
   </div>
 </div>

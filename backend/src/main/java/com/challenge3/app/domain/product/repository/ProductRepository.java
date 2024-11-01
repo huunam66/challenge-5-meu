@@ -12,9 +12,9 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
     ProductEntity findByCode(@Param("code") String code);
 
-    @Query("SELECT p.id FROM products p order by p.id desc")
+    @Query("SELECT p.id FROM ProductEntity p order by p.id desc")
     List<Long> findAllIdDesc();
 
-    @Query("SELECT COUNT(p) FROM products p")
+    @Query("SELECT COUNT(p) FROM ProductEntity p")
     int countAll();
 }

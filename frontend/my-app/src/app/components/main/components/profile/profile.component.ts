@@ -1,10 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { finalize, Subscription } from 'rxjs';
-import { ProfileApiService } from '../../../../../service/profile/profile.service';
+import { ToastrService } from 'ngx-toastr';
+import { catchError, Subscription, tap, throwError } from 'rxjs';
+import { PayloadToken } from '../../../../../model/payload-token.model';
+import { Profile } from '../../../../../model/profile.model';
+import { ResponseResult } from '../../../../../model/responseResult.model';
+import { ProfileService } from '../../../../../service/profile.service';
 import { JwtService } from '../../../../../utils/jwt.service';
-import { PayloadToken } from '../../../../model/payload-token.model';
-import { Profile } from '../../../../model/profile.model';
 import { AvatarComponent } from "./components/avatar/avatar.component";
 import { InformationComponent } from "./components/information/information.component";
 import { LocationComponent } from "./components/location/location.component";
@@ -18,12 +20,13 @@ import { LocationComponent } from "./components/location/location.component";
 })
 export class ProfileComponent implements OnInit, OnDestroy {
 
-  profile: Profile = new Profile();
+  IProfile: Profile;
 
   private subscription: Subscription;
   constructor(
-    private profileApiService: ProfileApiService,
-    private jwtService: JwtService
+    private profileService: ProfileService,
+    private jwtService: JwtService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -40,20 +43,16 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
     const payload: PayloadToken = this.jwtService.getPayload();
 
-    this.subscription = this.profileApiService.getProfile(payload?.sub)
+    this.profileService.getProfile(payload.sub || '')
       .pipe(
-        finalize(() => this.subscription.unsubscribe())
+        tap((res: ResponseResult<Profile>) => {
+          this.IProfile = res.data || {} as Profile;
+        }),
+        catchError((error: ResponseResult<never>) => {
+          this.toastr.error(error.message, '');
+          return throwError(() => error);
+        })
       )
-      .subscribe({
-        next: (res: any) => {
-          console.log(res);
-          this.profile = res.data.profile;
-          if (!this.profile.profileLocation) this.profile.profileLocation = new ProfileLocation();
-          // console.log(this.profile);
-        },
-        error: (err) => {
-          console.log(err)
-        }
-      })
+      .subscribe()
   }
 }

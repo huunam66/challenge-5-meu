@@ -1,11 +1,12 @@
-import { Component, ElementRef, Input, OnDestroy, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { ToastrService } from 'ngx-toastr';
-import { finalize, Subscription } from 'rxjs';
-import { ProfileApiService } from '../../../../../../../service/profile/profile.service';
+import { catchError, tap, throwError } from 'rxjs';
+import { PayloadToken } from '../../../../../../../model/payload-token.model';
+import { AvatarResult, Profile } from '../../../../../../../model/profile.model';
+import { ResponseResult } from '../../../../../../../model/responseResult.model';
+import { ProfileService } from '../../../../../../../service/profile.service';
 import { JwtService } from '../../../../../../../utils/jwt.service';
-import { PayloadToken } from '../../../../../../model/payload-token.model';
-import { Profile } from '../../../../../../model/profile.model';
 
 @Component({
   selector: 'app-avatar',
@@ -14,32 +15,20 @@ import { Profile } from '../../../../../../model/profile.model';
   templateUrl: './avatar.component.html',
   styleUrl: './avatar.component.scss'
 })
-export class AvatarComponent implements OnDestroy {
-  private payload!: PayloadToken;
+export class AvatarComponent {
+  private payload: PayloadToken;
 
+  @ViewChild('inputTypeFileTag') inputTypeFileTag!: ElementRef<HTMLInputElement>;
+  @ViewChild('avatarImgTag') avatarImgTag!: ElementRef<HTMLImageElement>;
 
-  @ViewChild('inputTypeFileTag')
-  inputTypeFileTag!: ElementRef<HTMLInputElement>;
-
-  @ViewChild('avatarImgTag')
-  avatarImgTag!: ElementRef<HTMLImageElement>;
-
-
-  @Input("profile")
-  profile!: Profile;
-
-  private subscription: Subscription;
+  @Input("profile") profile!: Profile;
 
   constructor(
     private toastr: ToastrService,
-    private profileApiService: ProfileApiService,
+    private profileService: ProfileService,
     private jwtService: JwtService
   ) {
     this.payload = jwtService.getPayload();
-  }
-
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
   }
 
   avatarClick() {
@@ -58,21 +47,23 @@ export class AvatarComponent implements OnDestroy {
     const formData = new FormData();
     formData.append("file", file);
 
-    this.subscription = this.profileApiService.uploadFile(formData)
+    this.profileService.uploadFile(formData)
       .pipe(
-        finalize(() => {
-          this.subscription.unsubscribe()
-        })
-      ).subscribe({
-        next: (res) => {
-          this.avatarImgTag.nativeElement.src = `data:image;base64,${res.data.avatar}`
+
+        tap((res: ResponseResult<AvatarResult>) => {
+
+          const avatarResult: AvatarResult = res.data || {} as AvatarResult;
+
+          this.avatarImgTag.nativeElement.src = `data:image;base64,${avatarResult.avatar}`
           this.toastr.success(res.message, '');
-        },
-        error: (err) => {
-          console.log(err)
-          this.toastr.error(err.error.message, '');
-        }
-      });
+        }),
+
+        catchError((error: ResponseResult<never>) => {
+          this.toastr.error(error.message, '');
+          return throwError(() => error);
+        })
+
+      ).subscribe();
   }
 
 }

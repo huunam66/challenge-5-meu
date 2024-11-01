@@ -1,80 +1,65 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { ToastrService } from 'ngx-toastr';
-import { finalize, Subscription } from 'rxjs';
-import { ProductApiService } from '../../../../../../service/product/product.service';
+import { catchError, finalize, tap, throwError } from 'rxjs';
+import { ProductError } from '../../../../../../error/config/ProductError.config';
+import { PayloadToken } from '../../../../../../model/payload-token.model';
+import { Product } from '../../../../../../model/product.model';
+import { ResponseResult } from '../../../../../../model/responseResult.model';
+import { ProductService } from '../../../../../../service/product.service';
 import { JwtService } from '../../../../../../utils/jwt.service';
-import { ProductError } from '../../../../../error/config/ProductError.config';
-import { PayloadToken } from '../../../../../model/payload-token.model';
-import { Product } from '../../../../../model/product.model';
 import { ConfirmBoxComponent } from '../../../../common/confirm-box/confirm-box.component';
 
 @Component({
   selector: 'app-detail-product',
   standalone: true,
-  imports: [MatIconModule, CommonModule, FormsModule, ConfirmBoxComponent],
+  imports: [
+    MatIconModule,
+    CommonModule,
+    FormsModule,
+    ConfirmBoxComponent,
+    ReactiveFormsModule
+  ],
   templateUrl: './detail-product.component.html',
   styleUrl: './detail-product.component.scss',
 })
-export class DetailProductComponent implements OnInit, OnDestroy {
-  productDetail!: Product;
-  productEdit!: Product;
+export class DetailProductComponent implements OnInit {
+
+  @Input() detailCode: string;
+  @Input() isDetailView: boolean;
+  @Input() isEditView: boolean;
+  @Input() isOpenThis: boolean;
+  @Output() onCloseThis = new EventEmitter<any>();
+
+  payloadToken: PayloadToken
+  productDetail: Product;
   productEditError: ProductError = new ProductError();
 
-  // data flow component
+  productEdit: FormGroup = new FormGroup({
+    id: new FormControl(''),
+    code: new FormControl(''),
+    name: new FormControl(''),
+    category: new FormControl(''),
+    brand: new FormControl(''),
+    type: new FormControl(''),
+    description: new FormControl('')
+  })
+
   categories: string[] = [];
   brands: string[] = [];
-
   isLoading: boolean;
-
-  @Input()
-  detailCode!: string;
-
-  @Input()
-  isDetailView!: boolean;
-
-  @Input()
-  isEditView!: boolean;
-
-  @Input()
-  isOpenThis: boolean;
-
-  @Output()
-  onCloseThis = new EventEmitter<any>();
-
   isConfirmExit: boolean = false;
-
   isConfirmSave: boolean = false;
-
   isConfirmDelete: boolean = false;
-
-  payloadToken!: PayloadToken
-
-  private subcription: Subscription;
 
   constructor(
     private toastr: ToastrService,
-    private productApiService: ProductApiService,
+    private productService: ProductService,
     private jwtService: JwtService
   ) {
     this.payloadToken = jwtService.getPayload();
-  }
-
-
-  ngOnInit(): void {
-    this.subcription = this.productApiService
-      .get(this.detailCode)
-      .pipe(
-        finalize(() => {
-          this.subcription.unsubscribe();
-        })
-      )
-      .subscribe((res: any) => {
-        console.log(res);
-        this.productEdit = this.productDetail = res.data.product;
-      });
 
     this.categories = [
       'Bedding',
@@ -103,9 +88,29 @@ export class DetailProductComponent implements OnInit, OnDestroy {
     ];
   }
 
-  ngOnDestroy(): void {
-    this.subcription?.unsubscribe();
+
+  ngOnInit(): void {
+    this.getProduct();
   }
+
+  getProduct() {
+    this.productService
+      .getProductByCode(this.detailCode)
+      .pipe(
+
+        tap((res: ResponseResult<Product>) => {
+          this.productDetail = res.data || {} as Product;
+        }),
+
+        catchError((error: ResponseResult<never>) => {
+          console.log(error.message);
+          return throwError(() => error);
+        })
+
+      )
+      .subscribe();
+  }
+
 
   onTurnEditView(): void {
     this.isDetailView = false;
@@ -133,19 +138,64 @@ export class DetailProductComponent implements OnInit, OnDestroy {
     this.isConfirmDelete = false;
   }
 
+  onSavingProduct(): void {
+    this.isLoading = true;
+    setTimeout(() => {
+      const productEditing: Product = this.productEdit.value;
+
+      this.productService
+        .putProduct(productEditing, this.productDetail.code || '')
+        .pipe(
+
+          tap((res: ResponseResult<Product>) => {
+            this.toastr.success(res.message, '');
+
+            this.onCloseThis.emit({
+              statusClose: !this.isOpenThis,
+              statusReloadTable: true,
+            });
+          }),
+
+          catchError((error) => {
+            this.toastr.error(error.message, '');
+            return throwError(() => error);
+          }),
+
+          finalize(() => {
+            this.isLoading = false;
+            this.isConfirmSave = false;
+          })
+        )
+        .subscribe()
+    }, 2000);
+  }
+
   onDeleteProduct(): void {
     this.isLoading = true;
 
     setTimeout(() => {
-      this.subcription = this.productApiService
-        .delete(this.productDetail.code)
+      this.productService
+        .deleteProduct(this.productDetail.code || '')
         .pipe(
-          finalize(() => this.subcription.unsubscribe())
+          tap((res: ResponseResult<never>) => {
+            this.onCloseThis.emit({
+              statusClose: !this.isOpenThis,
+              statusReloadTable: true,
+            });
+            this.toastr.success(res.message, '');
+          }),
+
+          catchError((error: ResponseResult<never>) => {
+            this.toastr.error(error.message);
+            return throwError(() => error);
+          }),
+
+          finalize(() => {
+            this.isLoading = false;
+            this.isConfirmDelete = false;
+          })
         )
-        .subscribe({
-          next: (res: any) => this.onResponsedDeleteProduct(res),
-          error: (err) => console.log(err)
-        })
+        .subscribe()
     }, 2000);
   }
 
@@ -165,11 +215,8 @@ export class DetailProductComponent implements OnInit, OnDestroy {
   }
 
   onOkExitFormSave(): void {
-    // console.log('saveProduct:');
 
     this.isOpenThis = !this.isOpenThis;
-
-    // console.log(this.onCloseThis);
 
     setTimeout(() => {
       this.onCloseThis.emit({
@@ -180,11 +227,13 @@ export class DetailProductComponent implements OnInit, OnDestroy {
   }
 
   onClose(): void {
-    const errorName = this.productEdit.name == '';
-    const errorCategory = this.productEdit.category == '';
-    const errorBrand = this.productEdit.brand == '';
-    const errorType = this.productEdit.type == '';
-    const errorDescription = this.productEdit.description == '';
+    const productEditing: Product = this.productEdit.value;
+
+    const errorName = productEditing.name == '';
+    const errorCategory = productEditing.category == '';
+    const errorBrand = productEditing.brand == '';
+    const errorType = productEditing.type == '';
+    const errorDescription = productEditing.description == '';
     if (
       (!errorName ||
         !errorBrand ||
@@ -211,15 +260,17 @@ export class DetailProductComponent implements OnInit, OnDestroy {
     let statusError: boolean = false;
 
     const nameErrorTemplate = this.productEditError.name;
-    if (value == '' || value == null) {
-      statusError = true;
-    }
+    if (!value) statusError = true;
+
 
     this.productEditError.name = {
       ...nameErrorTemplate,
       error: statusError,
     };
-    this.productEdit.name = value.trim();
+
+    this.productEdit.patchValue({
+      name: value.trim()
+    })
   }
 
   onOptionCategoryChange(event: Event): void {
@@ -236,7 +287,9 @@ export class DetailProductComponent implements OnInit, OnDestroy {
       error: statusError,
     };
 
-    this.productEdit.category = value.trim();
+    this.productEdit.patchValue({
+      category: value.trim()
+    })
   }
 
   onOptionBrandChange(event: Event): void {
@@ -253,19 +306,26 @@ export class DetailProductComponent implements OnInit, OnDestroy {
       ...brandErrorTemplate,
       error: statusError,
     };
-    this.productEdit.brand = value;
+
+    this.productEdit.patchValue({
+      brand: value.trim()
+    })
   }
 
   onTextTypeChange(event: Event): void {
     const value = (<HTMLInputElement>event.target).value;
 
-    this.productEdit.type = value;
+    this.productEdit.patchValue({
+      type: value.trim()
+    })
   }
 
   onTextDescriptionChange(event: Event): void {
     const value = (<HTMLTextAreaElement>event.target).value;
 
-    this.productEdit.description = value;
+    this.productEdit.patchValue({
+      description: value.trim()
+    })
   }
 
   onErrorTextName(): boolean {
@@ -281,9 +341,11 @@ export class DetailProductComponent implements OnInit, OnDestroy {
   }
 
   onSubmitAddNew(): void {
-    const errorName = this.productEdit.name == '';
-    const errorBrand = this.productEdit.brand == '';
-    const errorCategory = this.productEdit.category == '';
+    const { name, brand, category }: Product = this.productEdit.value;
+
+    const errorName = name == '';
+    const errorBrand = brand == '';
+    const errorCategory = category == '';
     if (errorName || errorBrand || errorCategory) {
       const errors = [];
       const nameErrorTemplate = this.productEditError.name;
@@ -322,37 +384,5 @@ export class DetailProductComponent implements OnInit, OnDestroy {
     this.isConfirmSave = true;
   }
 
-  onSavingProduct(): void {
-    this.isLoading = true;
-    setTimeout(() => {
-      this.subcription = this.productApiService
-        .put(this.productEdit, this.productEdit.code)
-        .pipe(
-          finalize(() => this.subcription.unsubscribe())
-        )
-        .subscribe({
-          next: (res: any) => this.onResponsedSavingProduct(res),
-          error: (err) => {
-            this.isLoading = false;
-            this.isConfirmSave = false;
-            this.toastr.error(err.error.message, '');
-          }
-        })
-    }, 2000);
-  }
 
-  onResponsedSavingProduct(res: any): void {
-    this.isLoading = false;
-    this.isConfirmSave = false;
-    if (res.code != 201) {
-      this.toastr.error('Lỗi lưu sản phẩm!', '');
-    } else {
-      this.toastr.success(res.message, '');
-
-      this.onCloseThis.emit({
-        statusClose: !this.isOpenThis,
-        statusReloadTable: true,
-      });
-    }
-  }
 }

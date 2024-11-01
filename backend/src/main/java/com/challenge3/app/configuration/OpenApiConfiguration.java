@@ -1,8 +1,5 @@
 package com.challenge3.app.configuration;
 
-import com.challenge3.app.domain.product.controller.ProductController;
-import com.challenge3.app.domain.user.controller.auth.AuthController;
-import com.challenge3.app.domain.user.controller.user.UserController;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;

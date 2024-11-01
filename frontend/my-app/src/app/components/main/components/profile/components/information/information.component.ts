@@ -1,15 +1,16 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { ToastrService } from 'ngx-toastr';
-import { finalize, Subscription } from 'rxjs';
-import { ProfileApiService } from '../../../../../../../service/profile/profile.service';
-import { Profile } from '../../../../../../model/profile.model';
+import { catchError, tap, throwError } from 'rxjs';
+import { Profile } from '../../../../../../../model/profile.model';
+import { ResponseResult } from '../../../../../../../model/responseResult.model';
+import { ProfileService } from '../../../../../../../service/profile.service';
 
 @Component({
   selector: 'app-information',
@@ -22,27 +23,33 @@ import { Profile } from '../../../../../../model/profile.model';
     MatFormFieldModule,
     MatInputModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    ReactiveFormsModule
   ],
   templateUrl: './information.component.html',
   styleUrl: './information.component.scss'
 })
 export class InformationComponent {
 
+  @Input("profile") IProfile!: Profile;
+  @Output() onReGetProfile = new EventEmitter();
 
-  @Input("profile")
-  profile!: Profile;
-
-  @Output("onReGetProfile")
-  onReGetProfile = new EventEmitter();
+  informationReadySave: FormGroup = new FormGroup({
+    id: new FormControl(''),
+    first_name: new FormControl(''),
+    last_name: new FormControl(''),
+    identification_code: new FormControl(''),
+    birthDay: new FormControl(new Date()),
+    gender: new FormControl(''),
+    avatar: new FormControl(''),
+    email: new FormControl('')
+  });
 
   isEditProfileInformation: boolean = false;
 
-  private subscription: Subscription;
-
   constructor(
-    private toastrService: ToastrService,
-    private profileApiService: ProfileApiService
+    private toastr: ToastrService,
+    private profileService: ProfileService
   ) { }
 
 
@@ -51,6 +58,17 @@ export class InformationComponent {
   }
 
   onIconEditProfileInformationClick() {
+    this.informationReadySave.patchValue({
+      id: this.IProfile.id || '',
+      first_name: this.IProfile.first_name || '',
+      last_name: this.IProfile.last_name || '',
+      identification_code: this.IProfile.identification_code || '',
+      birthDay: this.IProfile.birthDay || new Date(),
+      gender: this.IProfile.gender || '',
+      avatar: this.IProfile.avatar || '',
+      email: this.IProfile.email || ''
+    });
+
     this.isEditProfileInformation = true;
   }
 
@@ -59,20 +77,22 @@ export class InformationComponent {
   }
 
   onSaveProfileInformationClick() {
-    this.subscription = this.profileApiService.postProfile(this.profile)
+
+    const profileInformationToSave: Profile = this.informationReadySave.value;
+
+    this.profileService.postProfile(profileInformationToSave)
       .pipe(
-        finalize(() => this.subscription.unsubscribe())
-      )
-      .subscribe({
-        next: (res) => {
-          // console.log(res);
-          this.toastrService.success(res.message, '')
+        tap((res: ResponseResult<Profile>) => {
+          this.toastr.success(res.message, '')
           this.onReGetProfile.emit();
           this.isEditProfileInformation = false;
-        },
-        error: (err) => {
-          console.log(err);
-        }
-      })
+        }),
+
+        catchError((error: ResponseResult<never>) => {
+          this.toastr.error(error.message, '');
+          return throwError(() => error);
+        })
+      )
+      .subscribe()
   }
 }

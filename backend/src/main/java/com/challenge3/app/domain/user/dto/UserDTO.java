@@ -1,10 +1,8 @@
 package com.challenge3.app.domain.user.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -15,16 +13,17 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserDTO implements UserDetails {
 
-    private String email;
+    String email;
 
     @JsonIgnore
-    private String password;
+    String password;
 
-    private boolean enabled;
+    boolean enabled;
 
-    private AuthorityDTO authority;
+    AuthorityDTO authority;
 
     @Override
     public String getUsername() {

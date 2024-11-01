@@ -1,9 +1,9 @@
-export interface PayloadToken{
-  exp?: number;
+export interface PayloadToken {
+  exp: number;
 
-  iat?: number;
+  iat: number;
 
-  scp?: string;
+  scp: string;
 
-  sub?: string;
+  sub: string;
 }

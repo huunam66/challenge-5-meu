@@ -14,10 +14,10 @@ public interface UserRepository extends JpaRepository<UserEntity, String> {
 
 
     @EntityGraph(attributePaths = {"authority"})
-    @Query("SELECT u FROM users u WHERE u.email = :email")
+    @Query("SELECT u FROM UserEntity u WHERE u.email = :email")
     Optional<UserEntity> findByEmail(@Param("email") String email);
 
     @EntityGraph(attributePaths = {"authority"})
-    @Query("SELECT u FROM users u")
+    @Query("SELECT u FROM UserEntity u")
     List<UserEntity> findAllUsers();
 }

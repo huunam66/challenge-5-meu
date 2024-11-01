@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Entity(name = "wards")
+@Entity
 @Table(name = "wards")
 public class WardEntity {
 
@@ -40,6 +40,6 @@ public class WardEntity {
     DistrictsEntity district;
 
     @OneToMany(mappedBy = "ward", fetch = FetchType.LAZY)
-    List<ProfileLocationEntity> profileLocations;
+    List<UserLocationEntity> profileLocations;
 
 }

@@ -35,9 +35,6 @@ public class JwtServiceImpl implements JwtService {
         return extractClaim(token, Claims::getExpiration);
     }
 
-//    private Key getSignKey() {
-//        return Keys.hmacShaKeyFor(SECRET_KEY.getEncoded());
-//    }
 
     private Key getSignKey(){
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
@@ -71,8 +68,6 @@ public class JwtServiceImpl implements JwtService {
 
         String jti = UUID.randomUUID().toString();
 
-//        System.out.println(jti);
-
         Map<String, Object> claims = new HashMap<>();
         claims.put("jti", jti);
         claims.put("scp", buildScope(userDetails.getAuthorities()));
@@ -93,10 +88,3 @@ public class JwtServiceImpl implements JwtService {
                 ).compact();
     }
 }
-
-//try {
-//        return Jwts.parserBuilder().setSigningKey(getSignKey()).build().parseClaimsJws(token).getBody();
-//        }
-//                catch (MalformedJwtException | SignatureException e) {
-//        return null;
-//        }

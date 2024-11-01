@@ -2,6 +2,7 @@ package com.challenge3.app.domain.location.province.dto;
 import com.challenge3.app.domain.location.district.dto.DistrictDTO;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ProvinceDistrictsDTO extends ProvinceDTO {
 
 

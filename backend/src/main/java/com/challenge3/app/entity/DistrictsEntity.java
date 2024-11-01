@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Entity(name = "districts")
+@Entity
 @Table(name = "districts")
 public class DistrictsEntity {
 

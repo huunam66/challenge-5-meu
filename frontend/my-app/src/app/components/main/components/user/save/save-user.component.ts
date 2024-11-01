@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup, FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { ToastrService } from 'ngx-toastr';
-import { catchError, finalize, of, Subscription, tap } from 'rxjs';
+import { catchError, finalize, tap, throwError } from 'rxjs';
 import { environment } from '../../../../../../environments/environment.role-grant';
 import { InvalidField } from '../../../../../../model/error.model';
 import { ResponseResult } from '../../../../../../model/responseResult.model';
 import { User } from '../../../../../../model/user.model';
-import { UserService } from '../../../../../../service/user/user.service';
+import { UserService } from '../../../../../../service/user.service';
 import { ConfirmBoxComponent } from '../../../../common/confirm-box/confirm-box.component';
 
 @Component({
@@ -18,7 +18,8 @@ import { ConfirmBoxComponent } from '../../../../common/confirm-box/confirm-box.
     ConfirmBoxComponent,
     FormsModule,
     CommonModule,
-    MatIconModule
+    MatIconModule,
+    ReactiveFormsModule
   ],
   templateUrl: './save-user.component.html',
   styleUrl: './save-user.component.scss'
@@ -44,8 +45,6 @@ export class SaveUserComponent implements OnInit {
   isConfirmExit: boolean = false;
 
   isConfirmSave: boolean = false;
-
-  private subcription: Subscription;
 
   ngOnInit(): void {
 
@@ -119,7 +118,7 @@ export class SaveUserComponent implements OnInit {
             }
             else this.toastr.error(error.message, '');
 
-            return of(null);
+            return throwError(() => error);
           }),
 
           finalize(() => {

@@ -12,5 +12,5 @@ public class FieldErrorExceptionDTO {
 
     String field;
     String defaultMessage;
-
+    
 }

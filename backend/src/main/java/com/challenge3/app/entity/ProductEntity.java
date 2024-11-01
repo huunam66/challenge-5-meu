@@ -17,7 +17,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Data
-@Entity(name = "products")
+@Entity
 @Table(name = "products")
 public class ProductEntity {
 

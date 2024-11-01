@@ -8,6 +8,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.type.SqlTypes;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @AllArgsConstructor
@@ -15,7 +16,7 @@ import java.util.UUID;
 @Data
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Entity(name = "profile")
+@Entity
 @Table(name = "profile")
 public class ProfileEntity {
 
@@ -51,7 +52,4 @@ public class ProfileEntity {
     @OneToOne
     UserEntity user;
 
-    @OneToOne(mappedBy = "profile")
-    @Cascade({CascadeType.ALL, CascadeType.DELETE_ORPHAN})
-    ProfileLocationEntity profileLocation;
 }
